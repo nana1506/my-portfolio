@@ -30,6 +30,13 @@ export function HeroAboutSection({ content }: HeroAboutSectionProps) {
 
   const profileImg = content.profilePhoto || "/profile.jpg";
 
+  // Dynamic YOE calculation from live stats
+  const yoeDisplay = content.stats?.[0]?.value
+    ? content.stats[0].value.includes("YOE")
+      ? content.stats[0].value
+      : `${content.stats[0].value} YOE`
+    : "5+ YOE";
+
   return (
     <section id="about" className="pt-28 pb-16 px-4 sm:px-6 lg:px-8 relative z-10 scroll-mt-20">
       <div className="max-w-6xl mx-auto">
@@ -118,14 +125,14 @@ export function HeroAboutSection({ content }: HeroAboutSectionProps) {
                         Isnan Rizqi Kurniawan
                       </h2>
                       <p className="text-xs text-[var(--text-muted)] font-mono font-bold">
-                        Senior Data Analyst • @rizisnan
+                        {content.heroHeadline || "Senior Data Analyst"} • Telkom Indonesia
                       </p>
                     </div>
                   </div>
 
-                  {/* 6+ YOE Badge */}
+                  {/* Dynamic YOE Badge */}
                   <span className="px-3 py-1 rounded-full bg-orange-100/90 dark:bg-orange-950/70 text-[var(--text-primary)] border border-orange-400/80 dark:border-orange-500/50 text-[11px] font-mono font-black shadow-xs">
-                    6+ YOE
+                    {yoeDisplay}
                   </span>
                 </div>
 

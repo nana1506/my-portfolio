@@ -32,11 +32,10 @@ export function Navbar() {
 
   return (
     <header
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        scrolled
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${scrolled
           ? "bg-[var(--bg-primary)]/90 backdrop-blur-md border-b border-[var(--border-subtle)] shadow-xs py-3"
           : "bg-transparent py-5"
-      }`}
+        }`}
     >
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between">
         {/* Brand / Logo (Electric Blue & Sunset Orange Branding) */}
@@ -52,7 +51,7 @@ export function Navbar() {
               isnan<span className="text-orange-600 dark:text-orange-400 font-black">.data</span>
             </span>
             <span className="text-[10px] text-[var(--text-muted)] tracking-wider uppercase font-mono mt-0.5 font-bold">
-              Senior Data Analyst
+              Strategic Intelligence & BI Engineering
             </span>
           </div>
         </Link>
