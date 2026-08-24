@@ -1,8 +1,9 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { SiteContent } from "@/lib/types";
+import { normalizeImageUrl } from "@/lib/notion";
 import {
   ArrowUpRight,
   Download,
@@ -21,14 +22,18 @@ export function HeroAboutSection({ content }: HeroAboutSectionProps) {
   const coreSkillPills = content.coreSkills?.length
     ? content.coreSkills
     : [
-        "Data Modeling & Architecture",
-        "Executive BI Dashboards",
-        "Statistical Experimentation",
-        "Revenue & Churn Analytics",
-        "Cross-Functional Leadership",
-      ];
+      "Data Modeling & Architecture",
+      "Executive BI Dashboards",
+      "Statistical Experimentation",
+      "Revenue & Churn Analytics",
+      "Cross-Functional Leadership",
+    ];
 
-  const profileImg = content.profilePhoto || "/profile.jpg";
+  const profileImg = normalizeImageUrl(content.profilePhoto) || "/profile.jpg";
+
+  useEffect(() => {
+    setImgError(false);
+  }, [profileImg]);
 
   // Dynamic YOE calculation from live stats
   const yoeDisplay = content.stats?.[0]?.value
@@ -125,7 +130,7 @@ export function HeroAboutSection({ content }: HeroAboutSectionProps) {
                         Isnan Rizqi Kurniawan
                       </h2>
                       <p className="text-xs text-[var(--text-muted)] font-mono font-bold">
-                        {content.heroHeadline || "Senior Data Analyst"} • Telkom Indonesia
+                        Strategic Intelligence & BI Engineering • Telkom Indonesia
                       </p>
                     </div>
                   </div>

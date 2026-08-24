@@ -98,24 +98,47 @@ function getMultiSelect(prop: any): string[] {
   return prop.multi_select.map((item: any) => item.name);
 }
 
+// Convert Google Drive, Dropbox, and image URLs to direct raw image CDN links
+export function normalizeImageUrl(url?: string): string | undefined {
+  if (!url) return undefined;
+  const trimmed = url.trim();
+
+  // 1. Google Drive direct CDN image endpoint (works for any shared Google Drive file)
+  const gdriveMatch1 = trimmed.match(/drive\.google\.com\/file\/d\/([a-zA-Z0-9_-]+)/);
+  if (gdriveMatch1 && gdriveMatch1[1]) {
+    return `https://lh3.googleusercontent.com/d/${gdriveMatch1[1]}`;
+  }
+  const gdriveMatch2 = trimmed.match(/drive\.google\.com\/(?:open|uc)\?(?:.*&)?id=([a-zA-Z0-9_-]+)/);
+  if (gdriveMatch2 && gdriveMatch2[1]) {
+    return `https://lh3.googleusercontent.com/d/${gdriveMatch2[1]}`;
+  }
+
+  // 2. Dropbox share URLs
+  if (trimmed.includes("dropbox.com") && trimmed.includes("dl=0")) {
+    return trimmed.replace("dl=0", "raw=1");
+  }
+
+  return trimmed;
+}
+
 // Helper to extract file / image URL (supports Files & Media, URL, and rich_text links)
 function getFileUrl(prop: any): string | undefined {
   if (!prop) return undefined;
+  let raw: string | undefined = undefined;
   if (typeof prop === "string") {
-    if (prop.startsWith("http://") || prop.startsWith("https://") || prop.startsWith("/")) return prop;
-  }
-  if (prop.url) return prop.url;
-  if (prop.files && Array.isArray(prop.files) && prop.files.length > 0) {
+    if (prop.startsWith("http://") || prop.startsWith("https://") || prop.startsWith("/")) raw = prop;
+  } else if (prop.url) {
+    raw = prop.url;
+  } else if (prop.files && Array.isArray(prop.files) && prop.files.length > 0) {
     const file = prop.files[0];
-    return file.file?.url || file.external?.url || undefined;
-  }
-  if (prop.rich_text && Array.isArray(prop.rich_text) && prop.rich_text.length > 0) {
+    raw = file.file?.url || file.external?.url || undefined;
+  } else if (prop.rich_text && Array.isArray(prop.rich_text) && prop.rich_text.length > 0) {
     const text = prop.rich_text[0]?.plain_text?.trim();
     if (text && (text.startsWith("http://") || text.startsWith("https://") || text.startsWith("/"))) {
-      return text;
+      raw = text;
     }
   }
-  return undefined;
+  return normalizeImageUrl(raw);
 }
 
 // Universal image extractor: checks property names, fuzzy property keys, and Notion page icon/cover
