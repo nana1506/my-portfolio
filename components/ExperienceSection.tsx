@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 import { ExperienceItem } from "@/lib/types";
 import {
   Briefcase,
@@ -14,6 +14,53 @@ import {
 
 interface ExperienceSectionProps {
   experience: ExperienceItem[];
+}
+
+function ExperienceLogo({
+  src,
+  alt,
+  size = "md",
+}: {
+  src?: string;
+  alt?: string;
+  size?: "sm" | "md" | "lg";
+}) {
+  const [error, setError] = useState(false);
+
+  const sizeClasses = {
+    sm: "w-8 h-8 rounded-lg",
+    md: "w-10 h-10 rounded-xl",
+    lg: "w-12 h-12 rounded-xl",
+  };
+
+  const iconSizes = {
+    sm: "w-4 h-4",
+    md: "w-5 h-5",
+    lg: "w-6 h-6",
+  };
+
+  if (!src || error) {
+    return (
+      <div
+        className={`${sizeClasses[size]} bg-blue-500/10 border border-blue-500/30 flex items-center justify-center text-blue-600 dark:text-blue-400 shrink-0`}
+      >
+        <Building className={iconSizes[size]} />
+      </div>
+    );
+  }
+
+  return (
+    <div
+      className={`${sizeClasses[size]} bg-[var(--bg-surface-elevated)] border border-[var(--border-subtle)] p-1.5 flex items-center justify-center shrink-0 overflow-hidden shadow-2xs`}
+    >
+      <img
+        src={src}
+        alt={alt || "Company Logo"}
+        onError={() => setError(true)}
+        className="w-full h-full object-contain rounded"
+      />
+    </div>
+  );
 }
 
 export function ExperienceSection({ experience }: ExperienceSectionProps) {
@@ -94,10 +141,18 @@ export function ExperienceSection({ experience }: ExperienceSectionProps) {
                     )}
 
                     <div>
-                      {/* Monospace Period Prefix with Double-Dash format */}
-                      <div className="text-xs font-mono font-bold text-orange-600 dark:text-orange-400 mb-2 flex items-center gap-1.5">
-                        <span className="opacity-70">--</span>
-                        <span>{item.startDate} — {item.endDate}</span>
+                      {/* Top Row: Monospace Period + Company Logo */}
+                      <div className="flex items-start justify-between gap-3 mb-3">
+                        <div className="text-xs font-mono font-bold text-orange-600 dark:text-orange-400 flex items-center gap-1.5">
+                          <span className="opacity-70">--</span>
+                          <span>{item.startDate} — {item.endDate}</span>
+                        </div>
+
+                        <ExperienceLogo
+                          src={item.logo}
+                          alt={item.company}
+                          size="sm"
+                        />
                       </div>
 
                       {/* Job Title */}
@@ -137,18 +192,27 @@ export function ExperienceSection({ experience }: ExperienceSectionProps) {
             {/* Top Subtle Gradient */}
             <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-blue-600 via-indigo-500 to-orange-500" />
 
-            {/* Role Header */}
+            {/* Role Header with Company Logo */}
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-5 border-b border-[var(--border-subtle)]">
-              <div>
-                <div className="inline-flex items-center gap-1.5 text-xs font-mono font-bold text-orange-600 dark:text-orange-400 mb-1">
-                  <Sparkles className="w-3.5 h-3.5" />
-                  <span>Key Deliverables & Responsibilities</span>
+              <div className="flex items-center gap-3.5">
+                <ExperienceLogo
+                  src={activeExp.logo}
+                  alt={activeExp.company}
+                  size="lg"
+                />
+
+                <div>
+                  <div className="inline-flex items-center gap-1.5 text-xs font-mono font-bold text-orange-600 dark:text-orange-400 mb-0.5">
+                    <Sparkles className="w-3.5 h-3.5" />
+                    <span>Key Deliverables & Responsibilities</span>
+                  </div>
+                  <h3 className="text-xl sm:text-2xl font-display font-extrabold text-[var(--text-primary)]">
+                    {activeExp.title} @ <span className="text-blue-600 dark:text-blue-400">{activeExp.company}</span>
+                  </h3>
                 </div>
-                <h3 className="text-2xl font-display font-extrabold text-[var(--text-primary)]">
-                  {activeExp.title} @ <span className="text-blue-600 dark:text-blue-400">{activeExp.company}</span>
-                </h3>
               </div>
-              <div className="flex items-center gap-2 text-xs font-mono font-bold text-[var(--text-primary)] bg-[var(--bg-surface-elevated)] px-3.5 py-1.5 rounded-lg border border-[var(--border-subtle)] self-start sm:self-auto">
+
+              <div className="flex items-center gap-2 text-xs font-mono font-bold text-[var(--text-primary)] bg-[var(--bg-surface-elevated)] px-3.5 py-1.5 rounded-lg border border-[var(--border-subtle)] self-start sm:self-auto shrink-0">
                 <Calendar className="w-4 h-4 text-blue-600 dark:text-blue-400" />
                 <span>{activeExp.startDate} — {activeExp.endDate}</span>
               </div>

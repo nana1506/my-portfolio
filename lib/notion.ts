@@ -426,9 +426,15 @@ export async function getExperience(): Promise<ExperienceItem[]> {
       const logo = getFileUrl(
         p.company_logo ||
           p.Company_Logo ||
+          p.Company_logo ||
           p.Logo ||
           p.logo ||
+          p.Image ||
+          p.image ||
+          p.Icon ||
+          p.icon ||
           p["Company Logo"] ||
+          p["Company_logo"] ||
           p["Logo URL"]
       );
 
