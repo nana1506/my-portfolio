@@ -27,6 +27,10 @@ function ExperienceLogo({
 }) {
   const [error, setError] = useState(false);
 
+  React.useEffect(() => {
+    setError(false);
+  }, [src]);
+
   const sizeClasses = {
     sm: "w-8 h-8 rounded-lg",
     md: "w-10 h-10 rounded-xl",

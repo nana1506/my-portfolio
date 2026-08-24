@@ -101,6 +101,9 @@ function getMultiSelect(prop: any): string[] {
 // Helper to extract file / image URL (supports Files & Media, URL, and rich_text links)
 function getFileUrl(prop: any): string | undefined {
   if (!prop) return undefined;
+  if (typeof prop === "string") {
+    if (prop.startsWith("http://") || prop.startsWith("https://") || prop.startsWith("/")) return prop;
+  }
   if (prop.url) return prop.url;
   if (prop.files && Array.isArray(prop.files) && prop.files.length > 0) {
     const file = prop.files[0];
@@ -112,6 +115,60 @@ function getFileUrl(prop: any): string | undefined {
       return text;
     }
   }
+  return undefined;
+}
+
+// Universal image extractor: checks property names, fuzzy property keys, and Notion page icon/cover
+function extractImageFromPage(page: any, priorityKeys: string[] = []): string | undefined {
+  if (!page) return undefined;
+  const p = page.properties || page;
+
+  // 1. Explicit priority property names
+  for (const key of priorityKeys) {
+    if (p[key]) {
+      const url = getFileUrl(p[key]);
+      if (url) return url;
+    }
+  }
+
+  // 2. Dynamic property search (case-insensitive fuzzy match)
+  if (p && typeof p === "object") {
+    for (const key of Object.keys(p)) {
+      const normalized = key.toLowerCase().replace(/[\s_-]/g, "");
+      if (
+        normalized.includes("logo") ||
+        normalized.includes("icon") ||
+        normalized.includes("image") ||
+        normalized.includes("avatar") ||
+        normalized.includes("photo") ||
+        normalized.includes("media")
+      ) {
+        const url = getFileUrl(p[key]);
+        if (url) return url;
+      }
+    }
+  }
+
+  // 3. Notion Page Icon (file or external)
+  if (page.icon) {
+    if (page.icon.type === "file" && page.icon.file?.url) {
+      return page.icon.file.url;
+    }
+    if (page.icon.type === "external" && page.icon.external?.url) {
+      return page.icon.external.url;
+    }
+  }
+
+  // 4. Notion Page Cover (file or external)
+  if (page.cover) {
+    if (page.cover.type === "file" && page.cover.file?.url) {
+      return page.cover.file.url;
+    }
+    if (page.cover.type === "external" && page.cover.external?.url) {
+      return page.cover.external.url;
+    }
+  }
+
   return undefined;
 }
 
@@ -328,16 +385,17 @@ export async function getProjects(): Promise<ProjectItem[]> {
       const title = getText(p.Title || p.Name || p.title) || `Project ${index + 1}`;
       const shortDesc = getText(p.Short_Description || p.Description || p.short_description);
       const techStack = getMultiSelect(p.Tech_Stack || p.tech_stack || p.Tags || p.tags);
-      const logo = getFileUrl(
-        p.Company_Logo ||
-          p.company_logo ||
-          p.Logo ||
-          p.logo ||
-          p.Image ||
-          p.image ||
-          p["Company Logo"] ||
-          p["Logo URL"]
-      );
+      const logo = extractImageFromPage(page, [
+        "Company_Logo",
+        "company_logo",
+        "Logo",
+        "logo",
+        "Image",
+        "image",
+        "Company Logo",
+        "Company_logo",
+        "Logo URL",
+      ]);
       const problem = getText(p.Problem || p.problem);
       const role = getText(p.Role || p.role);
       const outcome = getText(p.Outcome || p.outcome);
@@ -423,20 +481,20 @@ export async function getExperience(): Promise<ExperienceItem[]> {
       const bullets = bulletsRaw
         ? bulletsRaw.split("\n").map((b: string) => b.replace(/^[-*•]\s*/, "").trim()).filter(Boolean)
         : [];
-      const logo = getFileUrl(
-        p.company_logo ||
-          p.Company_Logo ||
-          p.Company_logo ||
-          p.Logo ||
-          p.logo ||
-          p.Image ||
-          p.image ||
-          p.Icon ||
-          p.icon ||
-          p["Company Logo"] ||
-          p["Company_logo"] ||
-          p["Logo URL"]
-      );
+      const logo = extractImageFromPage(page, [
+        "company_logo",
+        "Company_Logo",
+        "Company_logo",
+        "Logo",
+        "logo",
+        "Image",
+        "image",
+        "Icon",
+        "icon",
+        "Company Logo",
+        "Company_logo",
+        "Logo URL",
+      ]);
 
       const sortScore = getTimestampForSort(startProp) + (endDate === "Present" ? 10000000000000 : 0);
 
@@ -482,18 +540,19 @@ export async function getRecommendations(): Promise<RecommendationItem[]> {
       const authorTitle = getText(p.Author_Title || p.author_title || p.Title || p.title);
       const authorCompany = getText(p.Company || p.company);
       const relationship = getText(p.Relationship || p.relationship || p.Context || p.context) || getSelect(p.Relationship);
-      const companyLogo = getFileUrl(
-        p.Company_Logo ||
-          p.company_logo ||
-          p.Logo ||
-          p.logo ||
-          p.author_avatar ||
-          p.Avatar ||
-          p.avatar ||
-          p["Company Logo"] ||
-          p["Author Avatar"] ||
-          p["Logo URL"]
-      );
+      const companyLogo = extractImageFromPage(page, [
+        "Company_Logo",
+        "company_logo",
+        "Company_logo",
+        "Logo",
+        "logo",
+        "author_avatar",
+        "Avatar",
+        "avatar",
+        "Company Logo",
+        "Author Avatar",
+        "Logo URL",
+      ]);
 
       return {
         id: page.id,
