@@ -130,7 +130,7 @@ export function HeroAboutSection({ content }: HeroAboutSectionProps) {
                         Isnan Rizqi Kurniawan
                       </h2>
                       <p className="text-xs text-[var(--text-muted)] font-mono font-bold">
-                        Strategic Intelligence & BI Engineering • Telkom Indonesia
+                        Jakarta, Indonesia • Telkom Indonesia
                       </p>
                     </div>
                   </div>
