@@ -16,7 +16,7 @@ import {
   initialBlogPosts,
 } from "./mock-data";
 
-// Helper to sanitize Notion Database IDs (extracts hex from full URLs, UUIDs with hyphens, and raw hex)
+// Helper to sanitize Notion Database IDs
 export function cleanDatabaseId(id?: string): string | null {
   if (!id || typeof id !== "string") return null;
   const trimmed = id.trim();
@@ -28,13 +28,11 @@ export function cleanDatabaseId(id?: string): string | null {
     return null;
   }
 
-  // If user pasted a full URL or raw string with 32-char hex
   const hexMatch = trimmed.match(/[a-fA-F0-9]{32}/);
   if (hexMatch) {
     return hexMatch[0];
   }
 
-  // Standard UUID format (8-4-4-4-12)
   const uuidMatch = trimmed.match(
     /[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}/
   );
@@ -45,7 +43,7 @@ export function cleanDatabaseId(id?: string): string | null {
   return null;
 }
 
-// Helper to query Notion databases via standard Notion REST API with ISR
+// Helper to query Notion databases via standard REST API
 async function queryDatabase(rawDbId?: string, filter?: any): Promise<any> {
   const dbId = cleanDatabaseId(rawDbId);
   const apiKey = process.env.NOTION_API_KEY?.trim();
@@ -132,6 +130,34 @@ export async function getSiteContent(): Promise<SiteContent> {
       if (key) kv[key.toLowerCase()] = value;
     }
 
+    // Dynamic stats parsing if defined in Notion
+    const stats = [
+      {
+        label: kv["stat_1_label"] || "Years Experience",
+        value: kv["stat_1_val"] || kv["stats_years"] || initialSiteContent.stats[0].value,
+        helper: kv["stat_1_help"] || "Enterprise & Tech",
+      },
+      {
+        label: kv["stat_2_label"] || "Data Pipelines & Models",
+        value: kv["stat_2_val"] || kv["stats_pipelines"] || initialSiteContent.stats[1].value,
+        helper: kv["stat_2_help"] || "Production dbt/SQL",
+      },
+      {
+        label: kv["stat_3_label"] || "Dashboards Deployed",
+        value: kv["stat_3_val"] || kv["stats_dashboards"] || initialSiteContent.stats[2].value,
+        helper: kv["stat_3_help"] || "Used daily by C-Suite",
+      },
+      {
+        label: kv["stat_4_label"] || "Measured Business Impact",
+        value: kv["stat_4_val"] || kv["stats_impact"] || initialSiteContent.stats[3].value,
+        helper: kv["stat_4_help"] || "Identified Cost/Rev Ops",
+      },
+    ];
+
+    const coreSkills = kv["core_skills"]
+      ? kv["core_skills"].split("\n").map((s) => s.replace(/^[-*•]\s*/, "").trim()).filter(Boolean)
+      : initialSiteContent.coreSkills;
+
     return {
       heroHeadline: kv["hero_headline"] || kv["headline"] || initialSiteContent.heroHeadline,
       heroSubheadline: kv["hero_subheadline"] || kv["subheadline"] || initialSiteContent.heroSubheadline,
@@ -140,7 +166,8 @@ export async function getSiteContent(): Promise<SiteContent> {
       aboutHighlights: kv["about_highlights"]
         ? kv["about_highlights"].split("\n").filter(Boolean)
         : initialSiteContent.aboutHighlights,
-      stats: initialSiteContent.stats,
+      coreSkills,
+      stats,
       contactEmail: kv["contact_email"] || initialSiteContent.contactEmail,
       linkedinUrl: kv["linkedin_url"] || initialSiteContent.linkedinUrl,
       githubUrl: kv["github_url"] || initialSiteContent.githubUrl,
@@ -288,6 +315,7 @@ export async function getRecommendations(): Promise<RecommendationItem[]> {
       const authorName = getText(p.Author_Name || p.author_name || p.Name || p.name);
       const authorTitle = getText(p.Author_Title || p.author_title || p.Title || p.title);
       const authorCompany = getText(p.Company || p.company);
+      const relationship = getText(p.Relationship || p.relationship || p.Context || p.context) || getSelect(p.Relationship);
 
       return {
         id: page.id,
@@ -295,6 +323,7 @@ export async function getRecommendations(): Promise<RecommendationItem[]> {
         authorName: authorName || "Colleague",
         authorTitle: authorTitle || "Leadership",
         authorCompany,
+        relationship: relationship || undefined,
       };
     });
   } catch (error) {
@@ -302,7 +331,7 @@ export async function getRecommendations(): Promise<RecommendationItem[]> {
   }
 }
 
-// 6. Fetch Blog Posts (Scaffolded)
+// 6. Fetch Blog Posts
 export async function getBlogPosts(): Promise<BlogPost[]> {
   const dbId = process.env.NOTION_BLOG_DB_ID;
   if (!cleanDatabaseId(dbId)) {
@@ -342,19 +371,22 @@ export async function getBlogPosts(): Promise<BlogPost[]> {
   }
 }
 
-
-// 7. Log Contact Click to Notion
+// 7. Log Contact Click or Collaboration Submission to Notion
 export async function logContactClick(payload: ContactClickPayload): Promise<boolean> {
   const rawDbId = process.env.NOTION_CONTACT_LOG_DB_ID;
   const dbId = cleanDatabaseId(rawDbId);
   const apiKey = process.env.NOTION_API_KEY?.trim();
   if (!apiKey || apiKey.startsWith("your_") || !dbId) {
-    console.log("[Notion Log Fallback] Contact click received:", payload);
+    console.log("[Notion Log Fallback] Contact submission received:", payload);
     return false;
   }
 
   try {
-    const res = await fetch("https://api.notion.com/v1/pages", {
+    const titleText = payload.name
+      ? `Collaboration Form: ${payload.name} (${payload.email || "No email"})`
+      : `Contact Click - ${new Date().toISOString()}`;
+
+    await fetch("https://api.notion.com/v1/pages", {
       method: "POST",
       headers: {
         Authorization: `Bearer ${apiKey}`,
@@ -368,7 +400,7 @@ export async function logContactClick(payload: ContactClickPayload): Promise<boo
             title: [
               {
                 text: {
-                  content: `Contact Click - ${new Date().toISOString()}`,
+                  content: titleText,
                 },
               },
             ],
@@ -386,7 +418,7 @@ export async function logContactClick(payload: ContactClickPayload): Promise<boo
             rich_text: [
               {
                 text: {
-                  content: payload.referrer || "Direct / None",
+                  content: payload.referrer || "Direct / Form",
                 },
               },
             ],
@@ -395,7 +427,9 @@ export async function logContactClick(payload: ContactClickPayload): Promise<boo
             rich_text: [
               {
                 text: {
-                  content: payload.userAgent ? payload.userAgent.substring(0, 2000) : "Unknown",
+                  content: payload.message
+                    ? `[Msg]: ${payload.message} | [Org]: ${payload.company || "N/A"} | [Type]: ${payload.collaborationType || "General"}`
+                    : payload.userAgent ? payload.userAgent.substring(0, 2000) : "Unknown",
                 },
               },
             ],
@@ -404,15 +438,9 @@ export async function logContactClick(payload: ContactClickPayload): Promise<boo
       }),
     });
 
-    if (!res.ok) {
-      const err = await res.json().catch(() => ({}));
-      console.warn("[Notion Notice] Failed to log contact click:", err.message || res.statusText);
-      return false;
-    }
-
     return true;
   } catch (error: any) {
-    console.warn("[Notion Notice] Failed to log contact click:", error?.message || error);
+    console.warn("[Notion Notice] Failed to log submission:", error?.message || error);
     return false;
   }
 }

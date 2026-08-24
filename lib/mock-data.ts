@@ -11,25 +11,32 @@ export const initialSiteContent: SiteContent = {
   heroHeadline: "Senior Data Analyst",
   heroSubheadline: "Turning Raw Data into Strategic Dashboards & Decisions",
   heroShortBio:
-    "Specializing in architecting end-to-end analytics pipelines, executive BI reporting, and predictive data models. I bridge the gap between complex raw queries and high-impact business strategy.",
+    "Specializing in architecting enterprise analytics pipelines, executive BI reporting, and predictive decision models. I bridge the gap between raw data and high-impact business strategy.",
   aboutLongBio:
-    "With 6+ years of experience across high-growth tech, e-commerce, and enterprise analytics, I transform messy multi-source data warehouses into clean, actionable intelligence. My analytical philosophy balances rigorous statistical modeling with intuitive, visually compelling dashboards that drive billion-row decisions with confidence.\n\nFrom modernizing SQL/dbt data stacks to crafting executive Tableau & Power BI command centers, I help cross-functional leaders identify growth levers, optimize CAC/LTV, and automate data workflows.",
+    "With 6+ years of experience across high-growth tech, e-commerce, and enterprise analytics, I transform messy multi-source data warehouses into clean, actionable intelligence.\n\nMy analytical philosophy balances rigorous dimensional modeling with intuitive, visually compelling dashboards that drive billion-row decisions with speed and confidence.",
   aboutHighlights: [
     "Enterprise Data Modeling & dbt Architecture",
-    "Executive BI & Real-time KPI Dashboards (Tableau, Metabase, Power BI)",
+    "Executive BI & Real-time KPI Dashboards",
     "Customer Segmentation & Cohort Retention Analytics",
-    "A/B Testing Frameworks & Statistical Experimentation",
+    "A/B Testing Frameworks & Experimentation",
+  ],
+  coreSkills: [
+    "Data Modeling & dbt",
+    "Executive BI & Dashboards",
+    "Statistical Experimentation",
+    "Revenue & Churn Analytics",
+    "Cross-Functional Leadership",
   ],
   stats: [
     { label: "Years Experience", value: "6+", helper: "Enterprise & Tech" },
     { label: "Data Pipelines & Models", value: "120+", helper: "Production dbt/SQL" },
     { label: "Dashboards Deployed", value: "45+", helper: "Used daily by C-Suite" },
-    { label: "Business Impact", value: "$4.2M+", helper: "Identified Cost/Rev Ops" },
+    { label: "Measured Business Impact", value: "$4.2M+", helper: "Identified Cost/Rev Ops" },
   ],
   contactEmail: "isnan.rizqikurniawan@gmail.com",
   linkedinUrl: "https://www.linkedin.com/in/rizisnan",
   githubUrl: "https://github.com",
-  resumeUrl: "#contact",
+  resumeUrl: "/Isnan_Rizqi_Kurniawan_CV.pdf",
 };
 
 export const initialProjects: ProjectItem[] = [
@@ -53,7 +60,7 @@ export const initialProjects: ProjectItem[] = [
     title: "Omnichannel E-Commerce Marketing Attribution & LTV Modeler",
     shortDescription:
       "Algorithmic multi-touch attribution model and predictive Customer Lifetime Value (pLTV) cohort visualization platform.",
-    techStack: ["BigQuery", "Looker", "Python (Pandas / SciPy)", "dbt", "GA4"],
+    techStack: ["BigQuery", "Looker", "Python", "dbt", "SQL"],
     problem:
       "Marketing spend of $400k/month across Meta, Google Ads, TikTok, and Affiliate channels suffered from last-click bias, leading to misallocated acquisition budgets and declining ROAS.",
     role: "Senior Data Analyst: Built Shapley-value and Markov-chain attribution models in Python/BigQuery, developed automated dbt ingestion for ad networks, and surfaced interactive Looker cohort drilldowns for growth leads.",
@@ -68,7 +75,7 @@ export const initialProjects: ProjectItem[] = [
     title: "Supply Chain Warehouse Throughput & SLA Bottleneck Analysis",
     shortDescription:
       "Real-time operational monitoring dashboard mapping fulfillment station velocity, inventory aging, and dispatch bottlenecks.",
-    techStack: ["PostgreSQL", "Power BI", "Python", "Docker", "Apache Airflow"],
+    techStack: ["PostgreSQL", "Power BI", "Python", "Docker", "Airflow"],
     problem:
       "Peak season order fulfillment times were failing SLA guarantees by 18% due to undetected batching delays across sorting conveyor hubs.",
     role: "Analytics Consultant: Profiled million-row IoT scanner events, engineered rolling queue-time metrics in PostgreSQL, and designed an operator-facing Power BI live wallboard with automated threshold triggers.",
@@ -83,7 +90,7 @@ export const initialProjects: ProjectItem[] = [
     title: "Growth Funnel & A/B Experimentation Decision Platform",
     shortDescription:
       "Self-service experiment evaluation dashboard with Bayesian statistical significance calculators and automated anomaly detection.",
-    techStack: ["SQL", "Metabase", "Statsmodels", "Next.js", "Supabase"],
+    techStack: ["SQL", "Metabase", "Python", "PostgreSQL"],
     problem:
       "Product managers were making inconsistent launch decisions on feature flags due to mismatched statistical significance formulas and sample ratio mismatches (SRM).",
     role: "Data Analyst & Tooling Developer: Standardized experiment sample size estimation, SRM validation checks, and Bayesian credible intervals into an automated reporting pipeline in Metabase & SQL.",
@@ -98,34 +105,34 @@ export const initialProjects: ProjectItem[] = [
 export const initialSkills: SkillItem[] = [
   // Technical Skills
   { id: "sk-1", name: "SQL (Advanced & Optimization)", category: "Technical Skills", level: "Expert" },
-  { id: "sk-2", name: "Python (Pandas, NumPy, Scikit-learn)", category: "Technical Skills", level: "Expert" },
+  { id: "sk-2", name: "Python (Pandas, NumPy, SciPy)", category: "Technical Skills", level: "Expert" },
   { id: "sk-3", name: "dbt (Data Build Tool)", category: "Technical Skills", level: "Expert" },
-  { id: "sk-4", name: "Snowflake & BigQuery", category: "Technical Skills", level: "Advanced" },
-  { id: "sk-5", name: "PostgreSQL & MySQL", category: "Technical Skills", level: "Expert" },
-  { id: "sk-6", name: "Git & Version Control", category: "Technical Skills", level: "Advanced" },
-  { id: "sk-7", name: "R & Statistical Analysis", category: "Technical Skills", level: "Proficient" },
+  { id: "sk-4", name: "PostgreSQL & MySQL", category: "Technical Skills", level: "Expert" },
+  { id: "sk-5", name: "Snowflake & BigQuery", category: "Technical Skills", level: "Advanced" },
+  { id: "sk-6", name: "Git & CI/CD Pipelines", category: "Technical Skills", level: "Advanced" },
+  { id: "sk-7", name: "R & Statistical Modeling", category: "Technical Skills", level: "Proficient" },
 
   // BI & Visualization
   { id: "sk-8", name: "Tableau Desktop & Server", category: "BI & Visualization", level: "Expert" },
   { id: "sk-9", name: "Power BI & DAX", category: "BI & Visualization", level: "Expert" },
-  { id: "sk-10", name: "Looker & LookML", category: "BI & Visualization", level: "Advanced" },
-  { id: "sk-11", name: "Metabase & Redash", category: "BI & Visualization", level: "Expert" },
-  { id: "sk-12", name: "Data Storytelling & UX Design", category: "BI & Visualization", level: "Expert" },
+  { id: "sk-10", name: "Metabase & Redash", category: "BI & Visualization", level: "Expert" },
+  { id: "sk-11", name: "Data Storytelling & UX Design", category: "BI & Visualization", level: "Expert" },
+  { id: "sk-12", name: "Looker & LookML", category: "BI & Visualization", level: "Advanced" },
 
   // Core Competencies
   { id: "sk-13", name: "Data Modeling & Star Schema", category: "Core Competencies", level: "Expert" },
   { id: "sk-14", name: "A/B Testing & Experimentation", category: "Core Competencies", level: "Expert" },
-  { id: "sk-15", name: "Cohort & Retention Analysis", category: "Core Competencies", level: "Expert" },
-  { id: "sk-16", name: "Customer Lifetime Value (LTV) & CAC", category: "Core Competencies", level: "Advanced" },
-  { id: "sk-17", name: "Revenue & Funnel Analytics", category: "Core Competencies", level: "Expert" },
-  { id: "sk-18", name: "Predictive Churn & Time-Series", category: "Core Competencies", level: "Advanced" },
+  { id: "sk-15", name: "Cohort & Retention Dynamics", category: "Core Competencies", level: "Expert" },
+  { id: "sk-16", name: "Revenue & Funnel Analytics", category: "Core Competencies", level: "Expert" },
+  { id: "sk-17", name: "Customer LTV & CAC Modeler", category: "Core Competencies", level: "Advanced" },
+  { id: "sk-18", name: "Predictive Churn & Forecasting", category: "Core Competencies", level: "Advanced" },
 
   // Professional Skills
   { id: "sk-19", name: "Executive Stakeholder Management", category: "Professional Skills", level: "Expert" },
-  { id: "sk-20", name: "Cross-Functional Collaboration", category: "Professional Skills", level: "Expert" },
-  { id: "sk-21", name: "Agile & Scrum Analytics Delivery", category: "Professional Skills", level: "Advanced" },
-  { id: "sk-22", name: "Data Governance & Data Quality", category: "Professional Skills", level: "Advanced" },
-  { id: "sk-23", name: "Mentorship & Team Leadership", category: "Professional Skills", level: "Advanced" },
+  { id: "sk-20", name: "Cross-Functional Leadership", category: "Professional Skills", level: "Expert" },
+  { id: "sk-21", name: "Agile Analytics Delivery", category: "Professional Skills", level: "Advanced" },
+  { id: "sk-22", name: "Data Governance & Quality SLA", category: "Professional Skills", level: "Advanced" },
+  { id: "sk-23", name: "Team Mentorship & Technical Training", category: "Professional Skills", level: "Advanced" },
 ];
 
 export const initialExperience: ExperienceItem[] = [
@@ -141,12 +148,12 @@ export const initialExperience: ExperienceItem[] = [
       "Architected enterprise-wide dbt semantic layers and transformed raw clickstream and transactional datasets into automated Snowflake marts serving 300+ daily internal users.",
       "Designed and deployed executive C-Suite command dashboards in Tableau tracking ARR, NDR, customer health scores, and quarterly financial forecasts.",
       "Spearheaded company-wide A/B experimentation standards, reducing decision cycle time by 40% and preventing revenue-degrading launches.",
-      "Mentored junior analytics team members on advanced SQL optimization, query cost reduction (lowering Snowflake monthly costs by 22%), and dashboard UX design.",
+      "Mentored junior analytics team members on advanced SQL optimization, lowering Snowflake monthly query costs by 22%.",
     ],
   },
   {
     id: "exp-2",
-    company: "E-Commerce & Digital Commerce Scaleup",
+    company: "E-Commerce Scaleup",
     title: "Lead BI & Analytics Analyst",
     startDate: "2020",
     endDate: "2022",
@@ -155,12 +162,12 @@ export const initialExperience: ExperienceItem[] = [
     bullets: [
       "Built multi-touch marketing attribution and algorithmic customer segmentation models across $5M+ annual advertising budgets.",
       "Standardized 20+ core business metrics into single-source-of-truth Looker dashboards used by Product, Marketing, and Operations leads.",
-      "Conducted weekly cohort retention studies and churn root-cause investigations that contributed to a 14% improvement in 90-day customer re-order rates.",
+      "Conducted weekly cohort retention studies and churn root-cause investigations that contributed to a 14% improvement in 90-day re-order rates.",
     ],
   },
   {
     id: "exp-3",
-    company: "Global Digital Agency & Consulting",
+    company: "Global Digital Agency",
     title: "Data Analyst",
     startDate: "2018",
     endDate: "2020",
@@ -182,6 +189,7 @@ export const initialRecommendations: RecommendationItem[] = [
     authorName: "Rian Pratama",
     authorTitle: "VP of Product & Growth",
     authorCompany: "Enterprise Tech Solutions",
+    relationship: "Direct Manager & VP",
   },
   {
     id: "rec-2",
@@ -190,6 +198,7 @@ export const initialRecommendations: RecommendationItem[] = [
     authorName: "Sarah Chen",
     authorTitle: "Head of Performance Marketing",
     authorCompany: "E-Commerce Scaleup",
+    relationship: "Cross-Functional Stakeholder",
   },
   {
     id: "rec-3",
@@ -198,6 +207,7 @@ export const initialRecommendations: RecommendationItem[] = [
     authorName: "Dimas Wicaksono",
     authorTitle: "Director of Engineering & Data",
     authorCompany: "Global Digital Agency",
+    relationship: "Engineering Director",
   },
 ];
 

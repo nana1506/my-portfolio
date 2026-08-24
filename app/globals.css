@@ -5,16 +5,16 @@
     --bg-primary: #FAFAF9;
     --bg-surface: #FFFFFF;
     --bg-surface-elevated: #F4F4F5;
-    --text-primary: #18181B;
-    --text-secondary: #52525B;
-    --text-muted: #71717A;
-    --border-subtle: #E4E4E7;
-    --border-accent: rgba(13, 148, 136, 0.3);
+    --text-primary: #09090B;
+    --text-secondary: #27272A;
+    --text-muted: #52525B;
+    --border-subtle: #D4D4D8;
+    --border-accent: rgba(13, 148, 136, 0.4);
     --accent-teal: #0D9488;
     --accent-cyan: #0284C7;
-    --accent-glow: rgba(13, 148, 136, 0.15);
-    --grid-line: rgba(0, 0, 0, 0.04);
-    --dot-color: rgba(0, 0, 0, 0.08);
+    --accent-glow: rgba(13, 148, 136, 0.18);
+    --grid-line: rgba(0, 0, 0, 0.05);
+    --dot-color: rgba(0, 0, 0, 0.12);
   }
 
   .dark {
@@ -64,11 +64,11 @@ h1, h2, h3, h4, h5, h6, .font-display {
   background-size: 24px 24px;
 }
 
-/* Glassmorphic card styling */
+/* Glassmorphic card styling with enhanced contrast */
 .glass-card {
   background-color: var(--bg-surface);
   border: 1px solid var(--border-subtle);
-  box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.06);
   backdrop-filter: blur(12px);
   transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
 }

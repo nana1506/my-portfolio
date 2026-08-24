@@ -4,6 +4,7 @@ export interface SiteContent {
   heroShortBio: string;
   aboutLongBio: string;
   aboutHighlights: string[];
+  coreSkills: string[];
   stats: { label: string; value: string; helper?: string }[];
   contactEmail: string;
   linkedinUrl: string;
@@ -35,7 +36,7 @@ export interface SkillItem {
   id: string;
   name: string;
   category: SkillCategoryType | string;
-  level?: "Expert" | "Advanced" | "Proficient";
+  level?: "Expert" | "Advanced" | "Proficient" | "Beginner";
   iconName?: string;
 }
 
@@ -57,6 +58,7 @@ export interface RecommendationItem {
   authorName: string;
   authorTitle: string;
   authorCompany?: string;
+  relationship?: string;
   avatarUrl?: string;
   linkedinUrl?: string;
 }
@@ -74,6 +76,11 @@ export interface BlogPost {
 }
 
 export interface ContactClickPayload {
+  name?: string;
+  email?: string;
+  company?: string;
+  collaborationType?: string;
+  message?: string;
   timestamp: string;
   referrer: string;
   userAgent: string;

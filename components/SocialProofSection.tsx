@@ -4,7 +4,7 @@ import React from "react";
 import { motion } from "framer-motion";
 import { RecommendationItem } from "@/lib/types";
 import { LinkedInIcon } from "./Icons";
-import { Quote, MessageSquareQuote, Sparkles } from "lucide-react";
+import { Quote, MessageSquareQuote, UserCheck, Sparkles } from "lucide-react";
 
 interface SocialProofSectionProps {
   recommendations: RecommendationItem[];
@@ -17,15 +17,15 @@ export function SocialProofSection({
     <section id="recommendations" className="py-20 px-4 sm:px-6 lg:px-8 relative scroll-mt-20">
       <div className="max-w-6xl mx-auto">
         {/* Section Header */}
-        <div className="flex items-center gap-2 text-xs font-mono font-semibold uppercase tracking-wider text-teal-600 dark:text-teal-400 mb-2">
+        <div className="flex items-center gap-2 text-xs font-mono font-bold uppercase tracking-wider text-teal-700 dark:text-teal-400 mb-2">
           <MessageSquareQuote className="w-4 h-4" />
-          <span>05 // Social Proof & Testimonials</span>
+          <span>05 // Social Proof & Endorsements</span>
         </div>
-        <h2 className="text-3xl sm:text-4xl font-display font-bold text-[var(--text-primary)] tracking-tight">
+        <h2 className="text-3xl sm:text-4xl font-display font-extrabold text-[var(--text-primary)] tracking-tight">
           What Colleagues & Leaders Say
         </h2>
-        <p className="mt-3 text-sm text-[var(--text-secondary)] max-w-xl">
-          Direct feedback and endorsements from engineering directors, VP of products, and marketing leads.
+        <p className="mt-3 text-sm text-[var(--text-secondary)] max-w-xl font-normal">
+          Direct endorsements highlighting cross-functional leadership, data rigor, and strategic impact.
         </p>
 
         {/* Testimonials Grid */}
@@ -40,13 +40,21 @@ export function SocialProofSection({
               className="glass-card rounded-2xl p-6 sm:p-7 border border-[var(--border-subtle)] flex flex-col justify-between relative group"
             >
               <div>
-                {/* Quotation Icon Motif */}
-                <div className="w-9 h-9 rounded-xl bg-teal-500/10 border border-teal-500/30 flex items-center justify-center text-teal-600 dark:text-teal-400 mb-5">
-                  <Quote className="w-4 h-4" />
+                {/* Header with Quote Icon & Relationship Badge */}
+                <div className="flex items-start justify-between gap-3 mb-4">
+                  <div className="w-9 h-9 rounded-xl bg-teal-500/10 border border-teal-500/30 flex items-center justify-center text-teal-700 dark:text-teal-400">
+                    <Quote className="w-4 h-4" />
+                  </div>
+
+                  {/* Relationship / Collaboration context badge */}
+                  <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-teal-500/10 text-teal-800 dark:text-teal-300 border border-teal-500/30 text-[10px] font-mono font-semibold">
+                    <UserCheck className="w-3 h-3 text-teal-600 dark:text-teal-400" />
+                    <span>{rec.relationship || "Direct Collaborator"}</span>
+                  </span>
                 </div>
 
                 {/* Quote Text */}
-                <p className="text-sm text-[var(--text-secondary)] leading-relaxed italic">
+                <p className="text-sm text-[var(--text-secondary)] leading-relaxed italic font-normal">
                   &ldquo;{rec.quote}&rdquo;
                 </p>
               </div>
@@ -57,7 +65,7 @@ export function SocialProofSection({
                   <h3 className="font-display font-bold text-sm text-[var(--text-primary)]">
                     {rec.authorName}
                   </h3>
-                  <p className="text-xs text-teal-600 dark:text-teal-400 font-medium">
+                  <p className="text-xs text-teal-700 dark:text-teal-400 font-semibold">
                     {rec.authorTitle}
                   </p>
                   {rec.authorCompany && (
@@ -66,7 +74,7 @@ export function SocialProofSection({
                     </p>
                   )}
                 </div>
-                <div className="text-teal-600 dark:text-teal-400 opacity-60 group-hover:opacity-100 transition-opacity">
+                <div className="text-teal-700 dark:text-teal-400 opacity-60 group-hover:opacity-100 transition-opacity">
                   <LinkedInIcon className="w-4 h-4" />
                 </div>
               </div>
