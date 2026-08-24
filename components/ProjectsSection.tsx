@@ -73,7 +73,7 @@ export function ProjectsSection({ projects }: ProjectsSectionProps) {
                   </div>
                 </div>
 
-                {/* Title */}
+                {/* Title (High-contrast primary text) */}
                 <h3 className="text-xl font-display font-extrabold text-[var(--text-primary)] group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors leading-snug">
                   {project.title}
                 </h3>
@@ -86,7 +86,7 @@ export function ProjectsSection({ projects }: ProjectsSectionProps) {
 
               {/* Bottom: Tech Stack with Tool Icons & Metrics */}
               <div className="mt-6 pt-5 border-t border-[var(--border-subtle)] space-y-3">
-                {/* Tech Pills with Tool Vector Icons */}
+                {/* Tech Pills with Visible High-Contrast Text */}
                 <div className="flex flex-wrap gap-1.5">
                   {project.techStack.map((tech) => (
                     <span
@@ -96,16 +96,16 @@ export function ProjectsSection({ projects }: ProjectsSectionProps) {
                       <span className="text-blue-600 dark:text-blue-400 shrink-0">
                         {getTechIcon(tech, "w-3.5 h-3.5")}
                       </span>
-                      <span className="text-zinc-950 dark:text-zinc-100 font-bold">{tech}</span>
+                      <span className="text-[var(--text-primary)] font-bold">{tech}</span>
                     </span>
                   ))}
                 </div>
 
-                {/* Key Metric highlight preview with Ultra High-Contrast Orange */}
+                {/* Key Metric highlight preview with High Contrast */}
                 {project.metrics && project.metrics.length > 0 && (
-                  <div className="inline-flex items-center gap-2 px-2.5 py-1 rounded-md bg-orange-100 dark:bg-orange-950/70 border border-orange-400/80 dark:border-orange-500/50 text-xs font-mono text-zinc-950 dark:text-orange-100 font-extrabold mt-1 shadow-xs">
+                  <div className="inline-flex items-center gap-2 px-2.5 py-1 rounded-md bg-orange-100/90 dark:bg-orange-950/70 border border-orange-400/80 dark:border-orange-500/50 text-xs font-mono text-[var(--text-primary)] font-extrabold mt-1 shadow-xs">
                     <Sparkles className="w-3.5 h-3.5 text-orange-600 dark:text-orange-400" />
-                    <span>Impact: <strong className="text-zinc-950 dark:text-white font-black">{project.metrics[0]}</strong></span>
+                    <span>Impact: <strong className="text-[var(--text-primary)] font-black">{project.metrics[0]}</strong></span>
                   </div>
                 )}
               </div>

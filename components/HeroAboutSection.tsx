@@ -43,11 +43,11 @@ export function HeroAboutSection({ content }: HeroAboutSectionProps) {
             className="lg:col-span-6 flex flex-col justify-between"
           >
             <div>
-              {/* Ultra High-Contrast Status Pill */}
-              <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full border border-orange-400/80 dark:border-orange-500/50 bg-orange-100 dark:bg-orange-950/70 text-zinc-950 dark:text-orange-100 text-xs font-mono font-extrabold mb-5 shadow-xs">
-                <span className="w-2 h-2 rounded-full bg-orange-600 dark:bg-orange-400 animate-ping inline-block" />
-                <Zap className="w-3.5 h-3.5 text-orange-700 dark:text-orange-300" />
-                <span className="text-zinc-950 dark:text-orange-100 font-extrabold">Open for Analytics Initiatives & Roles</span>
+              {/* Status Pill */}
+              <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full border border-orange-400/80 dark:border-orange-500/50 bg-orange-100/90 dark:bg-orange-950/70 text-[var(--text-primary)] text-xs font-mono font-extrabold mb-5 shadow-xs">
+                <span className="w-2 h-2 rounded-full bg-orange-500 animate-ping inline-block" />
+                <Zap className="w-3.5 h-3.5 text-orange-600 dark:text-orange-400" />
+                <span className="text-[var(--text-primary)] font-extrabold">Open for Analytics Initiatives & Roles</span>
               </div>
 
               {/* Headline with Electric Blue & Sunset Orange Gradient */}
@@ -123,8 +123,8 @@ export function HeroAboutSection({ content }: HeroAboutSectionProps) {
                     </div>
                   </div>
 
-                  {/* Ultra High Contrast 6+ YOE Badge */}
-                  <span className="px-3 py-1 rounded-full bg-orange-100 dark:bg-orange-950/70 text-zinc-950 dark:text-orange-100 border border-orange-400/80 dark:border-orange-500/50 text-[11px] font-mono font-black shadow-xs">
+                  {/* 6+ YOE Badge */}
+                  <span className="px-3 py-1 rounded-full bg-orange-100/90 dark:bg-orange-950/70 text-[var(--text-primary)] border border-orange-400/80 dark:border-orange-500/50 text-[11px] font-mono font-black shadow-xs">
                     6+ YOE
                   </span>
                 </div>
@@ -145,10 +145,10 @@ export function HeroAboutSection({ content }: HeroAboutSectionProps) {
                   {coreSkillPills.map((skill, idx) => (
                     <span
                       key={idx}
-                      className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[var(--bg-surface-elevated)] border border-[var(--border-subtle)] text-xs font-bold text-[var(--text-primary)] hover:border-blue-500/50 hover:text-blue-600 transition-colors shadow-2xs"
+                      className="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg bg-[var(--bg-surface-elevated)] border border-[var(--border-subtle)] text-xs font-bold text-[var(--text-primary)] hover:border-blue-500/50 hover:text-blue-600 transition-colors shadow-2xs"
                     >
                       <span className="w-2 h-2 rounded-full bg-orange-500 inline-block shrink-0" />
-                      <span className="text-zinc-950 dark:text-zinc-100 font-bold">{skill}</span>
+                      <span className="text-[var(--text-primary)] font-bold">{skill}</span>
                     </span>
                   ))}
                 </div>

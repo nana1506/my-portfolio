@@ -1,10 +1,12 @@
 @import "tailwindcss";
 
+@variant dark (&:where(.dark, .dark *));
+
 @layer base {
   :root {
     --bg-primary: #FAFAFC;
     --bg-surface: #FFFFFF;
-    --bg-surface-elevated: #F3F4F8;
+    --bg-surface-elevated: #F1F3F9;
     --text-primary: #0A0F1D;
     --text-secondary: #1E293B;
     --text-muted: #475569;
@@ -82,15 +84,6 @@ h1, h2, h3, h4, h5, h6, .font-display {
 .glass-card:hover {
   border-color: var(--border-accent);
   box-shadow: 0 8px 30px -4px var(--accent-glow);
-}
-
-/* Glow effects */
-.glow-blue {
-  box-shadow: 0 0 25px -5px var(--accent-glow);
-}
-
-.glow-orange {
-  box-shadow: 0 0 25px -5px var(--accent-glow-orange);
 }
 
 /* Custom scrollbar */
