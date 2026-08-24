@@ -100,7 +100,7 @@ h1, h2, h3, h4, h5, h6, .font-display {
   display: flex;
   width: max-content;
   will-change: transform;
-  animation: marquee-flow 50s linear infinite;
+  animation: marquee-flow 85s linear infinite;
 }
 
 .marquee-container:hover .animate-marquee-flow {
