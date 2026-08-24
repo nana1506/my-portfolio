@@ -10,6 +10,7 @@ import {
   Building,
   MapPin,
   Sparkles,
+  ArrowRight,
   CheckCircle2,
 } from "lucide-react";
 
@@ -18,13 +19,13 @@ interface ExperienceSectionProps {
 }
 
 export function ExperienceSection({ experience }: ExperienceSectionProps) {
-  // Always default to the latest (first) role
-  const [selectedExpId, setSelectedExpId] = useState<string>(
+  // Default to the first (most recent) experience
+  const [activeId, setActiveId] = useState<string>(
     experience[0]?.id || "exp-1"
   );
 
-  const selectedExp =
-    experience.find((e) => e.id === selectedExpId) || experience[0];
+  const activeExp =
+    experience.find((e) => e.id === activeId) || experience[0];
 
   return (
     <section id="experience" className="py-20 px-4 sm:px-6 lg:px-8 relative scroll-mt-20">
@@ -32,49 +33,55 @@ export function ExperienceSection({ experience }: ExperienceSectionProps) {
         {/* Section Header */}
         <div className="flex items-center gap-2 text-xs font-mono font-bold uppercase tracking-wider text-blue-700 dark:text-blue-400 mb-2">
           <Briefcase className="w-4 h-4 text-orange-600 dark:text-orange-400" />
-          <span>04 // Career Milestones</span>
+          <span>04 // Career Journey</span>
         </div>
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-10">
           <div>
             <h2 className="text-3xl sm:text-4xl font-display font-extrabold text-[var(--text-primary)] tracking-tight">
-              Horizontal Career Trajectory & Impact
+              Work Experience & Impact
             </h2>
-            <p className="mt-3 text-sm text-[var(--text-secondary)] font-normal max-w-xl">
-              Select a milestone card below to review detailed achievements, architecture responsibilities, and quantified impact.
+            <p className="mt-2 text-sm text-[var(--text-secondary)] font-normal max-w-xl">
+              A track record of translating data complexity into business outcomes across high-growth teams.
             </p>
           </div>
+
+          <a
+            href="/Isnan_Rizqi_Kurniawan_CV.pdf"
+            download="Isnan_Rizqi_Kurniawan_CV.pdf"
+            className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl border border-[var(--border-subtle)] bg-[var(--bg-surface)] hover:bg-[var(--bg-surface-elevated)] text-[var(--text-primary)] font-bold text-xs transition-all hover:border-blue-500/50 shadow-2xs self-start md:self-auto cursor-pointer"
+          >
+            <Download className="w-4 h-4 text-blue-600 dark:text-blue-400" />
+            <span>Download Full Resume</span>
+          </a>
         </div>
 
-        {/* Horizontal Milestone Track */}
-        <div className="relative">
-          {/* Connecting Track Line */}
-          <div className="hidden md:block absolute top-7 left-8 right-8 h-0.5 bg-[var(--border-subtle)] z-0" />
-
-          {/* Milestone Step Buttons Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 relative z-10">
-            {experience.map((item, index) => {
-              const isSelected = item.id === selectedExpId;
+        {/* Clean Interactive Split Experience Layout */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8 items-start">
+          {/* Left Column: Interactive Milestone Navigation (5 cols) */}
+          <div className="lg:col-span-5 space-y-3">
+            {experience.map((item, idx) => {
+              const isActive = item.id === activeId;
               return (
                 <button
-                  key={item.id || index}
-                  onClick={() => setSelectedExpId(item.id)}
-                  className={`text-left p-5.5 rounded-2xl transition-all cursor-pointer flex flex-col justify-between relative overflow-hidden ${
-                    isSelected
-                      ? "bg-[var(--bg-surface)] border-2 border-blue-600 dark:border-blue-400 shadow-xl shadow-blue-600/15 ring-2 ring-blue-600/25 scale-[1.02] z-10"
-                      : "bg-[var(--bg-surface-elevated)] border border-[var(--border-subtle)] hover:border-blue-500/50 opacity-80 hover:opacity-100 hover:scale-[1.01]"
+                  key={item.id || idx}
+                  onClick={() => setActiveId(item.id)}
+                  className={`w-full text-left p-4 sm:p-5 rounded-2xl border transition-all cursor-pointer relative flex items-center justify-between gap-4 ${
+                    isActive
+                      ? "bg-[var(--bg-surface)] border-blue-600 dark:border-blue-500 shadow-md ring-2 ring-blue-500/20"
+                      : "bg-[var(--bg-surface-elevated)]/70 border-[var(--border-subtle)] hover:border-blue-400/40 hover:bg-[var(--bg-surface)] opacity-85 hover:opacity-100"
                   }`}
                 >
-                  {/* Top Glowing Gradient Accent Line (Blue -> Orange) */}
-                  {isSelected && (
-                    <div className="absolute top-0 left-0 right-0 h-1.5 bg-gradient-to-r from-blue-600 via-indigo-500 to-orange-500" />
+                  {/* Active Left Indicator Bar */}
+                  {isActive && (
+                    <div className="absolute left-0 top-3 bottom-3 w-1.5 bg-gradient-to-b from-blue-600 to-orange-500 rounded-r-full" />
                   )}
 
-                  <div className="flex items-start justify-between gap-3 mb-3.5">
-                    {/* Company Logo Badge */}
+                  <div className="flex items-center gap-3.5 pl-1.5">
+                    {/* Company Logo or Icon */}
                     <div
-                      className={`w-12 h-12 rounded-xl border flex items-center justify-center font-bold text-sm shrink-0 transition-transform ${
-                        isSelected
-                          ? "bg-blue-100 dark:bg-blue-500/20 border-blue-600 dark:border-blue-400 text-blue-900 dark:text-blue-200 scale-110 shadow-xs"
+                      className={`w-11 h-11 rounded-xl border flex items-center justify-center font-bold text-sm shrink-0 transition-transform ${
+                        isActive
+                          ? "bg-blue-100 dark:bg-blue-950/60 border-blue-400 text-blue-900 dark:text-blue-200 shadow-2xs scale-105"
                           : "bg-[var(--bg-surface)] border-[var(--border-subtle)] text-[var(--text-muted)]"
                       }`}
                     >
@@ -82,110 +89,89 @@ export function ExperienceSection({ experience }: ExperienceSectionProps) {
                         <img
                           src={item.logo}
                           alt={item.company}
-                          className="w-7 h-7 object-contain rounded"
+                          className="w-6 h-6 object-contain rounded"
                         />
                       ) : (
                         <Building className="w-5 h-5 text-blue-600 dark:text-blue-400" />
                       )}
                     </div>
 
-                    {/* Active Step Indicator Pill with High Contrast */}
+                    <div>
+                      <h3 className={`font-display font-bold text-sm sm:text-base leading-snug ${isActive ? "text-[var(--text-primary)]" : "text-[var(--text-primary)]"}`}>
+                        {item.title}
+                      </h3>
+                      <p className={`text-xs font-mono font-bold mt-0.5 ${isActive ? "text-orange-600 dark:text-orange-400" : "text-[var(--text-muted)]"}`}>
+                        {item.company}
+                      </p>
+                    </div>
+                  </div>
+
+                  {/* Date Badge */}
+                  <div className="text-right shrink-0">
                     <span
-                      className={`text-[11px] font-mono font-bold px-3 py-1 rounded-full border transition-all ${
-                        isSelected
-                          ? "bg-blue-600 dark:bg-blue-500 text-white dark:text-zinc-950 border-blue-700 shadow-xs"
-                          : "bg-[var(--bg-surface)] border-[var(--border-subtle)] text-[var(--text-secondary)]"
+                      className={`inline-block px-2.5 py-1 rounded-full text-[10px] font-mono font-extrabold border ${
+                        isActive
+                          ? "bg-blue-600 dark:bg-blue-500 text-white border-blue-600 shadow-2xs"
+                          : "bg-[var(--bg-surface)] border-[var(--border-subtle)] text-[var(--text-muted)]"
                       }`}
                     >
                       {item.startDate} — {item.endDate}
                     </span>
                   </div>
-
-                  <div>
-                    <div className="flex items-center justify-between">
-                      <h3 className={`font-display font-bold text-base leading-tight ${isSelected ? "text-zinc-950 dark:text-blue-300 font-extrabold" : "text-[var(--text-primary)]"}`}>
-                        {item.title}
-                      </h3>
-                      {isSelected && (
-                        <CheckCircle2 className="w-4 h-4 text-orange-600 dark:text-orange-400 shrink-0 ml-1.5" />
-                      )}
-                    </div>
-                    <p className={`text-xs font-bold font-mono mt-1 ${isSelected ? "text-orange-600 dark:text-orange-400" : "text-[var(--text-muted)]"}`}>
-                      {item.company}
-                    </p>
-                    {item.location && (
-                      <p className="text-[11px] text-[var(--text-muted)] mt-0.5 flex items-center gap-1 font-mono">
-                        <MapPin className="w-3 h-3" />
-                        <span>{item.location}</span>
-                      </p>
-                    )}
-                  </div>
                 </button>
               );
             })}
           </div>
-        </div>
 
-        {/* Selected Experience Detail Card */}
-        {selectedExp && (
-          <motion.div
-            key={selectedExp.id}
-            initial={{ opacity: 0, y: 15 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.35 }}
-            className="mt-8 glass-card rounded-2xl p-6 sm:p-8 border border-[var(--border-subtle)] shadow-md hover:border-blue-500/40"
-          >
-            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-5 border-b border-[var(--border-subtle)]">
-              <div>
-                <div className="inline-flex items-center gap-1.5 text-xs font-mono font-bold text-orange-600 dark:text-orange-400 mb-1">
-                  <Sparkles className="w-3.5 h-3.5" />
-                  <span>Key Deliverables & Responsibilities</span>
+          {/* Right Column: Selected Role Detail Card (7 cols) */}
+          <div className="lg:col-span-7">
+            {activeExp && (
+              <motion.div
+                key={activeExp.id}
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.3 }}
+                className="glass-card rounded-2xl p-6 sm:p-8 border border-[var(--border-subtle)] shadow-md relative overflow-hidden"
+              >
+                {/* Top Subtle Gradient */}
+                <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-blue-600 via-indigo-500 to-orange-500" />
+
+                {/* Role Header */}
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-5 border-b border-[var(--border-subtle)]">
+                  <div>
+                    <h3 className="text-xl sm:text-2xl font-display font-extrabold text-[var(--text-primary)]">
+                      {activeExp.title}
+                    </h3>
+                    <p className="text-sm font-mono font-bold text-orange-600 dark:text-orange-400 mt-0.5">
+                      {activeExp.company}
+                    </p>
+                  </div>
+
+                  <div className="flex items-center gap-2 text-xs font-mono font-bold text-[var(--text-primary)] bg-[var(--bg-surface-elevated)] px-3 py-1.5 rounded-lg border border-[var(--border-subtle)] self-start sm:self-auto">
+                    <Calendar className="w-3.5 h-3.5 text-blue-600 dark:text-blue-400" />
+                    <span>{activeExp.startDate} — {activeExp.endDate}</span>
+                  </div>
                 </div>
-                <h3 className="text-2xl font-display font-extrabold text-[var(--text-primary)]">
-                  {selectedExp.title} @ <span className="text-blue-600 dark:text-blue-400">{selectedExp.company}</span>
-                </h3>
-              </div>
-              <div className="flex items-center gap-2 text-xs font-mono text-[var(--text-primary)] font-bold bg-[var(--bg-surface-elevated)] px-3.5 py-1.5 rounded-lg border border-[var(--border-subtle)]">
-                <Calendar className="w-4 h-4 text-blue-600 dark:text-blue-400" />
-                <span>{selectedExp.startDate} — {selectedExp.endDate}</span>
-                {selectedExp.duration && <span>({selectedExp.duration})</span>}
-              </div>
-            </div>
 
-            {/* Bullets */}
-            <div className="mt-6 space-y-3.5">
-              {selectedExp.bullets.map((bullet, idx) => (
-                <div
-                  key={idx}
-                  className="flex items-start gap-3 text-xs sm:text-sm text-[var(--text-secondary)] leading-relaxed bg-[var(--bg-surface-elevated)]/70 p-3.5 rounded-xl border border-[var(--border-subtle)]"
-                >
-                  <span className="w-2 h-2 rounded-full bg-orange-500 shrink-0 mt-1.5" />
-                  <span className="font-medium text-[var(--text-primary)]">{bullet}</span>
+                {/* Bullets & Responsibilities */}
+                <div className="mt-6 space-y-3.5">
+                  <div className="text-xs font-mono uppercase font-bold text-[var(--text-muted)] tracking-wider flex items-center gap-1.5 mb-3">
+                    <Sparkles className="w-3.5 h-3.5 text-orange-600 dark:text-orange-400" />
+                    <span>Key Deliverables & Responsibilities</span>
+                  </div>
+
+                  {activeExp.bullets.map((bullet, idx) => (
+                    <div
+                      key={idx}
+                      className="flex items-start gap-3 p-3.5 rounded-xl bg-[var(--bg-surface-elevated)]/60 border border-[var(--border-subtle)] text-xs sm:text-sm text-[var(--text-secondary)] leading-relaxed"
+                    >
+                      <span className="w-2 h-2 rounded-full bg-orange-500 shrink-0 mt-1.5" />
+                      <span className="font-medium text-[var(--text-primary)]">{bullet}</span>
+                    </div>
+                  ))}
                 </div>
-              ))}
-            </div>
-          </motion.div>
-        )}
-
-        {/* CTA below experience */}
-        <div className="mt-10 text-center">
-          <div className="glass-card p-6 rounded-2xl border border-[var(--border-subtle)] inline-flex flex-col sm:flex-row items-center justify-between gap-4 sm:gap-8 max-w-2xl w-full text-left">
-            <div>
-              <div className="text-sm font-bold text-[var(--text-primary)]">
-                Looking for complete career history and credentials?
-              </div>
-              <div className="text-xs text-[var(--text-muted)] mt-0.5">
-                Download verified resume with full project citations.
-              </div>
-            </div>
-            <a
-              href="/Isnan_Rizqi_Kurniawan_CV.pdf"
-              download="Isnan_Rizqi_Kurniawan_CV.pdf"
-              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-700 dark:bg-blue-600 dark:hover:bg-blue-500 text-white font-bold text-xs transition-all shadow-md shadow-blue-600/20 active:scale-95 shrink-0 cursor-pointer"
-            >
-              <Download className="w-4 h-4" />
-              <span>Download CV</span>
-            </a>
+              </motion.div>
+            )}
           </div>
         </div>
       </div>
