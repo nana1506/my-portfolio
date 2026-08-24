@@ -24,7 +24,7 @@ export function Footer() {
             </span>
           </div>
           <p className="text-xs text-[var(--text-muted)] font-mono font-medium">
-            Senior Data Analyst • Strategic Intelligence & BI Engineering
+            Data Analyst • Strategic Intelligence & BI Engineering
           </p>
         </div>
 
