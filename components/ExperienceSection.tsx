@@ -8,10 +8,8 @@ import {
   Calendar,
   Download,
   Building,
-  MapPin,
   Sparkles,
-  ArrowRight,
-  CheckCircle2,
+  ChevronRight,
 } from "lucide-react";
 
 interface ExperienceSectionProps {
@@ -33,15 +31,15 @@ export function ExperienceSection({ experience }: ExperienceSectionProps) {
         {/* Section Header */}
         <div className="flex items-center gap-2 text-xs font-mono font-bold uppercase tracking-wider text-blue-700 dark:text-blue-400 mb-2">
           <Briefcase className="w-4 h-4 text-orange-600 dark:text-orange-400" />
-          <span>04 // Career Journey</span>
+          <span>04 // Career Milestones</span>
         </div>
-        <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-10">
+        <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-14">
           <div>
             <h2 className="text-3xl sm:text-4xl font-display font-extrabold text-[var(--text-primary)] tracking-tight">
-              Work Experience & Impact
+              Horizontal Career Timeline
             </h2>
             <p className="mt-2 text-sm text-[var(--text-secondary)] font-normal max-w-xl">
-              A track record of translating data complexity into business outcomes across high-growth teams.
+              Click any milestone along the timeline track to inspect achievements, responsibilities, and quantified impact.
             </p>
           </div>
 
@@ -51,129 +49,125 @@ export function ExperienceSection({ experience }: ExperienceSectionProps) {
             className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl border border-[var(--border-subtle)] bg-[var(--bg-surface)] hover:bg-[var(--bg-surface-elevated)] text-[var(--text-primary)] font-bold text-xs transition-all hover:border-blue-500/50 shadow-2xs self-start md:self-auto cursor-pointer"
           >
             <Download className="w-4 h-4 text-blue-600 dark:text-blue-400" />
-            <span>Download Full Resume</span>
+            <span>Download Resume</span>
           </a>
         </div>
 
-        {/* Clean Interactive Split Experience Layout */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8 items-start">
-          {/* Left Column: Interactive Milestone Navigation (5 cols) */}
-          <div className="lg:col-span-5 space-y-3">
+        {/* Horizontal Dashed Timeline Track */}
+        <div className="relative pt-6 pb-2">
+          {/* Dashed Connecting Track Line */}
+          <div className="hidden md:block absolute top-[2.1rem] left-10 right-10 border-t-2 border-dashed border-blue-400/40 dark:border-blue-500/30 z-0 pointer-events-none" />
+
+          {/* Milestone Columns Grid */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 relative z-10">
             {experience.map((item, idx) => {
               const isActive = item.id === activeId;
               return (
-                <button
-                  key={item.id || idx}
-                  onClick={() => setActiveId(item.id)}
-                  className={`w-full text-left p-4 sm:p-5 rounded-2xl border transition-all cursor-pointer relative flex items-center justify-between gap-4 ${
-                    isActive
-                      ? "bg-[var(--bg-surface)] border-blue-600 dark:border-blue-500 shadow-md ring-2 ring-blue-500/20"
-                      : "bg-[var(--bg-surface-elevated)]/70 border-[var(--border-subtle)] hover:border-blue-400/40 hover:bg-[var(--bg-surface)] opacity-85 hover:opacity-100"
-                  }`}
-                >
-                  {/* Active Left Indicator Bar */}
-                  {isActive && (
-                    <div className="absolute left-0 top-3 bottom-3 w-1.5 bg-gradient-to-b from-blue-600 to-orange-500 rounded-r-full" />
-                  )}
-
-                  <div className="flex items-center gap-3.5 pl-1.5">
-                    {/* Company Logo or Icon */}
-                    <div
-                      className={`w-11 h-11 rounded-xl border flex items-center justify-center font-bold text-sm shrink-0 transition-transform ${
+                <div key={item.id || idx} className="flex flex-col">
+                  {/* Top Node Indicator Resting on Dashed Line */}
+                  <div className="hidden md:flex items-center mb-5 pl-5">
+                    <button
+                      onClick={() => setActiveId(item.id)}
+                      aria-label={`Select ${item.title}`}
+                      className={`w-6 h-6 rounded-full transition-all cursor-pointer flex items-center justify-center ${
                         isActive
-                          ? "bg-blue-100 dark:bg-blue-950/60 border-blue-400 text-blue-900 dark:text-blue-200 shadow-2xs scale-105"
-                          : "bg-[var(--bg-surface)] border-[var(--border-subtle)] text-[var(--text-muted)]"
+                          ? "bg-orange-500 ring-4 ring-orange-500/25 scale-110 shadow-sm"
+                          : "bg-orange-500/80 hover:bg-orange-500 hover:scale-105 ring-2 ring-orange-500/20"
                       }`}
                     >
-                      {item.logo ? (
-                        <img
-                          src={item.logo}
-                          alt={item.company}
-                          className="w-6 h-6 object-contain rounded"
-                        />
-                      ) : (
-                        <Building className="w-5 h-5 text-blue-600 dark:text-blue-400" />
-                      )}
-                    </div>
+                      <span className="w-2 h-2 rounded-full bg-white" />
+                    </button>
+                  </div>
+
+                  {/* Milestone Card */}
+                  <button
+                    onClick={() => setActiveId(item.id)}
+                    className={`text-left p-5 sm:p-6 rounded-2xl border transition-all cursor-pointer flex flex-col justify-between h-full relative overflow-hidden ${
+                      isActive
+                        ? "bg-[var(--bg-surface)] border-2 border-blue-600 dark:border-blue-500 shadow-lg ring-2 ring-blue-500/20 scale-[1.02]"
+                        : "bg-[var(--bg-surface-elevated)]/80 border-[var(--border-subtle)] hover:border-blue-400/50 hover:bg-[var(--bg-surface)] opacity-90 hover:opacity-100"
+                    }`}
+                  >
+                    {/* Top Glowing Accent Line for Active Card */}
+                    {isActive && (
+                      <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-blue-600 via-indigo-500 to-orange-500" />
+                    )}
 
                     <div>
-                      <h3 className={`font-display font-bold text-sm sm:text-base leading-snug ${isActive ? "text-[var(--text-primary)]" : "text-[var(--text-primary)]"}`}>
+                      {/* Monospace Period Prefix with Double-Dash format */}
+                      <div className="text-xs font-mono font-bold text-orange-600 dark:text-orange-400 mb-2 flex items-center gap-1.5">
+                        <span className="opacity-70">--</span>
+                        <span>{item.startDate} — {item.endDate}</span>
+                      </div>
+
+                      {/* Job Title */}
+                      <h3 className="font-display font-extrabold text-base sm:text-lg text-[var(--text-primary)] leading-snug">
                         {item.title}
                       </h3>
-                      <p className={`text-xs font-mono font-bold mt-0.5 ${isActive ? "text-orange-600 dark:text-orange-400" : "text-[var(--text-muted)]"}`}>
+
+                      {/* Company Name */}
+                      <p className="text-xs sm:text-sm text-[var(--text-secondary)] font-medium mt-1 leading-normal">
                         {item.company}
                       </p>
                     </div>
-                  </div>
 
-                  {/* Date Badge */}
-                  <div className="text-right shrink-0">
-                    <span
-                      className={`inline-block px-2.5 py-1 rounded-full text-[10px] font-mono font-extrabold border ${
-                        isActive
-                          ? "bg-blue-600 dark:bg-blue-500 text-white border-blue-600 shadow-2xs"
-                          : "bg-[var(--bg-surface)] border-[var(--border-subtle)] text-[var(--text-muted)]"
-                      }`}
-                    >
-                      {item.startDate} — {item.endDate}
-                    </span>
-                  </div>
-                </button>
+                    {/* Active State View Indicator */}
+                    <div className="mt-4 pt-3 border-t border-[var(--border-subtle)]/70 flex items-center justify-between text-[11px] font-mono">
+                      <span className={isActive ? "text-blue-600 dark:text-blue-400 font-bold" : "text-[var(--text-muted)]"}>
+                        {isActive ? "Currently Viewing" : "Click to Inspect"}
+                      </span>
+                      <ChevronRight className={`w-3.5 h-3.5 transition-transform ${isActive ? "text-orange-500 translate-x-1" : "text-[var(--text-muted)]"}`} />
+                    </div>
+                  </button>
+                </div>
               );
             })}
           </div>
-
-          {/* Right Column: Selected Role Detail Card (7 cols) */}
-          <div className="lg:col-span-7">
-            {activeExp && (
-              <motion.div
-                key={activeExp.id}
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.3 }}
-                className="glass-card rounded-2xl p-6 sm:p-8 border border-[var(--border-subtle)] shadow-md relative overflow-hidden"
-              >
-                {/* Top Subtle Gradient */}
-                <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-blue-600 via-indigo-500 to-orange-500" />
-
-                {/* Role Header */}
-                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-5 border-b border-[var(--border-subtle)]">
-                  <div>
-                    <h3 className="text-xl sm:text-2xl font-display font-extrabold text-[var(--text-primary)]">
-                      {activeExp.title}
-                    </h3>
-                    <p className="text-sm font-mono font-bold text-orange-600 dark:text-orange-400 mt-0.5">
-                      {activeExp.company}
-                    </p>
-                  </div>
-
-                  <div className="flex items-center gap-2 text-xs font-mono font-bold text-[var(--text-primary)] bg-[var(--bg-surface-elevated)] px-3 py-1.5 rounded-lg border border-[var(--border-subtle)] self-start sm:self-auto">
-                    <Calendar className="w-3.5 h-3.5 text-blue-600 dark:text-blue-400" />
-                    <span>{activeExp.startDate} — {activeExp.endDate}</span>
-                  </div>
-                </div>
-
-                {/* Bullets & Responsibilities */}
-                <div className="mt-6 space-y-3.5">
-                  <div className="text-xs font-mono uppercase font-bold text-[var(--text-muted)] tracking-wider flex items-center gap-1.5 mb-3">
-                    <Sparkles className="w-3.5 h-3.5 text-orange-600 dark:text-orange-400" />
-                    <span>Key Deliverables & Responsibilities</span>
-                  </div>
-
-                  {activeExp.bullets.map((bullet, idx) => (
-                    <div
-                      key={idx}
-                      className="flex items-start gap-3 p-3.5 rounded-xl bg-[var(--bg-surface-elevated)]/60 border border-[var(--border-subtle)] text-xs sm:text-sm text-[var(--text-secondary)] leading-relaxed"
-                    >
-                      <span className="w-2 h-2 rounded-full bg-orange-500 shrink-0 mt-1.5" />
-                      <span className="font-medium text-[var(--text-primary)]">{bullet}</span>
-                    </div>
-                  ))}
-                </div>
-              </motion.div>
-            )}
-          </div>
         </div>
+
+        {/* Selected Milestone Detail Sheet */}
+        {activeExp && (
+          <motion.div
+            key={activeExp.id}
+            initial={{ opacity: 0, y: 15 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.35 }}
+            className="mt-8 glass-card rounded-2xl p-6 sm:p-8 border border-[var(--border-subtle)] shadow-md relative overflow-hidden"
+          >
+            {/* Top Subtle Gradient */}
+            <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-blue-600 via-indigo-500 to-orange-500" />
+
+            {/* Role Header */}
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-5 border-b border-[var(--border-subtle)]">
+              <div>
+                <div className="inline-flex items-center gap-1.5 text-xs font-mono font-bold text-orange-600 dark:text-orange-400 mb-1">
+                  <Sparkles className="w-3.5 h-3.5" />
+                  <span>Key Deliverables & Responsibilities</span>
+                </div>
+                <h3 className="text-2xl font-display font-extrabold text-[var(--text-primary)]">
+                  {activeExp.title} @ <span className="text-blue-600 dark:text-blue-400">{activeExp.company}</span>
+                </h3>
+              </div>
+              <div className="flex items-center gap-2 text-xs font-mono font-bold text-[var(--text-primary)] bg-[var(--bg-surface-elevated)] px-3.5 py-1.5 rounded-lg border border-[var(--border-subtle)] self-start sm:self-auto">
+                <Calendar className="w-4 h-4 text-blue-600 dark:text-blue-400" />
+                <span>{activeExp.startDate} — {activeExp.endDate}</span>
+              </div>
+            </div>
+
+            {/* Bullets */}
+            <div className="mt-6 space-y-3.5">
+              {activeExp.bullets.map((bullet, idx) => (
+                <div
+                  key={idx}
+                  className="flex items-start gap-3 text-xs sm:text-sm text-[var(--text-secondary)] leading-relaxed bg-[var(--bg-surface-elevated)]/60 p-3.5 rounded-xl border border-[var(--border-subtle)]"
+                >
+                  <span className="w-2 h-2 rounded-full bg-orange-500 shrink-0 mt-1.5" />
+                  <span className="font-medium text-[var(--text-primary)]">{bullet}</span>
+                </div>
+              ))}
+            </div>
+          </motion.div>
+        )}
       </div>
     </section>
   );
