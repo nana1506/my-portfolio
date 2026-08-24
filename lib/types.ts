@@ -61,6 +61,7 @@ export interface RecommendationItem {
   authorCompany?: string;
   relationship?: string;
   avatarUrl?: string;
+  companyLogo?: string;
   linkedinUrl?: string;
 }
 
@@ -83,7 +84,6 @@ export interface ContactClickPayload {
   collaborationType?: string;
   message?: string;
   timestamp: string;
-  referrer: string;
-  userAgent: string;
-  ip?: string;
+  referrer?: string;
+  userAgent?: string;
 }

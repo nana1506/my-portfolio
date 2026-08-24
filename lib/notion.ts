@@ -98,13 +98,19 @@ function getMultiSelect(prop: any): string[] {
   return prop.multi_select.map((item: any) => item.name);
 }
 
-// Helper to extract file / image URL
+// Helper to extract file / image URL (supports Files & Media, URL, and rich_text links)
 function getFileUrl(prop: any): string | undefined {
   if (!prop) return undefined;
   if (prop.url) return prop.url;
   if (prop.files && Array.isArray(prop.files) && prop.files.length > 0) {
     const file = prop.files[0];
     return file.file?.url || file.external?.url || undefined;
+  }
+  if (prop.rich_text && Array.isArray(prop.rich_text) && prop.rich_text.length > 0) {
+    const text = prop.rich_text[0]?.plain_text?.trim();
+    if (text && (text.startsWith("http://") || text.startsWith("https://") || text.startsWith("/"))) {
+      return text;
+    }
   }
   return undefined;
 }
@@ -322,7 +328,16 @@ export async function getProjects(): Promise<ProjectItem[]> {
       const title = getText(p.Title || p.Name || p.title) || `Project ${index + 1}`;
       const shortDesc = getText(p.Short_Description || p.Description || p.short_description);
       const techStack = getMultiSelect(p.Tech_Stack || p.tech_stack || p.Tags || p.tags);
-      const logo = getFileUrl(p.Company_Logo || p.company_logo || p.Logo || p.logo || p.Image);
+      const logo = getFileUrl(
+        p.Company_Logo ||
+          p.company_logo ||
+          p.Logo ||
+          p.logo ||
+          p.Image ||
+          p.image ||
+          p["Company Logo"] ||
+          p["Logo URL"]
+      );
       const problem = getText(p.Problem || p.problem);
       const role = getText(p.Role || p.role);
       const outcome = getText(p.Outcome || p.outcome);
@@ -408,7 +423,14 @@ export async function getExperience(): Promise<ExperienceItem[]> {
       const bullets = bulletsRaw
         ? bulletsRaw.split("\n").map((b: string) => b.replace(/^[-*•]\s*/, "").trim()).filter(Boolean)
         : [];
-      const logo = getFileUrl(p.company_logo || p.Company_Logo || p.Logo || p.logo);
+      const logo = getFileUrl(
+        p.company_logo ||
+          p.Company_Logo ||
+          p.Logo ||
+          p.logo ||
+          p["Company Logo"] ||
+          p["Logo URL"]
+      );
 
       const sortScore = getTimestampForSort(startProp) + (endDate === "Present" ? 10000000000000 : 0);
 
@@ -454,6 +476,18 @@ export async function getRecommendations(): Promise<RecommendationItem[]> {
       const authorTitle = getText(p.Author_Title || p.author_title || p.Title || p.title);
       const authorCompany = getText(p.Company || p.company);
       const relationship = getText(p.Relationship || p.relationship || p.Context || p.context) || getSelect(p.Relationship);
+      const companyLogo = getFileUrl(
+        p.Company_Logo ||
+          p.company_logo ||
+          p.Logo ||
+          p.logo ||
+          p.author_avatar ||
+          p.Avatar ||
+          p.avatar ||
+          p["Company Logo"] ||
+          p["Author Avatar"] ||
+          p["Logo URL"]
+      );
 
       return {
         id: page.id,
@@ -462,6 +496,7 @@ export async function getRecommendations(): Promise<RecommendationItem[]> {
         authorTitle: authorTitle || "Leadership",
         authorCompany,
         relationship: relationship || undefined,
+        companyLogo,
       };
     });
   } catch (error) {

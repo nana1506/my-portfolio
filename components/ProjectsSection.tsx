@@ -16,6 +16,29 @@ interface ProjectsSectionProps {
   projects: ProjectItem[];
 }
 
+function ProjectLogo({
+  src,
+  alt,
+}: {
+  src?: string;
+  alt?: string;
+}) {
+  const [error, setError] = useState(false);
+
+  if (!src || error) {
+    return <BarChart3 className="w-5 h-5" />;
+  }
+
+  return (
+    <img
+      src={src}
+      alt={alt || "Company Logo"}
+      onError={() => setError(true)}
+      className="w-6 h-6 object-contain rounded-sm"
+    />
+  );
+}
+
 export function ProjectsSection({ projects }: ProjectsSectionProps) {
   const [selectedProject, setSelectedProject] = useState<ProjectItem | null>(null);
 
@@ -56,16 +79,11 @@ export function ProjectsSection({ projects }: ProjectsSectionProps) {
               <div>
                 {/* Header: Project Badge & Action Hint */}
                 <div className="flex items-start justify-between gap-3 mb-4">
-                  <div className="w-10 h-10 rounded-xl bg-blue-500/10 border border-blue-500/30 flex items-center justify-center text-blue-600 dark:text-blue-400 group-hover:scale-105 group-hover:bg-orange-500/10 group-hover:text-orange-600 group-hover:border-orange-500/30 transition-all shrink-0">
-                    {project.companyLogo ? (
-                      <img
-                        src={project.companyLogo}
-                        alt={project.title}
-                        className="w-6 h-6 object-contain rounded-sm"
-                      />
-                    ) : (
-                      <BarChart3 className="w-5 h-5" />
-                    )}
+                  <div className="w-10 h-10 rounded-xl bg-blue-500/10 border border-blue-500/30 flex items-center justify-center text-blue-600 dark:text-blue-400 group-hover:scale-105 group-hover:bg-orange-500/10 group-hover:text-orange-600 group-hover:border-orange-500/30 transition-all shrink-0 overflow-hidden">
+                    <ProjectLogo
+                      src={project.companyLogo}
+                      alt={project.title}
+                    />
                   </div>
                   <div className="flex items-center gap-1.5 text-xs font-mono font-bold text-blue-600 dark:text-blue-400 group-hover:text-orange-600 dark:group-hover:text-orange-400 group-hover:translate-x-1 transition-all">
                     <span>Inspect Deep-Dive</span>
@@ -73,7 +91,7 @@ export function ProjectsSection({ projects }: ProjectsSectionProps) {
                   </div>
                 </div>
 
-                {/* Title (High-contrast primary text) */}
+                {/* Title */}
                 <h3 className="text-xl font-display font-extrabold text-[var(--text-primary)] group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors leading-snug">
                   {project.title}
                 </h3>
@@ -86,7 +104,7 @@ export function ProjectsSection({ projects }: ProjectsSectionProps) {
 
               {/* Bottom: Tech Stack with Tool Icons & Metrics */}
               <div className="mt-6 pt-5 border-t border-[var(--border-subtle)] space-y-3">
-                {/* Tech Pills with Visible High-Contrast Text */}
+                {/* Tech Pills with Tool Vector Icons */}
                 <div className="flex flex-wrap gap-1.5">
                   {project.techStack.map((tech) => (
                     <span

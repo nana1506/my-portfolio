@@ -1,9 +1,9 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import { RecommendationItem } from "@/lib/types";
 import { LinkedInIcon } from "./Icons";
-import { Quote, MessageSquareQuote, UserCheck, ArrowUpRight } from "lucide-react";
+import { Quote, MessageSquareQuote, UserCheck, ArrowUpRight, Building2 } from "lucide-react";
 
 interface SocialProofSectionProps {
   recommendations: RecommendationItem[];
@@ -11,6 +11,35 @@ interface SocialProofSectionProps {
 
 const LINKEDIN_RECOMMENDATIONS_URL =
   "https://www.linkedin.com/in/rizisnan/details/recommendations/";
+
+function RecommendationLogo({
+  src,
+  alt,
+}: {
+  src?: string;
+  alt?: string;
+}) {
+  const [error, setError] = useState(false);
+
+  if (!src || error) {
+    return (
+      <div className="w-9 h-9 rounded-xl bg-blue-500/10 border border-blue-500/30 flex items-center justify-center text-blue-600 dark:text-blue-400 shrink-0 group-hover:scale-105 transition-transform">
+        <Quote className="w-4 h-4" />
+      </div>
+    );
+  }
+
+  return (
+    <div className="w-9 h-9 rounded-xl bg-[var(--bg-surface-elevated)] border border-[var(--border-subtle)] p-1.5 flex items-center justify-center shrink-0 group-hover:scale-105 transition-transform overflow-hidden">
+      <img
+        src={src}
+        alt={alt || "Company Logo"}
+        onError={() => setError(true)}
+        className="w-full h-full object-contain rounded"
+      />
+    </div>
+  );
+}
 
 export function SocialProofSection({
   recommendations,
@@ -70,11 +99,12 @@ export function SocialProofSection({
               className="glass-card w-[340px] sm:w-[420px] rounded-2xl p-6 sm:p-7 border border-[var(--border-subtle)] flex flex-col justify-between relative group shadow-xs hover:border-blue-500/50 hover:shadow-lg transition-all cursor-pointer select-none shrink-0"
             >
               <div>
-                {/* Header with Quote Icon & Relationship Badge */}
+                {/* Header with Company Logo / Fallback Dummy Icon & Relationship Badge */}
                 <div className="flex items-start justify-between gap-3 mb-4">
-                  <div className="w-9 h-9 rounded-xl bg-blue-500/10 border border-blue-500/30 flex items-center justify-center text-blue-600 dark:text-blue-400 shrink-0 group-hover:scale-105 transition-transform">
-                    <Quote className="w-4 h-4" />
-                  </div>
+                  <RecommendationLogo
+                    src={rec.companyLogo || rec.avatarUrl}
+                    alt={rec.authorCompany || rec.authorName}
+                  />
 
                   {/* Relationship Pill Badge */}
                   <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-orange-100/90 dark:bg-orange-950/70 text-zinc-950 dark:text-orange-100 border border-orange-400/80 dark:border-orange-500/50 text-[11px] font-mono font-extrabold shadow-xs">
