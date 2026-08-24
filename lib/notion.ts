@@ -1,4 +1,3 @@
-import { Client } from "@notionhq/client";
 import {
   SiteContent,
   ProjectItem,
@@ -17,29 +16,64 @@ import {
   initialBlogPosts,
 } from "./mock-data";
 
-// Initialize Notion Client safely
-const notion = process.env.NOTION_API_KEY
-  ? new Client({ auth: process.env.NOTION_API_KEY })
-  : null;
+// Helper to sanitize Notion Database IDs (extracts hex from full URLs, UUIDs with hyphens, and raw hex)
+export function cleanDatabaseId(id?: string): string | null {
+  if (!id || typeof id !== "string") return null;
+  const trimmed = id.trim();
+  if (
+    !trimmed ||
+    trimmed.startsWith("your_") ||
+    trimmed.includes("placeholder")
+  ) {
+    return null;
+  }
 
-// Helper to query databases safely across client versions
-async function queryDatabase(databaseId: string, filter?: any): Promise<any> {
-  if (!notion) return null;
-  const client = notion as any;
-  if (typeof client.databases?.query === "function") {
-    return client.databases.query({
-      database_id: databaseId,
-      ...(filter ? { filter } : {}),
-    });
+  // If user pasted a full URL or raw string with 32-char hex
+  const hexMatch = trimmed.match(/[a-fA-F0-9]{32}/);
+  if (hexMatch) {
+    return hexMatch[0];
   }
-  if (typeof client.request === "function") {
-    return client.request({
-      path: `databases/${databaseId}/query`,
-      method: "POST",
-      body: filter ? { filter } : {},
-    });
+
+  // Standard UUID format (8-4-4-4-12)
+  const uuidMatch = trimmed.match(
+    /[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}/
+  );
+  if (uuidMatch) {
+    return uuidMatch[0].replace(/-/g, "");
   }
+
   return null;
+}
+
+// Helper to query Notion databases via standard Notion REST API with ISR
+async function queryDatabase(rawDbId?: string, filter?: any): Promise<any> {
+  const dbId = cleanDatabaseId(rawDbId);
+  const apiKey = process.env.NOTION_API_KEY?.trim();
+  if (!apiKey || apiKey.startsWith("your_") || !dbId) return null;
+
+  try {
+    const res = await fetch(`https://api.notion.com/v1/databases/${dbId}/query`, {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${apiKey}`,
+        "Notion-Version": "2022-06-28",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(filter ? { filter } : {}),
+      next: { revalidate: 60 },
+    });
+
+    if (!res.ok) {
+      const err = await res.json().catch(() => ({}));
+      console.warn(`[Notion Notice] Could not fetch DB (${dbId}):`, err.message || res.statusText);
+      return null;
+    }
+
+    return await res.json();
+  } catch (error: any) {
+    console.warn(`[Notion Notice] Fetch error for DB (${dbId}):`, error?.message || error);
+    return null;
+  }
 }
 
 // Helper to extract text from Notion rich_text or title properties
@@ -80,7 +114,7 @@ function getFileUrl(prop: any): string | undefined {
 // 1. Fetch Site Content (Hero, Bios, Meta)
 export async function getSiteContent(): Promise<SiteContent> {
   const dbId = process.env.NOTION_SITE_CONTENT_DB_ID;
-  if (!notion || !dbId) {
+  if (!cleanDatabaseId(dbId)) {
     return initialSiteContent;
   }
 
@@ -113,7 +147,6 @@ export async function getSiteContent(): Promise<SiteContent> {
       resumeUrl: kv["resume_url"] || initialSiteContent.resumeUrl,
     };
   } catch (error) {
-    console.error("Error fetching site content from Notion:", error);
     return initialSiteContent;
   }
 }
@@ -121,7 +154,7 @@ export async function getSiteContent(): Promise<SiteContent> {
 // 2. Fetch Projects
 export async function getProjects(): Promise<ProjectItem[]> {
   const dbId = process.env.NOTION_PROJECTS_DB_ID;
-  if (!notion || !dbId) {
+  if (!cleanDatabaseId(dbId)) {
     return initialProjects;
   }
 
@@ -158,7 +191,6 @@ export async function getProjects(): Promise<ProjectItem[]> {
       };
     });
   } catch (error) {
-    console.error("Error fetching projects from Notion:", error);
     return initialProjects;
   }
 }
@@ -166,7 +198,7 @@ export async function getProjects(): Promise<ProjectItem[]> {
 // 3. Fetch Skills
 export async function getSkills(): Promise<SkillItem[]> {
   const dbId = process.env.NOTION_SKILLS_DB_ID;
-  if (!notion || !dbId) {
+  if (!cleanDatabaseId(dbId)) {
     return initialSkills;
   }
 
@@ -191,7 +223,6 @@ export async function getSkills(): Promise<SkillItem[]> {
       };
     });
   } catch (error) {
-    console.error("Error fetching skills from Notion:", error);
     return initialSkills;
   }
 }
@@ -199,7 +230,7 @@ export async function getSkills(): Promise<SkillItem[]> {
 // 4. Fetch Experience
 export async function getExperience(): Promise<ExperienceItem[]> {
   const dbId = process.env.NOTION_EXPERIENCE_DB_ID;
-  if (!notion || !dbId) {
+  if (!cleanDatabaseId(dbId)) {
     return initialExperience;
   }
 
@@ -233,7 +264,6 @@ export async function getExperience(): Promise<ExperienceItem[]> {
       };
     });
   } catch (error) {
-    console.error("Error fetching experience from Notion:", error);
     return initialExperience;
   }
 }
@@ -241,7 +271,7 @@ export async function getExperience(): Promise<ExperienceItem[]> {
 // 5. Fetch Recommendations
 export async function getRecommendations(): Promise<RecommendationItem[]> {
   const dbId = process.env.NOTION_RECOMMENDATIONS_DB_ID;
-  if (!notion || !dbId) {
+  if (!cleanDatabaseId(dbId)) {
     return initialRecommendations;
   }
 
@@ -268,7 +298,6 @@ export async function getRecommendations(): Promise<RecommendationItem[]> {
       };
     });
   } catch (error) {
-    console.error("Error fetching recommendations from Notion:", error);
     return initialRecommendations;
   }
 }
@@ -276,100 +305,114 @@ export async function getRecommendations(): Promise<RecommendationItem[]> {
 // 6. Fetch Blog Posts (Scaffolded)
 export async function getBlogPosts(): Promise<BlogPost[]> {
   const dbId = process.env.NOTION_BLOG_DB_ID;
-  if (!notion || !dbId) {
+  if (!cleanDatabaseId(dbId)) {
     return initialBlogPosts;
   }
 
   try {
-    const response: any = await queryDatabase(dbId, {
-      property: "Published",
-      checkbox: {
-        equals: true,
-      },
-    });
+    const response: any = await queryDatabase(dbId);
 
     if (!response || !response.results || response.results.length === 0) {
       return initialBlogPosts;
     }
 
-    return response.results.map((page: any): BlogPost => {
-      const p = page.properties;
-      const title = getText(p.Title || p.Name || p.title);
-      const slug = getText(p.Slug || p.slug) || page.id;
-      const excerpt = getText(p.Excerpt || p.excerpt || p.Summary);
-      const published = p.Published?.checkbox ?? true;
-      const publishDate = p.Date?.date?.start || undefined;
-      const tags = getMultiSelect(p.Tags || p.tags);
+    return response.results
+      .map((page: any): BlogPost => {
+        const p = page.properties;
+        const title = getText(p.Title || p.Name || p.title);
+        const slug = getText(p.Slug || p.slug) || page.id;
+        const excerpt = getText(p.Excerpt || p.excerpt || p.Summary);
+        const published = p.Published?.checkbox ?? true;
+        const publishDate = p.Date?.date?.start || undefined;
+        const tags = getMultiSelect(p.Tags || p.tags);
 
-      return {
-        id: page.id,
-        title: title || "Analytics Article",
-        slug,
-        excerpt,
-        published,
-        publishDate,
-        tags,
-      };
-    });
+        return {
+          id: page.id,
+          title: title || "Analytics Article",
+          slug,
+          excerpt,
+          published,
+          publishDate,
+          tags,
+        };
+      })
+      .filter((post: BlogPost) => post.published);
   } catch (error) {
-    console.error("Error fetching blog posts from Notion:", error);
     return initialBlogPosts;
   }
 }
 
+
 // 7. Log Contact Click to Notion
 export async function logContactClick(payload: ContactClickPayload): Promise<boolean> {
-  const dbId = process.env.NOTION_CONTACT_LOG_DB_ID;
-  if (!notion || !dbId) {
+  const rawDbId = process.env.NOTION_CONTACT_LOG_DB_ID;
+  const dbId = cleanDatabaseId(rawDbId);
+  const apiKey = process.env.NOTION_API_KEY?.trim();
+  if (!apiKey || apiKey.startsWith("your_") || !dbId) {
     console.log("[Notion Log Fallback] Contact click received:", payload);
     return false;
   }
 
   try {
-    await (notion as any).pages.create({
-      parent: { database_id: dbId },
-      properties: {
-        Name: {
-          title: [
-            {
-              text: {
-                content: `Contact Click - ${new Date().toISOString()}`,
-              },
-            },
-          ],
-        },
-        Timestamp: {
-          rich_text: [
-            {
-              text: {
-                content: payload.timestamp,
-              },
-            },
-          ],
-        },
-        Referrer: {
-          rich_text: [
-            {
-              text: {
-                content: payload.referrer || "Direct / None",
-              },
-            },
-          ],
-        },
-        User_Agent: {
-          rich_text: [
-            {
-              text: {
-                content: payload.userAgent ? payload.userAgent.substring(0, 2000) : "Unknown",
-              },
-            },
-          ],
-        },
+    const res = await fetch("https://api.notion.com/v1/pages", {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${apiKey}`,
+        "Notion-Version": "2022-06-28",
+        "Content-Type": "application/json",
       },
+      body: JSON.stringify({
+        parent: { database_id: dbId },
+        properties: {
+          Name: {
+            title: [
+              {
+                text: {
+                  content: `Contact Click - ${new Date().toISOString()}`,
+                },
+              },
+            ],
+          },
+          Timestamp: {
+            rich_text: [
+              {
+                text: {
+                  content: payload.timestamp,
+                },
+              },
+            ],
+          },
+          Referrer: {
+            rich_text: [
+              {
+                text: {
+                  content: payload.referrer || "Direct / None",
+                },
+              },
+            ],
+          },
+          User_Agent: {
+            rich_text: [
+              {
+                text: {
+                  content: payload.userAgent ? payload.userAgent.substring(0, 2000) : "Unknown",
+                },
+              },
+            ],
+          },
+        },
+      }),
     });
+
+    if (!res.ok) {
+      const err = await res.json().catch(() => ({}));
+      console.warn("[Notion Notice] Failed to log contact click:", err.message || res.statusText);
+      return false;
+    }
+
     return true;
-  } catch (error) {
-    console.error("Error logging contact click to Notion:", error);
+  } catch (error: any) {
+    console.warn("[Notion Notice] Failed to log contact click:", error?.message || error);
     return false;
   }
 }
