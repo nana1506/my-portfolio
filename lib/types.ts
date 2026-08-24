@@ -6,6 +6,7 @@ export interface SiteContent {
   aboutHighlights: string[];
   coreSkills: string[];
   stats: { label: string; value: string; helper?: string }[];
+  profilePhoto?: string;
   contactEmail: string;
   linkedinUrl: string;
   githubUrl?: string;

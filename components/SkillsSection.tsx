@@ -10,7 +10,6 @@ import {
   Target,
   Users2,
   Cpu,
-  Sparkles,
 } from "lucide-react";
 
 interface SkillsSectionProps {
@@ -25,13 +24,12 @@ const levelWeight: Record<string, number> = {
   Beginner: 1,
 };
 
-function getHeatmapBadge(level?: string) {
+function getProficiencyBadge(level?: string) {
   const normalized = level || "Expert";
   if (normalized === "Expert") {
     return {
       dot: "bg-emerald-500",
       pill: "border-emerald-600/30 bg-emerald-500/10 text-emerald-800 dark:text-emerald-300",
-      bar: "w-full bg-emerald-500",
       label: "Expert",
     };
   }
@@ -39,7 +37,6 @@ function getHeatmapBadge(level?: string) {
     return {
       dot: "bg-sky-500",
       pill: "border-sky-600/30 bg-sky-500/10 text-sky-800 dark:text-sky-300",
-      bar: "w-3/4 bg-sky-500",
       label: "Advanced",
     };
   }
@@ -47,14 +44,12 @@ function getHeatmapBadge(level?: string) {
     return {
       dot: "bg-amber-500",
       pill: "border-amber-600/30 bg-amber-500/10 text-amber-800 dark:text-amber-300",
-      bar: "w-1/2 bg-amber-500",
       label: "Proficient",
     };
   }
   return {
     dot: "bg-slate-400",
     pill: "border-slate-500/30 bg-slate-500/10 text-slate-700 dark:text-slate-300",
-    bar: "w-1/4 bg-slate-400",
     label: "Beginner",
   };
 }
@@ -86,7 +81,7 @@ export function SkillsSection({ skills }: SkillsSectionProps) {
   return (
     <section id="skills" className="py-20 px-4 sm:px-6 lg:px-8 relative scroll-mt-20">
       <div className="max-w-6xl mx-auto">
-        {/* Section Header */}
+        {/* Section Header (without 'heatmap' in title or legend) */}
         <div className="flex items-center gap-2 text-xs font-mono font-bold uppercase tracking-wider text-teal-700 dark:text-teal-400 mb-2">
           <Cpu className="w-4 h-4" />
           <span>03 // Skills & Toolkit</span>
@@ -94,28 +89,11 @@ export function SkillsSection({ skills }: SkillsSectionProps) {
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
           <div>
             <h2 className="text-3xl sm:text-4xl font-display font-extrabold text-[var(--text-primary)] tracking-tight">
-              Modern Analytics Stack & Proficiency Heatmap
+              Modern Analytics Stack & Domain Expertise
             </h2>
             <p className="mt-3 text-sm text-[var(--text-secondary)] max-w-xl font-normal">
-              Sorted by level of mastery, from high-throughput production tools to core analytics principles.
+              Organized by category and ranked by proficiency, from high-throughput production tools to core analytics principles.
             </p>
-          </div>
-
-          {/* Heatmap Legend */}
-          <div className="flex items-center gap-2.5 bg-[var(--bg-surface)] border border-[var(--border-subtle)] px-3 py-1.5 rounded-xl text-xs font-mono">
-            <span className="text-[11px] text-[var(--text-muted)]">Heatmap:</span>
-            <div className="flex items-center gap-1.5">
-              <span className="w-2 h-2 rounded-full bg-emerald-500" />
-              <span className="text-emerald-800 dark:text-emerald-300 font-semibold text-[11px]">Expert</span>
-            </div>
-            <div className="flex items-center gap-1.5">
-              <span className="w-2 h-2 rounded-full bg-sky-500" />
-              <span className="text-sky-800 dark:text-sky-300 font-semibold text-[11px]">Adv</span>
-            </div>
-            <div className="flex items-center gap-1.5">
-              <span className="w-2 h-2 rounded-full bg-amber-500" />
-              <span className="text-amber-800 dark:text-amber-300 font-semibold text-[11px]">Prof</span>
-            </div>
           </div>
         </div>
 
@@ -126,7 +104,11 @@ export function SkillsSection({ skills }: SkillsSectionProps) {
             // Filter and sort skills from highest level (Expert -> Advanced -> Proficient -> Beginner)
             const categorySkills = skills
               .filter((s) => s.category === cat.name)
-              .sort((a, b) => (levelWeight[b.level || "Expert"] || 0) - (levelWeight[a.level || "Expert"] || 0));
+              .sort(
+                (a, b) =>
+                  (levelWeight[b.level || "Expert"] || 0) -
+                  (levelWeight[a.level || "Expert"] || 0)
+              );
 
             return (
               <motion.div
@@ -153,25 +135,25 @@ export function SkillsSection({ skills }: SkillsSectionProps) {
                     </div>
                   </div>
 
-                  {/* Skills Pills with Heatmap styling */}
+                  {/* Skills Pills */}
                   <div className="mt-6 flex flex-wrap gap-2">
                     {categorySkills.length > 0 ? (
                       categorySkills.map((skill) => {
-                        const heatmap = getHeatmapBadge(skill.level);
+                        const badge = getProficiencyBadge(skill.level);
                         return (
                           <div
                             key={skill.id || skill.name}
-                            className={`group relative inline-flex items-center gap-2 px-3 py-1.5 rounded-lg bg-[var(--bg-surface-elevated)] border transition-all text-xs font-medium text-[var(--text-primary)] shadow-2xs hover:border-teal-500/40`}
+                            className="group relative inline-flex items-center gap-2 px-3 py-1.5 rounded-lg bg-[var(--bg-surface-elevated)] border border-[var(--border-subtle)] transition-all text-xs font-medium text-[var(--text-primary)] shadow-2xs hover:border-teal-500/40"
                           >
                             <span className="text-teal-700 dark:text-teal-400">
                               {getTechIcon(skill.name, "w-3.5 h-3.5")}
                             </span>
                             <span>{skill.name}</span>
                             <span
-                              className={`inline-flex items-center gap-1 px-1.5 py-0.5 rounded text-[10px] font-mono font-bold border ${heatmap.pill}`}
+                              className={`inline-flex items-center gap-1 px-1.5 py-0.5 rounded text-[10px] font-mono font-bold border ${badge.pill}`}
                             >
-                              <span className={`w-1.5 h-1.5 rounded-full ${heatmap.dot}`} />
-                              <span>{heatmap.label}</span>
+                              <span className={`w-1.5 h-1.5 rounded-full ${badge.dot}`} />
+                              <span>{badge.label}</span>
                             </span>
                           </div>
                         );
@@ -186,7 +168,7 @@ export function SkillsSection({ skills }: SkillsSectionProps) {
 
                 {/* Sub-indicator */}
                 <div className="mt-6 pt-4 border-t border-[var(--border-subtle)] flex items-center justify-between text-[11px] font-mono text-[var(--text-muted)]">
-                  <span>{categorySkills.length} Capabilities</span>
+                  <span>{categorySkills.length} Core Tools</span>
                   <span className="text-teal-700 dark:text-teal-400 font-bold">
                     Ranked by Proficiency
                   </span>

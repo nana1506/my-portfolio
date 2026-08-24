@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import { motion } from "framer-motion";
 import { SiteContent } from "@/lib/types";
 import {
@@ -14,6 +14,7 @@ import {
   Layers,
   Users2,
   CheckCircle2,
+  User,
 } from "lucide-react";
 
 interface HeroAboutSectionProps {
@@ -21,15 +22,19 @@ interface HeroAboutSectionProps {
 }
 
 export function HeroAboutSection({ content }: HeroAboutSectionProps) {
+  const [imgError, setImgError] = useState(false);
+
   const coreSkillPills = content.coreSkills?.length
     ? content.coreSkills
     : [
-        "Data Modeling & dbt",
+        "Data Modeling & Architecture",
         "Executive BI Dashboards",
         "Statistical Experimentation",
         "Revenue & Churn Analytics",
         "Cross-Functional Leadership",
       ];
+
+  const profileImg = content.profilePhoto || "/profile.jpg";
 
   return (
     <section id="about" className="pt-28 pb-16 px-4 sm:px-6 lg:px-8 relative z-10 scroll-mt-20">
@@ -85,7 +90,7 @@ export function HeroAboutSection({ content }: HeroAboutSectionProps) {
             </div>
           </motion.div>
 
-          {/* Right Column: About Me Card & 5 Core Skill Capsules (6 cols) */}
+          {/* Right Column: About Me Card & Photo & 5 Core Skill Capsules (6 cols) */}
           <motion.div
             initial={{ opacity: 0, y: 15 }}
             animate={{ opacity: 1, y: 0 }}
@@ -94,12 +99,25 @@ export function HeroAboutSection({ content }: HeroAboutSectionProps) {
           >
             <div className="glass-card rounded-2xl p-6 sm:p-7 border border-[var(--border-subtle)] h-full flex flex-col justify-between relative overflow-hidden">
               <div>
-                {/* Header with Avatar & Title */}
+                {/* Header with Photo Avatar & Title */}
                 <div className="flex items-center justify-between gap-4 pb-4 border-b border-[var(--border-subtle)]">
-                  <div className="flex items-center gap-3">
-                    <div className="w-12 h-12 rounded-xl bg-gradient-to-tr from-teal-500/20 via-cyan-500/20 to-teal-500/30 border border-teal-500/40 flex items-center justify-center text-teal-700 dark:text-teal-300 shrink-0 shadow-inner">
-                      <LineChart className="w-6 h-6" />
+                  <div className="flex items-center gap-3.5">
+                    {/* Profile Photo / Avatar Frame */}
+                    <div className="relative w-14 h-14 rounded-2xl overflow-hidden bg-gradient-to-tr from-teal-500/20 via-cyan-500/20 to-teal-500/30 border-2 border-teal-500/40 flex items-center justify-center shrink-0 shadow-sm group">
+                      {!imgError ? (
+                        <img
+                          src={profileImg}
+                          alt="Isnan Rizqi Kurniawan"
+                          onError={() => setImgError(true)}
+                          className="w-full h-full object-cover"
+                        />
+                      ) : (
+                        <div className="w-full h-full flex items-center justify-center text-teal-700 dark:text-teal-300">
+                          <LineChart className="w-7 h-7" />
+                        </div>
+                      )}
                     </div>
+
                     <div>
                       <h2 className="font-display text-lg font-bold text-[var(--text-primary)]">
                         Isnan Rizqi Kurniawan
@@ -116,12 +134,12 @@ export function HeroAboutSection({ content }: HeroAboutSectionProps) {
                 </div>
 
                 {/* Narrative Bio */}
-                <div className="mt-4 text-xs sm:text-sm text-[var(--text-secondary)] leading-relaxed space-y-3 whitespace-pre-line">
+                <div className="mt-4 text-xs sm:text-sm text-[var(--text-secondary)] leading-relaxed space-y-3 whitespace-pre-line font-normal">
                   {content.aboutLongBio}
                 </div>
               </div>
 
-              {/* 5 Core Skill Capsules */}
+              {/* 5 Core Analytical Capabilities Capsules (without 'dbt' in title) */}
               <div className="mt-6 pt-5 border-t border-[var(--border-subtle)]">
                 <div className="text-[11px] font-mono uppercase tracking-wider text-teal-700 dark:text-teal-400 font-bold mb-2.5 flex items-center gap-1.5">
                   <Sparkles className="w-3.5 h-3.5" />

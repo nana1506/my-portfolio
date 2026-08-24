@@ -15,14 +15,14 @@ export const initialSiteContent: SiteContent = {
   aboutLongBio:
     "With 6+ years of experience across high-growth tech, e-commerce, and enterprise analytics, I transform messy multi-source data warehouses into clean, actionable intelligence.\n\nMy analytical philosophy balances rigorous dimensional modeling with intuitive, visually compelling dashboards that drive billion-row decisions with speed and confidence.",
   aboutHighlights: [
-    "Enterprise Data Modeling & dbt Architecture",
+    "Enterprise Data Modeling & Architecture",
     "Executive BI & Real-time KPI Dashboards",
     "Customer Segmentation & Cohort Retention Analytics",
     "A/B Testing Frameworks & Experimentation",
   ],
   coreSkills: [
-    "Data Modeling & dbt",
-    "Executive BI & Dashboards",
+    "Data Modeling & Architecture",
+    "Executive BI Dashboards",
     "Statistical Experimentation",
     "Revenue & Churn Analytics",
     "Cross-Functional Leadership",
@@ -33,6 +33,7 @@ export const initialSiteContent: SiteContent = {
     { label: "Dashboards Deployed", value: "45+", helper: "Used daily by C-Suite" },
     { label: "Measured Business Impact", value: "$4.2M+", helper: "Identified Cost/Rev Ops" },
   ],
+  profilePhoto: "/profile.jpg",
   contactEmail: "isnan.rizqikurniawan@gmail.com",
   linkedinUrl: "https://www.linkedin.com/in/rizisnan",
   githubUrl: "https://github.com",

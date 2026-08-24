@@ -32,7 +32,7 @@ export function ContactSection({ content }: ContactSectionProps) {
     name: "",
     email: "",
     company: "",
-    collaborationType: "Executive BI & Dashboard Architecture",
+    collaborationType: "BI & Dashboard Architect",
     message: "",
   });
 
@@ -77,7 +77,7 @@ export function ContactSection({ content }: ContactSectionProps) {
       }
     } catch (err) {
       console.error("Submission error:", err);
-      // fallback to mailto if needed
+      // fallback to mailto
       window.location.href = `mailto:${email}?subject=${encodeURIComponent(
         `Collaboration Inquiry: ${formData.collaborationType} from ${formData.name}`
       )}&body=${encodeURIComponent(
@@ -203,7 +203,7 @@ export function ContactSection({ content }: ContactSectionProps) {
                   </div>
                 </div>
 
-                {/* Collaboration Type */}
+                {/* Collaboration Type with Exact Requested Options */}
                 <div>
                   <label className="block text-xs font-mono font-semibold text-[var(--text-primary)] mb-1.5">
                     Collaboration Type
@@ -217,12 +217,12 @@ export function ContactSection({ content }: ContactSectionProps) {
                       }
                       className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-[var(--bg-surface-elevated)] border border-[var(--border-subtle)] focus:border-teal-500 focus:outline-hidden text-sm text-[var(--text-primary)] transition-colors appearance-none cursor-pointer"
                     >
-                      <option>Executive BI & Dashboard Architecture</option>
-                      <option>Full-Time Senior Analytics Role</option>
-                      <option>dbt & Data Modeling Project</option>
-                      <option>A/B Testing & Experimentation Setup</option>
-                      <option>Consulting & Advisory</option>
-                      <option>Other Collaboration</option>
+                      <option value="BI & Dashboard Architect">BI & Dashboard Architect</option>
+                      <option value="Full-Time Analytics Role">Full-Time Analytics Role</option>
+                      <option value="Data Modeling">Data Modeling</option>
+                      <option value="AdHoc Analysis or Presentation">AdHoc Analysis or Presentation</option>
+                      <option value="Consulting & Advisory">Consulting & Advisory</option>
+                      <option value="Others collaboration">Others collaboration</option>
                     </select>
                   </div>
                 </div>

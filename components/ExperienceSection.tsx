@@ -6,12 +6,11 @@ import { ExperienceItem } from "@/lib/types";
 import {
   Briefcase,
   Calendar,
-  ChevronDown,
-  ChevronUp,
   Download,
   Building,
   MapPin,
   Sparkles,
+  CheckCircle2,
 } from "lucide-react";
 
 interface ExperienceSectionProps {
@@ -19,6 +18,7 @@ interface ExperienceSectionProps {
 }
 
 export function ExperienceSection({ experience }: ExperienceSectionProps) {
+  // Always default to the latest (first) role
   const [selectedExpId, setSelectedExpId] = useState<string>(
     experience[0]?.id || "exp-1"
   );
@@ -40,7 +40,7 @@ export function ExperienceSection({ experience }: ExperienceSectionProps) {
               Horizontal Career Trajectory & Impact
             </h2>
             <p className="mt-3 text-sm text-[var(--text-secondary)] font-normal max-w-xl">
-              Click through the horizontal milestone track to explore role achievements and company impact.
+              Select a milestone card below to review detailed achievements, architecture responsibilities, and quantified impact.
             </p>
           </div>
         </div>
@@ -58,18 +58,23 @@ export function ExperienceSection({ experience }: ExperienceSectionProps) {
                 <button
                   key={item.id || index}
                   onClick={() => setSelectedExpId(item.id)}
-                  className={`text-left p-5 rounded-2xl border transition-all cursor-pointer flex flex-col justify-between ${
+                  className={`text-left p-5.5 rounded-2xl transition-all cursor-pointer flex flex-col justify-between relative overflow-hidden ${
                     isSelected
-                      ? "bg-[var(--bg-surface)] border-teal-600 dark:border-teal-400 shadow-md ring-2 ring-teal-500/20"
-                      : "bg-[var(--bg-surface-elevated)] border-[var(--border-subtle)] hover:border-teal-500/40 opacity-80 hover:opacity-100"
+                      ? "bg-[var(--bg-surface)] border-2 border-teal-500 dark:border-teal-400 shadow-xl shadow-teal-500/15 ring-2 ring-teal-500/30 scale-[1.02] z-10"
+                      : "bg-[var(--bg-surface-elevated)] border border-[var(--border-subtle)] hover:border-teal-500/50 opacity-75 hover:opacity-100 hover:scale-[1.01]"
                   }`}
                 >
-                  <div className="flex items-start justify-between gap-3 mb-3">
+                  {/* Glowing Top Edge Accent for Active Card */}
+                  {isSelected && (
+                    <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-teal-500 via-cyan-400 to-teal-500" />
+                  )}
+
+                  <div className="flex items-start justify-between gap-3 mb-3.5">
                     {/* Company Logo Badge */}
                     <div
                       className={`w-12 h-12 rounded-xl border flex items-center justify-center font-bold text-sm shrink-0 transition-transform ${
                         isSelected
-                          ? "bg-teal-500/15 border-teal-500/50 text-teal-700 dark:text-teal-300 scale-105"
+                          ? "bg-teal-500/20 border-teal-500 text-teal-800 dark:text-teal-300 scale-110 shadow-sm"
                           : "bg-[var(--bg-surface)] border-[var(--border-subtle)] text-[var(--text-muted)]"
                       }`}
                     >
@@ -84,11 +89,11 @@ export function ExperienceSection({ experience }: ExperienceSectionProps) {
                       )}
                     </div>
 
-                    {/* Active Step Indicator */}
+                    {/* Active Step Indicator Pill */}
                     <span
-                      className={`text-[10px] font-mono font-bold px-2 py-0.5 rounded-full border ${
+                      className={`text-[10px] font-mono font-bold px-2.5 py-1 rounded-full border transition-all ${
                         isSelected
-                          ? "bg-teal-600 dark:bg-teal-500 text-white dark:text-zinc-950 border-transparent"
+                          ? "bg-teal-600 dark:bg-teal-500 text-white dark:text-zinc-950 border-teal-600 shadow-xs"
                           : "bg-[var(--bg-surface)] border-[var(--border-subtle)] text-[var(--text-muted)]"
                       }`}
                     >
@@ -97,10 +102,15 @@ export function ExperienceSection({ experience }: ExperienceSectionProps) {
                   </div>
 
                   <div>
-                    <h3 className="font-display font-bold text-base text-[var(--text-primary)] leading-tight">
-                      {item.title}
-                    </h3>
-                    <p className="text-xs text-teal-700 dark:text-teal-400 font-semibold font-mono mt-1">
+                    <div className="flex items-center justify-between">
+                      <h3 className={`font-display font-bold text-base leading-tight ${isSelected ? "text-teal-700 dark:text-teal-300" : "text-[var(--text-primary)]"}`}>
+                        {item.title}
+                      </h3>
+                      {isSelected && (
+                        <CheckCircle2 className="w-4 h-4 text-teal-600 dark:text-teal-400 shrink-0 ml-1" />
+                      )}
+                    </div>
+                    <p className="text-xs text-teal-800 dark:text-teal-400 font-bold font-mono mt-1">
                       {item.company}
                     </p>
                     {item.location && (
@@ -123,11 +133,11 @@ export function ExperienceSection({ experience }: ExperienceSectionProps) {
             initial={{ opacity: 0, y: 15 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.35 }}
-            className="mt-8 glass-card rounded-2xl p-6 sm:p-8 border border-[var(--border-subtle)]"
+            className="mt-8 glass-card rounded-2xl p-6 sm:p-8 border border-[var(--border-subtle)] shadow-md"
           >
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-5 border-b border-[var(--border-subtle)]">
               <div>
-                <div className="inline-flex items-center gap-1.5 text-xs font-mono font-semibold text-teal-700 dark:text-teal-400 mb-1">
+                <div className="inline-flex items-center gap-1.5 text-xs font-mono font-bold text-teal-700 dark:text-teal-400 mb-1">
                   <Sparkles className="w-3.5 h-3.5" />
                   <span>Key Deliverables & Responsibilities</span>
                 </div>
@@ -135,7 +145,7 @@ export function ExperienceSection({ experience }: ExperienceSectionProps) {
                   {selectedExp.title} @ {selectedExp.company}
                 </h3>
               </div>
-              <div className="flex items-center gap-2 text-xs font-mono text-[var(--text-muted)]">
+              <div className="flex items-center gap-2 text-xs font-mono text-[var(--text-primary)] font-semibold bg-[var(--bg-surface-elevated)] px-3 py-1.5 rounded-lg border border-[var(--border-subtle)]">
                 <Calendar className="w-4 h-4 text-teal-600 dark:text-teal-400" />
                 <span>{selectedExp.startDate} — {selectedExp.endDate}</span>
                 {selectedExp.duration && <span>({selectedExp.duration})</span>}
@@ -147,7 +157,7 @@ export function ExperienceSection({ experience }: ExperienceSectionProps) {
               {selectedExp.bullets.map((bullet, idx) => (
                 <div
                   key={idx}
-                  className="flex items-start gap-3 text-xs sm:text-sm text-[var(--text-secondary)] leading-relaxed bg-[var(--bg-surface-elevated)]/40 p-3.5 rounded-xl border border-[var(--border-subtle)]/70"
+                  className="flex items-start gap-3 text-xs sm:text-sm text-[var(--text-secondary)] leading-relaxed bg-[var(--bg-surface-elevated)]/60 p-3.5 rounded-xl border border-[var(--border-subtle)]"
                 >
                   <span className="w-2 h-2 rounded-full bg-teal-600 dark:bg-teal-400 shrink-0 mt-1.5" />
                   <span className="font-normal">{bullet}</span>
@@ -171,7 +181,7 @@ export function ExperienceSection({ experience }: ExperienceSectionProps) {
             <a
               href="/Isnan_Rizqi_Kurniawan_CV.pdf"
               download="Isnan_Rizqi_Kurniawan_CV.pdf"
-              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-teal-600 hover:bg-teal-700 dark:bg-teal-500 dark:hover:bg-teal-400 text-white dark:text-zinc-950 font-semibold text-xs transition-all shadow-sm active:scale-95 shrink-0 cursor-pointer"
+              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-teal-600 hover:bg-teal-700 dark:bg-teal-500 dark:hover:bg-teal-400 text-white dark:text-zinc-950 font-bold text-xs transition-all shadow-sm active:scale-95 shrink-0 cursor-pointer"
             >
               <Download className="w-4 h-4" />
               <span>Download CV</span>
