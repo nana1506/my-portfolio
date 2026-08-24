@@ -100,7 +100,7 @@ export function AboutSection({ content }: AboutSectionProps) {
               {/* Bio summary card snippet */}
               <div className="mt-6 text-center">
                 <h3 className="font-display text-lg font-bold text-[var(--text-primary)]">
-                  {content.heroHeadline || "Senior Data Analyst"}
+                  {"Data Analyst"}
                 </h3>
                 <p className="text-xs text-[var(--text-muted)] mt-1 font-mono font-medium">
                   Jakarta, Indonesia • Telkom Indonesia

@@ -29,27 +29,27 @@ function getProficiencyBadge(level?: string) {
   if (normalized === "Expert") {
     return {
       dot: "bg-blue-600 dark:bg-blue-400",
-      pill: "border-blue-300 dark:border-blue-700 bg-blue-100 dark:bg-blue-900/60 text-blue-950 dark:text-blue-200",
+      pill: "border-blue-400/80 dark:border-blue-700 bg-blue-100 dark:bg-blue-950/70 text-blue-950 dark:text-blue-200",
       label: "Expert",
     };
   }
   if (normalized === "Advanced") {
     return {
       dot: "bg-orange-600 dark:bg-orange-400",
-      pill: "border-orange-300 dark:border-orange-700 bg-orange-100 dark:bg-orange-900/60 text-orange-950 dark:text-orange-200",
+      pill: "border-orange-400/80 dark:border-orange-700 bg-orange-100 dark:bg-orange-950/70 text-orange-950 dark:text-orange-200",
       label: "Advanced",
     };
   }
   if (normalized === "Proficient" || normalized === "Intermediate") {
     return {
-      dot: "bg-amber-600 dark:bg-amber-400",
-      pill: "border-amber-300 dark:border-amber-700 bg-amber-100 dark:bg-amber-900/60 text-amber-950 dark:text-amber-200",
+      dot: "bg-emerald-600 dark:bg-emerald-400",
+      pill: "border-emerald-400/80 dark:border-emerald-700 bg-emerald-100 dark:bg-emerald-950/70 text-emerald-950 dark:text-emerald-200",
       label: "Proficient",
     };
   }
   return {
     dot: "bg-slate-600 dark:bg-slate-400",
-    pill: "border-slate-300 dark:border-slate-700 bg-slate-100 dark:bg-slate-800 text-slate-900 dark:text-slate-200",
+    pill: "border-slate-400/80 dark:border-slate-700 bg-slate-100 dark:bg-slate-800 text-slate-900 dark:text-slate-200",
     label: "Beginner",
   };
 }
@@ -134,7 +134,7 @@ export function SkillsSection({ skills }: SkillsSectionProps) {
                     </div>
                   </div>
 
-                  {/* Skills Pills with Guaranteed High-Contrast Text */}
+                  {/* Skills Pills with Distinct 3-Tier Colors */}
                   <div className="mt-6 flex flex-wrap gap-2">
                     {categorySkills.length > 0 ? (
                       categorySkills.map((skill) => {
