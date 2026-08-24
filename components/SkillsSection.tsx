@@ -28,22 +28,22 @@ function getProficiencyBadge(level?: string) {
   const normalized = level || "Expert";
   if (normalized === "Expert") {
     return {
-      dot: "bg-emerald-600 dark:bg-emerald-400",
-      pill: "border-emerald-300 dark:border-emerald-500/30 bg-emerald-100 dark:bg-emerald-500/15 text-emerald-950 dark:text-emerald-200",
+      dot: "bg-blue-600 dark:bg-blue-400",
+      pill: "border-blue-300 dark:border-blue-500/30 bg-blue-100/80 dark:bg-blue-500/15 text-blue-950 dark:text-blue-200",
       label: "Expert",
     };
   }
   if (normalized === "Advanced") {
     return {
-      dot: "bg-sky-600 dark:bg-sky-400",
-      pill: "border-sky-300 dark:border-sky-500/30 bg-sky-100 dark:bg-sky-500/15 text-sky-950 dark:text-sky-200",
+      dot: "bg-orange-600 dark:bg-orange-400",
+      pill: "border-orange-300 dark:border-orange-500/30 bg-orange-100/80 dark:bg-orange-500/15 text-orange-950 dark:text-orange-200",
       label: "Advanced",
     };
   }
   if (normalized === "Proficient" || normalized === "Intermediate") {
     return {
       dot: "bg-amber-600 dark:bg-amber-400",
-      pill: "border-amber-300 dark:border-amber-500/30 bg-amber-100 dark:bg-amber-500/15 text-amber-950 dark:text-amber-200",
+      pill: "border-amber-300 dark:border-amber-500/30 bg-amber-100/80 dark:bg-amber-500/15 text-amber-950 dark:text-amber-200",
       label: "Proficient",
     };
   }
@@ -82,8 +82,8 @@ export function SkillsSection({ skills }: SkillsSectionProps) {
     <section id="skills" className="py-20 px-4 sm:px-6 lg:px-8 relative scroll-mt-20">
       <div className="max-w-6xl mx-auto">
         {/* Section Header */}
-        <div className="flex items-center gap-2 text-xs font-mono font-bold uppercase tracking-wider text-teal-800 dark:text-teal-400 mb-2">
-          <Cpu className="w-4 h-4" />
+        <div className="flex items-center gap-2 text-xs font-mono font-bold uppercase tracking-wider text-blue-700 dark:text-blue-400 mb-2">
+          <Cpu className="w-4 h-4 text-orange-600 dark:text-orange-400" />
           <span>03 // Skills & Toolkit</span>
         </div>
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
@@ -116,12 +116,12 @@ export function SkillsSection({ skills }: SkillsSectionProps) {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.5, delay: idx * 0.1 }}
-                className="glass-card rounded-2xl p-6 sm:p-7 border border-[var(--border-subtle)] flex flex-col justify-between shadow-xs"
+                className="glass-card rounded-2xl p-6 sm:p-7 border border-[var(--border-subtle)] flex flex-col justify-between shadow-xs hover:border-blue-500/40"
               >
                 <div>
                   {/* Category Header */}
                   <div className="flex items-center gap-3 mb-2">
-                    <div className="w-9 h-9 rounded-xl bg-teal-500/10 border border-teal-500/30 flex items-center justify-center text-teal-800 dark:text-teal-400">
+                    <div className="w-9 h-9 rounded-xl bg-blue-500/10 border border-blue-500/30 flex items-center justify-center text-blue-600 dark:text-blue-400">
                       <Icon className="w-4 h-4" />
                     </div>
                     <div>
@@ -142,9 +142,9 @@ export function SkillsSection({ skills }: SkillsSectionProps) {
                         return (
                           <div
                             key={skill.id || skill.name}
-                            className="group relative inline-flex items-center gap-2 px-3 py-1.5 rounded-lg bg-[var(--bg-surface-elevated)] border border-[var(--border-subtle)] transition-all text-xs font-semibold text-[var(--text-primary)] shadow-2xs hover:border-teal-500/40"
+                            className="group relative inline-flex items-center gap-2 px-3 py-1.5 rounded-lg bg-[var(--bg-surface-elevated)] border border-[var(--border-subtle)] transition-all text-xs font-bold text-[var(--text-primary)] shadow-2xs hover:border-blue-500/40"
                           >
-                            <span className="text-teal-800 dark:text-teal-400">
+                            <span className="text-blue-600 dark:text-blue-400">
                               {getTechIcon(skill.name, "w-3.5 h-3.5")}
                             </span>
                             <span>{skill.name}</span>
@@ -168,7 +168,7 @@ export function SkillsSection({ skills }: SkillsSectionProps) {
                 {/* Sub-indicator */}
                 <div className="mt-6 pt-4 border-t border-[var(--border-subtle)] flex items-center justify-between text-[11px] font-mono text-[var(--text-muted)]">
                   <span>{categorySkills.length} Core Tools</span>
-                  <span className="text-teal-800 dark:text-teal-400 font-bold">
+                  <span className="text-blue-600 dark:text-blue-400 font-bold">
                     Ranked by Proficiency
                   </span>
                 </div>

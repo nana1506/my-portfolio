@@ -4,6 +4,7 @@ import React, { useEffect } from "react";
 import { ProjectItem } from "@/lib/types";
 import { X, ExternalLink, Layers, Target, UserCheck, TrendingUp, Sparkles } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
+import { getTechIcon } from "./Icons";
 
 interface ProjectModalProps {
   project: ProjectItem | null;
@@ -49,11 +50,11 @@ export function ProjectModal({ project, onClose }: ProjectModalProps) {
             {/* Header */}
             <div className="flex items-start justify-between gap-4 pb-4 border-b border-[var(--border-subtle)]">
               <div>
-                <div className="inline-flex items-center gap-1.5 text-xs font-mono font-medium text-teal-600 dark:text-teal-400 mb-1">
+                <div className="inline-flex items-center gap-1.5 text-xs font-mono font-bold text-orange-600 dark:text-orange-400 mb-1">
                   <Sparkles className="w-3.5 h-3.5" />
                   <span>Case Study Details</span>
                 </div>
-                <h3 className="text-xl sm:text-2xl font-display font-bold text-[var(--text-primary)]">
+                <h3 className="text-xl sm:text-2xl font-display font-extrabold text-[var(--text-primary)]">
                   {project.title}
                 </h3>
               </div>
@@ -70,16 +71,19 @@ export function ProjectModal({ project, onClose }: ProjectModalProps) {
             <div className="mt-5 space-y-6 overflow-y-auto pr-1">
               {/* Tech Stack Pills */}
               <div>
-                <div className="text-xs font-mono uppercase text-[var(--text-muted)] mb-2">
+                <div className="text-xs font-mono uppercase font-bold text-[var(--text-muted)] mb-2">
                   Technologies & Tools
                 </div>
                 <div className="flex flex-wrap gap-1.5">
                   {project.techStack.map((tech) => (
                     <span
                       key={tech}
-                      className="px-2.5 py-1 rounded-md bg-teal-500/10 text-teal-700 dark:text-teal-300 border border-teal-500/20 text-xs font-mono font-medium"
+                      className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-[var(--bg-surface-elevated)] border border-[var(--border-subtle)] text-xs font-mono font-bold text-[var(--text-primary)] shadow-3xs"
                     >
-                      {tech}
+                      <span className="text-blue-600 dark:text-blue-400">
+                        {getTechIcon(tech, "w-3.5 h-3.5")}
+                      </span>
+                      <span>{tech}</span>
                     </span>
                   ))}
                 </div>
@@ -91,9 +95,9 @@ export function ProjectModal({ project, onClose }: ProjectModalProps) {
                   {project.metrics.map((metric, i) => (
                     <div
                       key={i}
-                      className="p-3 rounded-xl bg-teal-500/5 border border-teal-500/20 text-center"
+                      className="p-3 rounded-xl bg-orange-100/80 dark:bg-orange-500/15 border border-orange-300 dark:border-orange-500/30 text-center shadow-3xs"
                     >
-                      <span className="text-xs font-mono font-bold text-teal-600 dark:text-teal-400 block">
+                      <span className="text-xs font-mono font-extrabold text-orange-950 dark:text-orange-200 block">
                         {metric}
                       </span>
                     </div>
@@ -101,71 +105,64 @@ export function ProjectModal({ project, onClose }: ProjectModalProps) {
                 </div>
               )}
 
-              {/* Problem / Challenge */}
+              {/* Problem / Context */}
               {project.problem && (
-                <div className="space-y-1.5">
-                  <div className="flex items-center gap-2 text-xs font-mono font-semibold uppercase tracking-wider text-rose-500 dark:text-rose-400">
-                    <Target className="w-4 h-4" />
-                    <span>The Problem & Business Friction</span>
+                <div>
+                  <div className="flex items-center gap-2 text-xs font-mono font-bold text-blue-600 dark:text-blue-400 mb-1.5">
+                    <Target className="w-4 h-4 text-orange-500" />
+                    <span>The Problem & Context</span>
                   </div>
-                  <p className="text-sm text-[var(--text-secondary)] leading-relaxed bg-[var(--bg-surface-elevated)]/50 p-3.5 rounded-xl border border-[var(--border-subtle)]">
+                  <p className="text-sm text-[var(--text-secondary)] leading-relaxed bg-[var(--bg-surface-elevated)]/60 p-4 rounded-xl border border-[var(--border-subtle)] font-normal">
                     {project.problem}
                   </p>
                 </div>
               )}
 
-              {/* My Role & Architecture */}
+              {/* Role & Engineering */}
               {project.role && (
-                <div className="space-y-1.5">
-                  <div className="flex items-center gap-2 text-xs font-mono font-semibold uppercase tracking-wider text-teal-600 dark:text-teal-400">
-                    <UserCheck className="w-4 h-4" />
-                    <span>My Role & Engineering Approach</span>
+                <div>
+                  <div className="flex items-center gap-2 text-xs font-mono font-bold text-blue-600 dark:text-blue-400 mb-1.5">
+                    <UserCheck className="w-4 h-4 text-orange-500" />
+                    <span>My Role & Engineering Execution</span>
                   </div>
-                  <p className="text-sm text-[var(--text-secondary)] leading-relaxed bg-[var(--bg-surface-elevated)]/50 p-3.5 rounded-xl border border-[var(--border-subtle)]">
+                  <p className="text-sm text-[var(--text-secondary)] leading-relaxed bg-[var(--bg-surface-elevated)]/60 p-4 rounded-xl border border-[var(--border-subtle)] font-normal">
                     {project.role}
                   </p>
                 </div>
               )}
 
-              {/* Business Outcome */}
+              {/* Impact / Outcome */}
               {project.outcome && (
-                <div className="space-y-1.5">
-                  <div className="flex items-center gap-2 text-xs font-mono font-semibold uppercase tracking-wider text-emerald-600 dark:text-emerald-400">
-                    <TrendingUp className="w-4 h-4" />
-                    <span>Strategic Business Outcome</span>
+                <div>
+                  <div className="flex items-center gap-2 text-xs font-mono font-bold text-blue-600 dark:text-blue-400 mb-1.5">
+                    <TrendingUp className="w-4 h-4 text-orange-500" />
+                    <span>Measured Impact & Business Outcome</span>
                   </div>
-                  <p className="text-sm text-[var(--text-secondary)] leading-relaxed bg-[var(--bg-surface-elevated)]/50 p-3.5 rounded-xl border border-[var(--border-subtle)]">
+                  <p className="text-sm text-[var(--text-secondary)] leading-relaxed bg-[var(--bg-surface-elevated)]/60 p-4 rounded-xl border border-[var(--border-subtle)] font-normal">
                     {project.outcome}
                   </p>
                 </div>
               )}
             </div>
 
-            {/* Footer */}
+            {/* Footer Actions */}
             <div className="mt-6 pt-4 border-t border-[var(--border-subtle)] flex items-center justify-between">
               <button
                 onClick={onClose}
-                className="px-4 py-2 rounded-xl text-xs font-medium border border-[var(--border-subtle)] hover:bg-[var(--bg-surface-elevated)] transition-colors cursor-pointer"
+                className="px-4 py-2 rounded-lg border border-[var(--border-subtle)] text-xs font-bold hover:bg-[var(--bg-surface-elevated)] transition-colors cursor-pointer"
               >
-                Close
+                Close Deep-Dive
               </button>
-              {project.link ? (
+
+              {project.link && (
                 <a
                   href={project.link}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-teal-600 dark:bg-teal-500 text-white dark:text-zinc-950 text-xs font-medium hover:bg-teal-700 transition-colors"
+                  className="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg bg-blue-600 dark:bg-blue-500 text-white text-xs font-bold hover:bg-blue-700 transition-colors shadow-sm"
                 >
-                  <span>View Dashboard / Source</span>
-                  <ExternalLink className="w-3.5 h-3.5" />
-                </a>
-              ) : (
-                <a
-                  href="/api/contact-click"
-                  className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-teal-600 dark:bg-teal-500 text-white dark:text-zinc-950 text-xs font-medium hover:bg-teal-700 transition-colors"
-                >
-                  <span>Discuss Case Study</span>
-                  <ExternalLink className="w-3.5 h-3.5" />
+                  <span>Explore Live Asset</span>
+                  <ExternalLink className="w-3.5 h-3.5 text-orange-200" />
                 </a>
               )}
             </div>

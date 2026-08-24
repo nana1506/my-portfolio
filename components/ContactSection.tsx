@@ -68,8 +68,9 @@ export function ContactSection({ content }: ContactSectionProps) {
       setSubmitted(true);
       try {
         confetti({
-          particleCount: 80,
-          spread: 70,
+          particleCount: 90,
+          spread: 80,
+          colors: ["#2563EB", "#F97316", "#3B82F6", "#FB923C"],
           origin: { y: 0.6 },
         });
       } catch (err) {
@@ -96,15 +97,15 @@ export function ContactSection({ content }: ContactSectionProps) {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
-          className="glass-card rounded-3xl p-8 sm:p-12 border border-[var(--border-subtle)] relative overflow-hidden"
+          className="glass-card rounded-3xl p-8 sm:p-12 border border-[var(--border-subtle)] relative overflow-hidden shadow-md hover:border-blue-500/40"
         >
-          {/* Subtle background glow */}
-          <div className="absolute -top-24 left-1/2 -translate-x-1/2 w-96 h-48 bg-gradient-to-b from-teal-500/20 via-cyan-500/10 to-transparent rounded-full blur-3xl pointer-events-none" />
+          {/* Subtle Blue & Orange Radiant Background Glow */}
+          <div className="absolute -top-24 left-1/2 -translate-x-1/2 w-96 h-48 bg-gradient-to-b from-blue-500/20 via-orange-500/10 to-transparent rounded-full blur-3xl pointer-events-none" />
 
           {/* Section Indicator */}
           <div className="text-center mb-8">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-teal-600/30 bg-teal-500/10 text-teal-800 dark:text-teal-300 text-xs font-mono font-bold mb-3">
-              <MessageSquare className="w-3.5 h-3.5" />
+            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full border border-orange-300 dark:border-orange-500/30 bg-orange-100/80 dark:bg-orange-500/15 text-orange-950 dark:text-orange-200 text-xs font-mono font-bold mb-3 shadow-3xs">
+              <MessageSquare className="w-3.5 h-3.5 text-orange-600 dark:text-orange-400" />
               <span>06 // Let&apos;s Collaborate</span>
             </div>
 
@@ -119,11 +120,11 @@ export function ContactSection({ content }: ContactSectionProps) {
 
           {/* Form / Submitted Confirmation State */}
           {submitted ? (
-            <div className="text-center py-10 bg-[var(--bg-surface-elevated)]/70 rounded-2xl border border-teal-500/30 p-8">
-              <div className="w-14 h-14 rounded-2xl bg-teal-500/15 border border-teal-500/40 flex items-center justify-center text-teal-700 dark:text-teal-300 mx-auto mb-4">
-                <CheckCircle2 className="w-8 h-8" />
+            <div className="text-center py-10 bg-[var(--bg-surface-elevated)]/80 rounded-2xl border border-blue-500/30 p-8 shadow-sm">
+              <div className="w-14 h-14 rounded-2xl bg-blue-500/15 border border-blue-500/40 flex items-center justify-center text-blue-600 dark:text-blue-400 mx-auto mb-4">
+                <CheckCircle2 className="w-8 h-8 text-orange-500" />
               </div>
-              <h3 className="text-2xl font-display font-bold text-[var(--text-primary)]">
+              <h3 className="text-2xl font-display font-extrabold text-[var(--text-primary)]">
                 Collaboration Request Received!
               </h3>
               <p className="mt-2 text-sm text-[var(--text-secondary)] max-w-md mx-auto">
@@ -132,14 +133,14 @@ export function ContactSection({ content }: ContactSectionProps) {
               <div className="mt-6 flex justify-center gap-3">
                 <a
                   href={`mailto:${email}?subject=Follow-up:%20${encodeURIComponent(formData.collaborationType)}`}
-                  className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-teal-600 dark:bg-teal-500 text-white dark:text-zinc-950 text-xs font-semibold hover:bg-teal-700 transition-colors"
+                  className="inline-flex items-center gap-1.5 px-5 py-2.5 rounded-xl bg-blue-600 dark:bg-blue-500 text-white text-xs font-bold hover:bg-blue-700 transition-colors shadow-sm"
                 >
-                  <Mail className="w-3.5 h-3.5" />
+                  <Mail className="w-3.5 h-3.5 text-orange-200" />
                   <span>Send Direct Email Follow-up</span>
                 </a>
                 <button
                   onClick={() => setSubmitted(false)}
-                  className="px-4 py-2 rounded-xl border border-[var(--border-subtle)] text-xs font-medium hover:bg-[var(--bg-surface-elevated)] transition-colors cursor-pointer"
+                  className="px-4 py-2.5 rounded-xl border border-[var(--border-subtle)] text-xs font-bold hover:bg-[var(--bg-surface-elevated)] transition-colors cursor-pointer"
                 >
                   Send Another Message
                 </button>
@@ -150,7 +151,7 @@ export function ContactSection({ content }: ContactSectionProps) {
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 {/* Name */}
                 <div>
-                  <label className="block text-xs font-mono font-semibold text-[var(--text-primary)] mb-1.5">
+                  <label className="block text-xs font-mono font-bold text-[var(--text-primary)] mb-1.5">
                     Your Name *
                   </label>
                   <div className="relative">
@@ -161,14 +162,14 @@ export function ContactSection({ content }: ContactSectionProps) {
                       placeholder="e.g. Alex Johnson"
                       value={formData.name}
                       onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                      className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-[var(--bg-surface-elevated)] border border-[var(--border-subtle)] focus:border-teal-500 focus:outline-hidden text-sm text-[var(--text-primary)] placeholder:text-[var(--text-muted)] transition-colors"
+                      className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-[var(--bg-surface-elevated)] border border-[var(--border-subtle)] focus:border-blue-500 focus:outline-hidden text-sm text-[var(--text-primary)] placeholder:text-[var(--text-muted)] transition-colors"
                     />
                   </div>
                 </div>
 
                 {/* Email */}
                 <div>
-                  <label className="block text-xs font-mono font-semibold text-[var(--text-primary)] mb-1.5">
+                  <label className="block text-xs font-mono font-bold text-[var(--text-primary)] mb-1.5">
                     Your Email Address *
                   </label>
                   <div className="relative">
@@ -179,7 +180,7 @@ export function ContactSection({ content }: ContactSectionProps) {
                       placeholder="e.g. alex@company.com"
                       value={formData.email}
                       onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                      className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-[var(--bg-surface-elevated)] border border-[var(--border-subtle)] focus:border-teal-500 focus:outline-hidden text-sm text-[var(--text-primary)] placeholder:text-[var(--text-muted)] transition-colors"
+                      className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-[var(--bg-surface-elevated)] border border-[var(--border-subtle)] focus:border-blue-500 focus:outline-hidden text-sm text-[var(--text-primary)] placeholder:text-[var(--text-muted)] transition-colors"
                     />
                   </div>
                 </div>
@@ -188,7 +189,7 @@ export function ContactSection({ content }: ContactSectionProps) {
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 {/* Organization / Company */}
                 <div>
-                  <label className="block text-xs font-mono font-semibold text-[var(--text-primary)] mb-1.5">
+                  <label className="block text-xs font-mono font-bold text-[var(--text-primary)] mb-1.5">
                     Organization / Company
                   </label>
                   <div className="relative">
@@ -198,14 +199,14 @@ export function ContactSection({ content }: ContactSectionProps) {
                       placeholder="e.g. Acme Corp / Tech Scaleup"
                       value={formData.company}
                       onChange={(e) => setFormData({ ...formData, company: e.target.value })}
-                      className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-[var(--bg-surface-elevated)] border border-[var(--border-subtle)] focus:border-teal-500 focus:outline-hidden text-sm text-[var(--text-primary)] placeholder:text-[var(--text-muted)] transition-colors"
+                      className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-[var(--bg-surface-elevated)] border border-[var(--border-subtle)] focus:border-blue-500 focus:outline-hidden text-sm text-[var(--text-primary)] placeholder:text-[var(--text-muted)] transition-colors"
                     />
                   </div>
                 </div>
 
-                {/* Collaboration Type with Exact Requested Options */}
+                {/* Collaboration Type */}
                 <div>
-                  <label className="block text-xs font-mono font-semibold text-[var(--text-primary)] mb-1.5">
+                  <label className="block text-xs font-mono font-bold text-[var(--text-primary)] mb-1.5">
                     Collaboration Type
                   </label>
                   <div className="relative">
@@ -215,7 +216,7 @@ export function ContactSection({ content }: ContactSectionProps) {
                       onChange={(e) =>
                         setFormData({ ...formData, collaborationType: e.target.value })
                       }
-                      className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-[var(--bg-surface-elevated)] border border-[var(--border-subtle)] focus:border-teal-500 focus:outline-hidden text-sm text-[var(--text-primary)] transition-colors appearance-none cursor-pointer"
+                      className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-[var(--bg-surface-elevated)] border border-[var(--border-subtle)] focus:border-blue-500 focus:outline-hidden text-sm text-[var(--text-primary)] transition-colors appearance-none cursor-pointer"
                     >
                       <option value="BI & Dashboard Architect">BI & Dashboard Architect</option>
                       <option value="Full-Time Analytics Role">Full-Time Analytics Role</option>
@@ -230,7 +231,7 @@ export function ContactSection({ content }: ContactSectionProps) {
 
               {/* Message */}
               <div>
-                <label className="block text-xs font-mono font-semibold text-[var(--text-primary)] mb-1.5">
+                <label className="block text-xs font-mono font-bold text-[var(--text-primary)] mb-1.5">
                   Message / Project Goals *
                 </label>
                 <textarea
@@ -239,7 +240,7 @@ export function ContactSection({ content }: ContactSectionProps) {
                   placeholder="Share a brief overview of your analytics goals, timeline, or discussion topics..."
                   value={formData.message}
                   onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-                  className="w-full px-4 py-3 rounded-xl bg-[var(--bg-surface-elevated)] border border-[var(--border-subtle)] focus:border-teal-500 focus:outline-hidden text-sm text-[var(--text-primary)] placeholder:text-[var(--text-muted)] transition-colors resize-none"
+                  className="w-full px-4 py-3 rounded-xl bg-[var(--bg-surface-elevated)] border border-[var(--border-subtle)] focus:border-blue-500 focus:outline-hidden text-sm text-[var(--text-primary)] placeholder:text-[var(--text-muted)] transition-colors resize-none"
                 />
               </div>
 
@@ -248,20 +249,20 @@ export function ContactSection({ content }: ContactSectionProps) {
                 <button
                   type="submit"
                   disabled={isSubmitting}
-                  className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-7 py-3.5 rounded-xl bg-teal-600 hover:bg-teal-700 dark:bg-teal-500 dark:hover:bg-teal-400 text-white dark:text-zinc-950 font-bold text-sm transition-all shadow-md shadow-teal-600/20 active:scale-95 cursor-pointer disabled:opacity-60"
+                  className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-7 py-3.5 rounded-xl bg-blue-600 hover:bg-blue-700 dark:bg-blue-600 dark:hover:bg-blue-500 text-white font-bold text-sm transition-all shadow-md shadow-blue-600/25 hover:shadow-orange-500/25 active:scale-95 cursor-pointer disabled:opacity-60"
                 >
                   <Send className="w-4 h-4" />
                   <span>{isSubmitting ? "Sending..." : "Submit Collaboration Message"}</span>
-                  <ArrowUpRight className="w-4 h-4" />
+                  <ArrowUpRight className="w-4 h-4 text-orange-300" />
                 </button>
 
                 <a
                   href={linkedin}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-5 py-3 rounded-xl border border-[var(--border-subtle)] bg-[var(--bg-surface)] hover:bg-[var(--bg-surface-elevated)] text-[var(--text-primary)] font-medium text-xs transition-all hover:border-teal-500/40 active:scale-95 shadow-xs"
+                  className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-5 py-3 rounded-xl border border-[var(--border-subtle)] bg-[var(--bg-surface)] hover:bg-[var(--bg-surface-elevated)] text-[var(--text-primary)] font-bold text-xs transition-all hover:border-blue-500/40 active:scale-95 shadow-xs"
                 >
-                  <LinkedInIcon className="w-4 h-4 text-teal-700 dark:text-teal-400" />
+                  <LinkedInIcon className="w-4 h-4 text-blue-600 dark:text-blue-400" />
                   <span>Connect on LinkedIn</span>
                 </a>
               </div>
@@ -271,25 +272,25 @@ export function ContactSection({ content }: ContactSectionProps) {
           {/* Copy Email Pill Footer */}
           <div className="mt-10 pt-6 border-t border-[var(--border-subtle)] flex flex-col sm:flex-row items-center justify-center gap-3 text-xs text-[var(--text-muted)] font-mono">
             <span>Direct Email:</span>
-            <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg bg-[var(--bg-surface-elevated)] border border-[var(--border-subtle)] text-[var(--text-primary)]">
-              <Mail className="w-3.5 h-3.5 text-teal-700 dark:text-teal-400" />
+            <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg bg-[var(--bg-surface-elevated)] border border-[var(--border-subtle)] text-[var(--text-primary)] font-bold">
+              <Mail className="w-3.5 h-3.5 text-blue-600 dark:text-blue-400" />
               <span>{email}</span>
               <button
                 onClick={handleCopyEmail}
                 type="button"
-                className="p-1 hover:text-teal-600 dark:hover:text-teal-400 transition-colors ml-1 cursor-pointer"
+                className="p-1 hover:text-orange-600 dark:hover:text-orange-400 transition-colors ml-1 cursor-pointer"
                 title="Copy email address"
                 aria-label="Copy email address"
               >
                 {copied ? (
-                  <Check className="w-3.5 h-3.5 text-teal-500" />
+                  <Check className="w-3.5 h-3.5 text-blue-600" />
                 ) : (
                   <Copy className="w-3.5 h-3.5" />
                 )}
               </button>
             </div>
             {copied && (
-              <span className="text-teal-700 dark:text-teal-400 font-sans font-semibold animate-in fade-in">
+              <span className="text-orange-600 dark:text-orange-400 font-sans font-bold animate-in fade-in">
                 Copied to clipboard!
               </span>
             )}

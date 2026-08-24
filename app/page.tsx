@@ -41,7 +41,7 @@ export default async function HomePage() {
   );
 
   return (
-    <div className="relative min-h-screen flex flex-col selection:bg-teal-500/20 selection:text-teal-700 dark:selection:text-teal-300">
+    <div className="relative min-h-screen flex flex-col selection:bg-blue-500/20 selection:text-blue-600 dark:selection:text-orange-300">
       {/* Decorative Data Grid & Sparklines Canvas */}
       <DataBackground />
 

@@ -1,57 +1,123 @@
 "use client";
 
-import React from "react";
-import { motion } from "framer-motion";
+import React, { useEffect, useRef } from "react";
+import { useTheme } from "next-themes";
 
 export function DataBackground() {
+  const canvasRef = useRef<HTMLCanvasElement | null>(null);
+  const { resolvedTheme } = useTheme();
+
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+
+    const ctx = canvas.getContext("2d");
+    if (!ctx) return;
+
+    let animationFrameId: number;
+    let width = (canvas.width = window.innerWidth);
+    let height = (canvas.height = window.innerHeight);
+
+    const handleResize = () => {
+      if (!canvas) return;
+      width = canvas.width = window.innerWidth;
+      height = canvas.height = window.innerHeight;
+    };
+
+    window.addEventListener("resize", handleResize);
+
+    // Node & Particle network for analytics data flow
+    const numPoints = Math.min(Math.floor(width / 35), 45);
+    const points: {
+      x: number;
+      y: number;
+      vx: number;
+      vy: number;
+      radius: number;
+      colorType: "blue" | "orange";
+    }[] = [];
+
+    for (let i = 0; i < numPoints; i++) {
+      points.push({
+        x: Math.random() * width,
+        y: Math.random() * height,
+        vx: (Math.random() - 0.5) * 0.35,
+        vy: (Math.random() - 0.5) * 0.35,
+        radius: Math.random() * 2 + 1,
+        colorType: i % 4 === 0 ? "orange" : "blue",
+      });
+    }
+
+    const isDark = resolvedTheme === "dark";
+
+    const draw = () => {
+      ctx.clearRect(0, 0, width, height);
+
+      // Connect nodes with subtle data stream lines
+      for (let i = 0; i < points.length; i++) {
+        const p1 = points[i];
+        p1.x += p1.vx;
+        p1.y += p1.vy;
+
+        if (p1.x < 0 || p1.x > width) p1.vx *= -1;
+        if (p1.y < 0 || p1.y > height) p1.vy *= -1;
+
+        // Draw connections
+        for (let j = i + 1; j < points.length; j++) {
+          const p2 = points[j];
+          const dist = Math.hypot(p1.x - p2.x, p1.y - p2.y);
+          if (dist < 130) {
+            const alpha = (1 - dist / 130) * (isDark ? 0.15 : 0.08);
+            ctx.beginPath();
+            ctx.moveTo(p1.x, p1.y);
+            ctx.lineTo(p2.x, p2.y);
+            ctx.strokeStyle =
+              p1.colorType === "orange" || p2.colorType === "orange"
+                ? `rgba(249, 115, 22, ${alpha})`
+                : `rgba(59, 130, 246, ${alpha})`;
+            ctx.lineWidth = 0.8;
+            ctx.stroke();
+          }
+        }
+
+        // Draw node
+        ctx.beginPath();
+        ctx.arc(p1.x, p1.y, p1.radius, 0, Math.PI * 2);
+        if (p1.colorType === "orange") {
+          ctx.fillStyle = isDark
+            ? "rgba(251, 146, 60, 0.4)"
+            : "rgba(234, 88, 12, 0.35)";
+        } else {
+          ctx.fillStyle = isDark
+            ? "rgba(96, 165, 250, 0.35)"
+            : "rgba(37, 99, 235, 0.3)";
+        }
+        ctx.fill();
+      }
+
+      animationFrameId = requestAnimationFrame(draw);
+    };
+
+    draw();
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+      cancelAnimationFrame(animationFrameId);
+    };
+  }, [resolvedTheme]);
+
   return (
     <div className="fixed inset-0 pointer-events-none z-0 overflow-hidden">
-      {/* Subtle Coordinate Grid */}
-      <div className="absolute inset-0 bg-data-grid opacity-60 dark:opacity-35" />
+      {/* Dynamic Grid Background */}
+      <div className="absolute inset-0 bg-data-grid opacity-60 dark:opacity-40" />
 
-      {/* Radial soft gradient glow in hero region */}
-      <div className="absolute -top-40 left-1/2 -translate-x-1/2 w-[700px] h-[500px] bg-gradient-to-b from-teal-500/10 via-cyan-500/5 to-transparent rounded-full blur-3xl" />
-      <div className="absolute top-[60%] -left-40 w-[500px] h-[400px] bg-gradient-to-r from-sky-500/5 via-teal-500/5 to-transparent rounded-full blur-3xl" />
-      <div className="absolute top-[80%] -right-40 w-[500px] h-[400px] bg-gradient-to-l from-teal-500/5 via-emerald-500/5 to-transparent rounded-full blur-3xl" />
+      {/* Vibrant Ambient Glow Spheres (Electric Blue Top + Sunset Orange Bottom Right) */}
+      <div className="absolute -top-40 -left-40 w-[600px] h-[600px] bg-gradient-to-br from-blue-600/15 via-indigo-500/10 to-transparent dark:from-blue-600/20 dark:via-indigo-500/10 rounded-full blur-3xl" />
+      <div className="absolute top-1/3 -right-40 w-[550px] h-[550px] bg-gradient-to-bl from-orange-500/15 via-amber-500/10 to-transparent dark:from-orange-500/20 dark:via-amber-500/10 rounded-full blur-3xl" />
+      <div className="absolute bottom-0 left-1/4 w-[500px] h-[500px] bg-gradient-to-tr from-blue-500/10 via-orange-500/10 to-transparent rounded-full blur-3xl" />
 
-      {/* Subtle floating data-nodes / chart squiggles */}
-      <svg
-        className="absolute top-20 right-10 w-96 h-64 opacity-25 dark:opacity-20 hidden lg:block"
-        viewBox="0 0 400 200"
-        fill="none"
-        xmlns="http://www.w3.org/2000/svg"
-      >
-        <motion.path
-          d="M 10 180 Q 80 50 160 110 T 310 40 T 390 90"
-          stroke="currentColor"
-          strokeWidth="1.5"
-          strokeDasharray="4 4"
-          className="text-teal-600 dark:text-teal-400"
-          initial={{ pathLength: 0, opacity: 0 }}
-          animate={{ pathLength: 1, opacity: 0.6 }}
-          transition={{ duration: 3, ease: "easeInOut" }}
-        />
-        <circle cx="160" cy="110" r="3" className="fill-teal-500" />
-        <circle cx="310" cy="40" r="3" className="fill-cyan-400" />
-        <circle cx="390" cy="90" r="3" className="fill-teal-400" />
-      </svg>
-
-      {/* Subtle Scatter plot clusters in bottom left */}
-      <svg
-        className="absolute top-[50%] left-6 w-72 h-72 opacity-20 dark:opacity-15 hidden xl:block"
-        viewBox="0 0 300 300"
-        fill="none"
-      >
-        <circle cx="40" cy="220" r="2" className="fill-teal-500" />
-        <circle cx="65" cy="190" r="2.5" className="fill-teal-400" />
-        <circle cx="90" cy="170" r="2" className="fill-cyan-400" />
-        <circle cx="130" cy="140" r="3" className="fill-teal-500" />
-        <circle cx="170" cy="110" r="2" className="fill-teal-400" />
-        <circle cx="210" cy="85" r="3.5" className="fill-cyan-500" />
-        <circle cx="250" cy="50" r="2" className="fill-teal-300" />
-        <line x1="20" y1="260" x2="280" y2="260" stroke="currentColor" strokeWidth="0.75" className="text-zinc-400 dark:text-zinc-700" />
-        <line x1="20" y1="20" x2="20" y2="260" stroke="currentColor" strokeWidth="0.75" className="text-zinc-400 dark:text-zinc-700" />
-      </svg>
+      {/* Canvas for data node constellation */}
+      <canvas ref={canvasRef} className="absolute inset-0 w-full h-full" />
     </div>
   );
 }

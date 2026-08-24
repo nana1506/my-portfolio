@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { ThemeToggle } from "./ThemeToggle";
-import { Menu, X, ArrowUpRight, BarChart3, Download } from "lucide-react";
+import { Menu, X, ArrowUpRight, BarChart3 } from "lucide-react";
 
 const navItems = [
   { label: "About", href: "#about" },
@@ -12,7 +12,6 @@ const navItems = [
   { label: "Experience", href: "#experience" },
   { label: "Testimonials", href: "#recommendations" },
   { label: "Contact", href: "#contact" },
-  // { label: "Writing", href: "/blog" }, // Placeholder for future blog
 ];
 
 export function Navbar() {
@@ -40,19 +39,19 @@ export function Navbar() {
       }`}
     >
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between">
-        {/* Brand / Logo */}
+        {/* Brand / Logo (Electric Blue & Sunset Orange Branding) */}
         <Link
           href="/"
-          className="group flex items-center gap-2.5 text-sm font-semibold tracking-tight text-[var(--text-primary)] hover:text-teal-700 dark:hover:text-teal-400 transition-colors"
+          className="group flex items-center gap-2.5 text-sm font-semibold tracking-tight text-[var(--text-primary)] hover:opacity-90 transition-opacity"
         >
-          <div className="w-8 h-8 rounded-lg bg-teal-500/10 border border-teal-500/30 flex items-center justify-center text-teal-700 dark:text-teal-400 group-hover:scale-105 group-hover:border-teal-500/60 transition-all">
+          <div className="w-8 h-8 rounded-lg bg-blue-500/10 border border-blue-500/30 flex items-center justify-center text-blue-600 dark:text-blue-400 group-hover:scale-105 group-hover:border-orange-500/50 transition-all">
             <BarChart3 className="w-4 h-4" />
           </div>
           <div className="flex flex-col">
-            <span className="font-display font-bold text-base leading-none">
-              isnan<span className="text-teal-700 dark:text-teal-400">.data</span>
+            <span className="font-display font-extrabold text-base leading-none text-[var(--text-primary)]">
+              isnan<span className="text-orange-600 dark:text-orange-400 font-black">.data</span>
             </span>
-            <span className="text-[10px] text-[var(--text-muted)] tracking-wider uppercase font-mono mt-0.5 font-medium">
+            <span className="text-[10px] text-[var(--text-muted)] tracking-wider uppercase font-mono mt-0.5 font-bold">
               Senior Data Analyst
             </span>
           </div>
@@ -64,7 +63,7 @@ export function Navbar() {
             <a
               key={item.label}
               href={item.href}
-              className="text-xs font-semibold text-[var(--text-secondary)] hover:text-[var(--text-primary)] px-3 py-1 rounded-full hover:bg-[var(--bg-surface-elevated)] transition-colors"
+              className="text-xs font-bold text-[var(--text-secondary)] hover:text-blue-600 dark:hover:text-blue-400 px-3 py-1 rounded-full hover:bg-[var(--bg-surface-elevated)] transition-colors"
             >
               {item.label}
             </a>
@@ -76,10 +75,10 @@ export function Navbar() {
           <ThemeToggle />
           <a
             href="#contact"
-            className="inline-flex items-center gap-1.5 text-xs font-bold bg-teal-600 hover:bg-teal-700 dark:bg-teal-500 dark:hover:bg-teal-400 text-white dark:text-zinc-950 px-4 py-2 rounded-lg transition-all shadow-sm hover:shadow-teal-600/20 active:scale-95 cursor-pointer"
+            className="inline-flex items-center gap-1.5 text-xs font-bold bg-blue-600 hover:bg-blue-700 dark:bg-blue-600 dark:hover:bg-blue-500 text-white px-4 py-2 rounded-xl transition-all shadow-md shadow-blue-600/20 hover:shadow-orange-500/20 active:scale-95 cursor-pointer"
           >
             <span>Let&apos;s Collaborate</span>
-            <ArrowUpRight className="w-3.5 h-3.5" />
+            <ArrowUpRight className="w-3.5 h-3.5 text-orange-200" />
           </a>
         </div>
 
@@ -104,7 +103,7 @@ export function Navbar() {
               key={item.label}
               href={item.href}
               onClick={() => setMobileMenuOpen(false)}
-              className="block px-3 py-2 text-sm font-semibold text-[var(--text-secondary)] hover:text-teal-700 dark:hover:text-teal-400 hover:bg-[var(--bg-surface-elevated)] rounded-md transition-colors"
+              className="block px-3 py-2 text-sm font-bold text-[var(--text-secondary)] hover:text-blue-600 dark:hover:text-blue-400 hover:bg-[var(--bg-surface-elevated)] rounded-md transition-colors"
             >
               {item.label}
             </a>
@@ -113,10 +112,10 @@ export function Navbar() {
             <a
               href="#contact"
               onClick={() => setMobileMenuOpen(false)}
-              className="w-full flex items-center justify-center gap-2 text-sm font-bold bg-teal-600 dark:bg-teal-500 text-white dark:text-zinc-950 py-2.5 rounded-lg"
+              className="w-full flex items-center justify-center gap-2 text-sm font-bold bg-blue-600 dark:bg-blue-500 text-white py-2.5 rounded-xl shadow-md"
             >
               <span>Let&apos;s Collaborate</span>
-              <ArrowUpRight className="w-4 h-4" />
+              <ArrowUpRight className="w-4 h-4 text-orange-200" />
             </a>
           </div>
         </div>
