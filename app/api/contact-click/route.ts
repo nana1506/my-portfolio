@@ -32,7 +32,7 @@ export async function GET(request: NextRequest) {
   <body style="font-family: sans-serif; display: flex; align-items: center; justify-content: center; height: 100vh; margin: 0; background: #0A0A0B; color: #F4F4F5;">
     <div style="text-align: center;">
       <p style="font-size: 16px; margin-bottom: 12px;">Opening your email client...</p>
-      <a href="${MAILTO_URL}" style="color: #2DD4BF; font-size: 14px; text-decoration: underline;">Click here if your email client doesn't open automatically</a>
+      <a href="${MAILTO_URL}" style="color: #2563EB; font-size: 14px; text-decoration: underline;">Click here if your email client doesn't open automatically</a>
     </div>
     <script>
       window.location.href = "${MAILTO_URL}";
@@ -63,6 +63,11 @@ export async function POST(request: NextRequest) {
 
   try {
     await logContactClick({
+      name: bodyData.name,
+      email: bodyData.email,
+      company: bodyData.company,
+      collaborationType: bodyData.collaborationType,
+      message: bodyData.message,
       timestamp: bodyData.timestamp || timestamp,
       referrer: bodyData.referrer || referrer,
       userAgent: bodyData.userAgent || userAgent,
