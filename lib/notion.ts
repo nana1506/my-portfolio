@@ -176,7 +176,7 @@ export async function getSiteContent(): Promise<SiteContent> {
       if (key) kv[key.toLowerCase()] = value;
     }
 
-    // Dynamic stats parsing if defined in Notion
+    // Dynamic stats parsing if explicitly defined in Notion Site Content DB
     const stats = [
       {
         label: kv["stat_1_label"] || "Years Experience",
@@ -184,14 +184,14 @@ export async function getSiteContent(): Promise<SiteContent> {
         helper: kv["stat_1_help"] || "Enterprise & Tech",
       },
       {
-        label: kv["stat_2_label"] || "Data Pipelines & Models",
+        label: kv["stat_2_label"] || "Production Case Studies",
         value: kv["stat_2_val"] || kv["stats_pipelines"] || initialSiteContent.stats[1].value,
-        helper: kv["stat_2_help"] || "Production dbt/SQL",
+        helper: kv["stat_2_help"] || "Production Architectures",
       },
       {
-        label: kv["stat_3_label"] || "Dashboards Deployed",
+        label: kv["stat_3_label"] || "Core Analytics Tools",
         value: kv["stat_3_val"] || kv["stats_dashboards"] || initialSiteContent.stats[2].value,
-        helper: kv["stat_3_help"] || "Used daily by C-Suite",
+        helper: kv["stat_3_help"] || "Ranked by Proficiency",
       },
       {
         label: kv["stat_4_label"] || "Measured Business Impact",
@@ -229,6 +229,78 @@ export async function getSiteContent(): Promise<SiteContent> {
   } catch (error) {
     return initialSiteContent;
   }
+}
+
+// Dynamic Stat Calculator: Computes real-time numbers from your Notion databases
+export function enrichSiteStats(
+  siteContent: SiteContent,
+  projects: ProjectItem[],
+  skills: SkillItem[],
+  experience: ExperienceItem[],
+  recommendations: RecommendationItem[]
+): SiteContent {
+  // 1. Calculate dynamic Years of Experience from the earliest career start date
+  let dynamicYOE = "6+";
+  if (experience.length > 0) {
+    const years = experience
+      .map((e) => {
+        const match = e.startDate.match(/\d{4}/);
+        return match ? parseInt(match[0], 10) : null;
+      })
+      .filter((y): y is number => y !== null);
+    if (years.length > 0) {
+      const earliest = Math.min(...years);
+      const currentYear = new Date().getFullYear();
+      const diff = Math.max(1, currentYear - earliest);
+      dynamicYOE = `${diff}+`;
+    }
+  }
+
+  // 2. Count live projects from Notion
+  const projectCount = projects.length > 0 ? `${projects.length}` : "4+";
+
+  // 3. Count live skills & tools from Notion
+  const skillCount = skills.length > 0 ? `${skills.length}+` : "20+";
+
+  const updatedStats = [
+    {
+      label: siteContent.stats[0]?.label || "Years Experience",
+      value:
+        siteContent.stats[0]?.value &&
+        siteContent.stats[0]?.value !== initialSiteContent.stats[0].value
+          ? siteContent.stats[0].value
+          : dynamicYOE,
+      helper: siteContent.stats[0]?.helper || "Enterprise & Tech",
+    },
+    {
+      label: siteContent.stats[1]?.label || "Production Case Studies",
+      value:
+        siteContent.stats[1]?.value &&
+        siteContent.stats[1]?.value !== initialSiteContent.stats[1].value
+          ? siteContent.stats[1].value
+          : projectCount,
+      helper: siteContent.stats[1]?.helper || "Production Architectures",
+    },
+    {
+      label: siteContent.stats[2]?.label || "Core Analytics Tools",
+      value:
+        siteContent.stats[2]?.value &&
+        siteContent.stats[2]?.value !== initialSiteContent.stats[2].value
+          ? siteContent.stats[2].value
+          : skillCount,
+      helper: siteContent.stats[2]?.helper || "Ranked by Proficiency",
+    },
+    {
+      label: siteContent.stats[3]?.label || "Measured Business Impact",
+      value: siteContent.stats[3]?.value || "$4.2M+",
+      helper: siteContent.stats[3]?.helper || "Identified Cost/Rev Ops",
+    },
+  ];
+
+  return {
+    ...siteContent,
+    stats: updatedStats,
+  };
 }
 
 // 2. Fetch Projects

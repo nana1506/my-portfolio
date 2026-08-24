@@ -5,6 +5,7 @@ import {
   getSkills,
   getExperience,
   getRecommendations,
+  enrichSiteStats,
 } from "@/lib/notion";
 import { Navbar } from "@/components/Navbar";
 import { HeroAboutSection } from "@/components/HeroAboutSection";
@@ -21,7 +22,7 @@ export const revalidate = 60;
 
 export default async function HomePage() {
   // Fetch all data from Notion (or seamless fallback) in parallel
-  const [siteContent, projects, skills, experience, recommendations] =
+  const [rawSiteContent, projects, skills, experience, recommendations] =
     await Promise.all([
       getSiteContent(),
       getProjects(),
@@ -29,6 +30,15 @@ export default async function HomePage() {
       getExperience(),
       getRecommendations(),
     ]);
+
+  // Compute live dynamic stats based on actual Notion databases + custom overrides
+  const siteContent = enrichSiteStats(
+    rawSiteContent,
+    projects,
+    skills,
+    experience,
+    recommendations
+  );
 
   return (
     <div className="relative min-h-screen flex flex-col selection:bg-teal-500/20 selection:text-teal-700 dark:selection:text-teal-300">
@@ -46,7 +56,7 @@ export default async function HomePage() {
         {/* 3. Featured Work & Project Case Studies (with tool vector icons) */}
         <ProjectsSection projects={projects} />
 
-        {/* 4. Skills & Heatmap Proficiency */}
+        {/* 4. Skills & Ranked Proficiency */}
         <SkillsSection skills={skills} />
 
         {/* 5. Horizontal Career Milestones & Experience */}
