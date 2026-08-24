@@ -109,6 +109,52 @@ function getFileUrl(prop: any): string | undefined {
   return undefined;
 }
 
+// Helper to parse and format Notion Date or Rich Text date properties cleanly
+function formatNotionDate(prop: any, isEnd: boolean = false): string {
+  if (!prop) return isEnd ? "Present" : "";
+
+  // 1. Notion Date Object type
+  if (prop.type === "date" || prop.date) {
+    const dateObj = prop.date || prop;
+    const rawVal = isEnd ? (dateObj.end || dateObj.start) : dateObj.start;
+    if (!rawVal) return isEnd ? "Present" : "";
+
+    try {
+      const parts = rawVal.split("-");
+      if (parts.length >= 2) {
+        const year = parts[0];
+        const monthNum = parseInt(parts[1], 10);
+        const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+        const monthName = monthNames[monthNum - 1] || "";
+        return monthName ? `${monthName} ${year}` : year;
+      }
+      return rawVal;
+    } catch {
+      return rawVal;
+    }
+  }
+
+  // 2. Rich Text / Title date
+  const text = getText(prop);
+  if (text) return text;
+
+  return isEnd ? "Present" : "";
+}
+
+// Helper to get numeric timestamp for sorting experience
+function getTimestampForSort(prop: any): number {
+  if (!prop) return 0;
+  if (prop.date?.start) {
+    return new Date(prop.date.start).getTime() || 0;
+  }
+  const text = getText(prop);
+  if (text) {
+    const match = text.match(/\d{4}/);
+    if (match) return parseInt(match[0], 10) * 10000;
+  }
+  return 0;
+}
+
 // 1. Fetch Site Content (Hero, Bios, Meta)
 export async function getSiteContent(): Promise<SiteContent> {
   const dbId = process.env.NOTION_SITE_CONTENT_DB_ID;
@@ -261,7 +307,7 @@ export async function getSkills(): Promise<SkillItem[]> {
   }
 }
 
-// 4. Fetch Experience (with real distinct dates)
+// 4. Fetch Experience (Accurate Date Parsing & Chronological Sorting)
 export async function getExperience(): Promise<ExperienceItem[]> {
   const dbId = process.env.NOTION_EXPERIENCE_DB_ID;
   if (!cleanDatabaseId(dbId)) {
@@ -275,40 +321,41 @@ export async function getExperience(): Promise<ExperienceItem[]> {
       return initialExperience;
     }
 
-    return response.results.map((page: any, index: number): ExperienceItem => {
+    const items: { item: ExperienceItem; sortScore: number }[] = response.results.map((page: any): { item: ExperienceItem; sortScore: number } => {
       const p = page.properties;
       const company = getText(p.Company || p.company || p.Name);
       const title = getText(p.Title || p.title || p.Role);
-      const startDate =
-        getText(p.Start_Date || p.start_date || p.Start || p.start) ||
-        p.Date?.date?.start ||
-        (index === 0 ? "2022" : index === 1 ? "2020" : "2018");
       
-      const parsedEndDate =
-        getText(p.End_Date || p.end_date || p.End || p.end) ||
-        p.Date?.date?.end ||
-        "";
+      const startProp = p.start_date || p.Start_Date || p.Date || p.Start || p.start;
+      const endProp = p.end_date || p.End_Date || p.End || p.end;
 
-      const endDate =
-        parsedEndDate ||
-        (index === 0 ? "Present" : index === 1 ? "2022" : "2020");
+      const startDate = formatNotionDate(startProp, false) || "2022";
+      const endDate = formatNotionDate(endProp, true) || "Present";
 
       const bulletsRaw = getText(p.Bullets || p.bullets || p.Description || p.description);
       const bullets = bulletsRaw
         ? bulletsRaw.split("\n").map((b: string) => b.replace(/^[-*•]\s*/, "").trim()).filter(Boolean)
         : [];
-      const logo = getFileUrl(p.Logo || p.logo || p.Company_Logo);
+      const logo = getFileUrl(p.company_logo || p.Company_Logo || p.Logo || p.logo);
+
+      const sortScore = getTimestampForSort(startProp) + (endDate === "Present" ? 10000000000000 : 0);
 
       return {
-        id: page.id,
-        company: company || "Organization",
-        title: title || "Data Analyst",
-        startDate,
-        endDate,
-        bullets: bullets.length > 0 ? bullets : ["Led analytics initiatives and metric modeling."],
-        logo,
+        item: {
+          id: page.id,
+          company: company || "Organization",
+          title: title || "Data Analyst",
+          startDate,
+          endDate,
+          bullets: bullets.length > 0 ? bullets : ["Led analytics initiatives and metric modeling."],
+          logo,
+        },
+        sortScore,
       };
     });
+
+    // Sort chronologically: newest/current first (e.g. Data Analyst 2022 -> HR Ops 2021 -> Head of Talent 2020)
+    return items.sort((a, b) => b.sortScore - a.sortScore).map((wrapper) => wrapper.item);
   } catch (error) {
     return initialExperience;
   }
