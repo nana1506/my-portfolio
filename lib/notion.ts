@@ -620,11 +620,99 @@ export async function logContactClick(payload: ContactClickPayload): Promise<boo
   }
 
   try {
-    const titleText = payload.name
-      ? `Collaboration Form: ${payload.name} (${payload.email || "No email"})`
-      : `Contact Click - ${new Date().toISOString()}`;
+    const titleText = payload.name || `Visitor Submission - ${new Date().toLocaleDateString()}`;
 
-    await fetch("https://api.notion.com/v1/pages", {
+    const properties: Record<string, any> = {
+      name: {
+        title: [
+          {
+            text: {
+              content: titleText,
+            },
+          },
+        ],
+      },
+    };
+
+    if (payload.email) {
+      properties.email = {
+        email: payload.email,
+      };
+    }
+
+    if (payload.company) {
+      properties.company = {
+        rich_text: [
+          {
+            text: {
+              content: payload.company,
+            },
+          },
+        ],
+      };
+    }
+
+    if (payload.collaborationType) {
+      properties.collaboration_type = {
+        rich_text: [
+          {
+            text: {
+              content: payload.collaborationType,
+            },
+          },
+        ],
+      };
+    }
+
+    if (payload.message) {
+      properties.message = {
+        rich_text: [
+          {
+            text: {
+              content: payload.message.substring(0, 2000),
+            },
+          },
+        ],
+      };
+    }
+
+    if (payload.timestamp) {
+      properties.timestamp = {
+        rich_text: [
+          {
+            text: {
+              content: payload.timestamp,
+            },
+          },
+        ],
+      };
+    }
+
+    if (payload.referrer) {
+      properties.referrer = {
+        rich_text: [
+          {
+            text: {
+              content: payload.referrer,
+            },
+          },
+        ],
+      };
+    }
+
+    if (payload.userAgent) {
+      properties.user_agent = {
+        rich_text: [
+          {
+            text: {
+              content: payload.userAgent.substring(0, 2000),
+            },
+          },
+        ],
+      };
+    }
+
+    const res = await fetch("https://api.notion.com/v1/pages", {
       method: "POST",
       headers: {
         Authorization: `Bearer ${apiKey}`,
@@ -633,48 +721,15 @@ export async function logContactClick(payload: ContactClickPayload): Promise<boo
       },
       body: JSON.stringify({
         parent: { database_id: dbId },
-        properties: {
-          Name: {
-            title: [
-              {
-                text: {
-                  content: titleText,
-                },
-              },
-            ],
-          },
-          Timestamp: {
-            rich_text: [
-              {
-                text: {
-                  content: payload.timestamp,
-                },
-              },
-            ],
-          },
-          Referrer: {
-            rich_text: [
-              {
-                text: {
-                  content: payload.referrer || "Direct / Form",
-                },
-              },
-            ],
-          },
-          User_Agent: {
-            rich_text: [
-              {
-                text: {
-                  content: payload.message
-                    ? `[Msg]: ${payload.message} | [Org]: ${payload.company || "N/A"} | [Type]: ${payload.collaborationType || "General"}`
-                    : payload.userAgent ? payload.userAgent.substring(0, 2000) : "Unknown",
-                },
-              },
-            ],
-          },
-        },
+        properties,
       }),
     });
+
+    if (!res.ok) {
+      const err = await res.json().catch(() => ({}));
+      console.warn("[Notion Notice] Failed to log submission:", err.message || res.statusText);
+      return false;
+    }
 
     return true;
   } catch (error: any) {
