@@ -86,6 +86,27 @@ h1, h2, h3, h4, h5, h6, .font-display {
   box-shadow: 0 8px 30px -4px var(--accent-glow);
 }
 
+/* Seamless Continuous Marquee with Native Pause/Resume on Hover */
+@keyframes marquee-flow {
+  0% {
+    transform: translate3d(-50%, 0, 0);
+  }
+  100% {
+    transform: translate3d(0%, 0, 0);
+  }
+}
+
+.animate-marquee-flow {
+  display: flex;
+  width: max-content;
+  will-change: transform;
+  animation: marquee-flow 50s linear infinite;
+}
+
+.marquee-container:hover .animate-marquee-flow {
+  animation-play-state: paused !important;
+}
+
 /* Custom scrollbar */
 ::-webkit-scrollbar {
   width: 8px;

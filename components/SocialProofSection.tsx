@@ -1,7 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
-import { motion } from "framer-motion";
+import React from "react";
 import { RecommendationItem } from "@/lib/types";
 import { LinkedInIcon } from "./Icons";
 import { Quote, MessageSquareQuote, UserCheck, ArrowUpRight } from "lucide-react";
@@ -16,8 +15,6 @@ const LINKEDIN_RECOMMENDATIONS_URL =
 export function SocialProofSection({
   recommendations,
 }: SocialProofSectionProps) {
-  const [isPaused, setIsPaused] = useState(false);
-
   // Duplicate items for seamless continuous looping marquee
   const marqueeItems = [
     ...recommendations,
@@ -57,30 +54,13 @@ export function SocialProofSection({
         </div>
       </div>
 
-      {/* Infinite Horizontal Running Marquee Track */}
-      <div
-        className="relative w-full overflow-hidden py-4"
-        onMouseEnter={() => setIsPaused(true)}
-        onMouseLeave={() => setIsPaused(false)}
-      >
-        {/* Left & Right Gradient Fade Edges for Professional News-Ticker Feel */}
+      {/* Infinite Horizontal Running Marquee Track (Smooth Pause & Resume) */}
+      <div className="marquee-container relative w-full overflow-hidden py-4">
+        {/* Left & Right Gradient Fade Edges for News-Ticker Feel */}
         <div className="absolute left-0 top-0 bottom-0 w-16 sm:w-32 bg-gradient-to-r from-[var(--bg-primary)] to-transparent z-10 pointer-events-none" />
         <div className="absolute right-0 top-0 bottom-0 w-16 sm:w-32 bg-gradient-to-l from-[var(--bg-primary)] to-transparent z-10 pointer-events-none" />
 
-        <motion.div
-          animate={{
-            x: isPaused ? undefined : ["-50%", "0%"],
-          }}
-          transition={{
-            x: {
-              repeat: Infinity,
-              repeatType: "loop",
-              duration: 50,
-              ease: "linear",
-            },
-          }}
-          className="flex gap-6 w-max"
-        >
+        <div className="animate-marquee-flow flex gap-6">
           {marqueeItems.map((rec, index) => (
             <a
               key={`${rec.id || index}-${index}`}
@@ -132,7 +112,7 @@ export function SocialProofSection({
               </div>
             </a>
           ))}
-        </motion.div>
+        </div>
       </div>
 
       {/* Marquee Hint */}
