@@ -30,7 +30,7 @@ export function ExperienceSection({ experience }: ExperienceSectionProps) {
     <section id="experience" className="py-20 px-4 sm:px-6 lg:px-8 relative scroll-mt-20">
       <div className="max-w-6xl mx-auto">
         {/* Section Header */}
-        <div className="flex items-center gap-2 text-xs font-mono font-bold uppercase tracking-wider text-teal-700 dark:text-teal-400 mb-2">
+        <div className="flex items-center gap-2 text-xs font-mono font-bold uppercase tracking-wider text-teal-800 dark:text-teal-400 mb-2">
           <Briefcase className="w-4 h-4" />
           <span>04 // Career Milestones</span>
         </div>
@@ -60,13 +60,13 @@ export function ExperienceSection({ experience }: ExperienceSectionProps) {
                   onClick={() => setSelectedExpId(item.id)}
                   className={`text-left p-5.5 rounded-2xl transition-all cursor-pointer flex flex-col justify-between relative overflow-hidden ${
                     isSelected
-                      ? "bg-[var(--bg-surface)] border-2 border-teal-500 dark:border-teal-400 shadow-xl shadow-teal-500/15 ring-2 ring-teal-500/30 scale-[1.02] z-10"
-                      : "bg-[var(--bg-surface-elevated)] border border-[var(--border-subtle)] hover:border-teal-500/50 opacity-75 hover:opacity-100 hover:scale-[1.01]"
+                      ? "bg-[var(--bg-surface)] border-2 border-teal-600 dark:border-teal-400 shadow-xl shadow-teal-700/10 ring-2 ring-teal-600/25 scale-[1.02] z-10"
+                      : "bg-[var(--bg-surface-elevated)] border border-[var(--border-subtle)] hover:border-teal-600/50 opacity-80 hover:opacity-100 hover:scale-[1.01]"
                   }`}
                 >
-                  {/* Glowing Top Edge Accent for Active Card */}
+                  {/* Top Glowing Accent Line */}
                   {isSelected && (
-                    <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-teal-500 via-cyan-400 to-teal-500" />
+                    <div className="absolute top-0 left-0 right-0 h-1.5 bg-gradient-to-r from-teal-600 via-teal-500 to-cyan-500" />
                   )}
 
                   <div className="flex items-start justify-between gap-3 mb-3.5">
@@ -74,7 +74,7 @@ export function ExperienceSection({ experience }: ExperienceSectionProps) {
                     <div
                       className={`w-12 h-12 rounded-xl border flex items-center justify-center font-bold text-sm shrink-0 transition-transform ${
                         isSelected
-                          ? "bg-teal-500/20 border-teal-500 text-teal-800 dark:text-teal-300 scale-110 shadow-sm"
+                          ? "bg-teal-100 dark:bg-teal-500/20 border-teal-600 dark:border-teal-400 text-teal-950 dark:text-teal-300 scale-110 shadow-xs"
                           : "bg-[var(--bg-surface)] border-[var(--border-subtle)] text-[var(--text-muted)]"
                       }`}
                     >
@@ -85,16 +85,16 @@ export function ExperienceSection({ experience }: ExperienceSectionProps) {
                           className="w-7 h-7 object-contain rounded"
                         />
                       ) : (
-                        <Building className="w-5 h-5" />
+                        <Building className="w-5 h-5 text-teal-800 dark:text-teal-300" />
                       )}
                     </div>
 
-                    {/* Active Step Indicator Pill */}
+                    {/* Active Step Indicator Pill with High Contrast */}
                     <span
-                      className={`text-[10px] font-mono font-bold px-2.5 py-1 rounded-full border transition-all ${
+                      className={`text-[11px] font-mono font-bold px-3 py-1 rounded-full border transition-all ${
                         isSelected
-                          ? "bg-teal-600 dark:bg-teal-500 text-white dark:text-zinc-950 border-teal-600 shadow-xs"
-                          : "bg-[var(--bg-surface)] border-[var(--border-subtle)] text-[var(--text-muted)]"
+                          ? "bg-teal-700 dark:bg-teal-500 text-white dark:text-zinc-950 border-teal-800 dark:border-teal-400 shadow-xs"
+                          : "bg-[var(--bg-surface)] border-[var(--border-subtle)] text-[var(--text-secondary)]"
                       }`}
                     >
                       {item.startDate} — {item.endDate}
@@ -103,14 +103,14 @@ export function ExperienceSection({ experience }: ExperienceSectionProps) {
 
                   <div>
                     <div className="flex items-center justify-between">
-                      <h3 className={`font-display font-bold text-base leading-tight ${isSelected ? "text-teal-700 dark:text-teal-300" : "text-[var(--text-primary)]"}`}>
+                      <h3 className={`font-display font-bold text-base leading-tight ${isSelected ? "text-zinc-950 dark:text-teal-300 font-extrabold" : "text-[var(--text-primary)]"}`}>
                         {item.title}
                       </h3>
                       {isSelected && (
-                        <CheckCircle2 className="w-4 h-4 text-teal-600 dark:text-teal-400 shrink-0 ml-1" />
+                        <CheckCircle2 className="w-4 h-4 text-teal-700 dark:text-teal-400 shrink-0 ml-1.5" />
                       )}
                     </div>
-                    <p className="text-xs text-teal-800 dark:text-teal-400 font-bold font-mono mt-1">
+                    <p className="text-xs text-teal-900 dark:text-teal-300 font-bold font-mono mt-1">
                       {item.company}
                     </p>
                     {item.location && (
@@ -137,7 +137,7 @@ export function ExperienceSection({ experience }: ExperienceSectionProps) {
           >
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-5 border-b border-[var(--border-subtle)]">
               <div>
-                <div className="inline-flex items-center gap-1.5 text-xs font-mono font-bold text-teal-700 dark:text-teal-400 mb-1">
+                <div className="inline-flex items-center gap-1.5 text-xs font-mono font-bold text-teal-800 dark:text-teal-400 mb-1">
                   <Sparkles className="w-3.5 h-3.5" />
                   <span>Key Deliverables & Responsibilities</span>
                 </div>
@@ -145,8 +145,8 @@ export function ExperienceSection({ experience }: ExperienceSectionProps) {
                   {selectedExp.title} @ {selectedExp.company}
                 </h3>
               </div>
-              <div className="flex items-center gap-2 text-xs font-mono text-[var(--text-primary)] font-semibold bg-[var(--bg-surface-elevated)] px-3 py-1.5 rounded-lg border border-[var(--border-subtle)]">
-                <Calendar className="w-4 h-4 text-teal-600 dark:text-teal-400" />
+              <div className="flex items-center gap-2 text-xs font-mono text-[var(--text-primary)] font-bold bg-[var(--bg-surface-elevated)] px-3.5 py-1.5 rounded-lg border border-[var(--border-subtle)]">
+                <Calendar className="w-4 h-4 text-teal-700 dark:text-teal-400" />
                 <span>{selectedExp.startDate} — {selectedExp.endDate}</span>
                 {selectedExp.duration && <span>({selectedExp.duration})</span>}
               </div>
@@ -157,10 +157,10 @@ export function ExperienceSection({ experience }: ExperienceSectionProps) {
               {selectedExp.bullets.map((bullet, idx) => (
                 <div
                   key={idx}
-                  className="flex items-start gap-3 text-xs sm:text-sm text-[var(--text-secondary)] leading-relaxed bg-[var(--bg-surface-elevated)]/60 p-3.5 rounded-xl border border-[var(--border-subtle)]"
+                  className="flex items-start gap-3 text-xs sm:text-sm text-[var(--text-secondary)] leading-relaxed bg-[var(--bg-surface-elevated)]/70 p-3.5 rounded-xl border border-[var(--border-subtle)]"
                 >
-                  <span className="w-2 h-2 rounded-full bg-teal-600 dark:bg-teal-400 shrink-0 mt-1.5" />
-                  <span className="font-normal">{bullet}</span>
+                  <span className="w-2 h-2 rounded-full bg-teal-700 dark:bg-teal-400 shrink-0 mt-1.5" />
+                  <span className="font-medium text-[var(--text-primary)]">{bullet}</span>
                 </div>
               ))}
             </div>
@@ -181,7 +181,7 @@ export function ExperienceSection({ experience }: ExperienceSectionProps) {
             <a
               href="/Isnan_Rizqi_Kurniawan_CV.pdf"
               download="Isnan_Rizqi_Kurniawan_CV.pdf"
-              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-teal-600 hover:bg-teal-700 dark:bg-teal-500 dark:hover:bg-teal-400 text-white dark:text-zinc-950 font-bold text-xs transition-all shadow-sm active:scale-95 shrink-0 cursor-pointer"
+              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-teal-700 hover:bg-teal-800 dark:bg-teal-500 dark:hover:bg-teal-400 text-white dark:text-zinc-950 font-bold text-xs transition-all shadow-sm active:scale-95 shrink-0 cursor-pointer"
             >
               <Download className="w-4 h-4" />
               <span>Download CV</span>

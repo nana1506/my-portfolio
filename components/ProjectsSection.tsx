@@ -22,10 +22,10 @@ export function ProjectsSection({ projects }: ProjectsSectionProps) {
   return (
     <section id="work" className="py-20 px-4 sm:px-6 lg:px-8 relative scroll-mt-20">
       <div className="max-w-6xl mx-auto">
-        {/* Section Header (without redundant top filter capsules) */}
+        {/* Section Header */}
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-10">
           <div>
-            <div className="flex items-center gap-2 text-xs font-mono font-bold uppercase tracking-wider text-teal-700 dark:text-teal-400 mb-2">
+            <div className="flex items-center gap-2 text-xs font-mono font-bold uppercase tracking-wider text-teal-800 dark:text-teal-400 mb-2">
               <Layers className="w-4 h-4" />
               <span>02 // Featured Work & Case Studies</span>
             </div>
@@ -33,7 +33,7 @@ export function ProjectsSection({ projects }: ProjectsSectionProps) {
               Production Dashboards & Analytics Architectures
             </h2>
           </div>
-          <p className="text-xs sm:text-sm text-[var(--text-muted)] max-w-md font-normal">
+          <p className="text-xs sm:text-sm text-[var(--text-secondary)] max-w-md font-normal">
             Click any case study card to inspect the problem context, engineering pipeline, and measured revenue impact.
           </p>
         </div>
@@ -48,7 +48,7 @@ export function ProjectsSection({ projects }: ProjectsSectionProps) {
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: index * 0.1 }}
               onClick={() => setSelectedProject(project)}
-              className="glass-card group rounded-2xl p-6 sm:p-7 border border-[var(--border-subtle)] cursor-pointer flex flex-col justify-between relative overflow-hidden"
+              className="glass-card group rounded-2xl p-6 sm:p-7 border border-[var(--border-subtle)] cursor-pointer flex flex-col justify-between relative overflow-hidden shadow-xs hover:border-teal-600/40"
             >
               {/* Subtle top corner gradient accent */}
               <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-bl from-teal-500/10 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" />
@@ -56,7 +56,7 @@ export function ProjectsSection({ projects }: ProjectsSectionProps) {
               <div>
                 {/* Header: Project Badge & Action Hint */}
                 <div className="flex items-start justify-between gap-3 mb-4">
-                  <div className="w-10 h-10 rounded-xl bg-teal-500/10 border border-teal-500/30 flex items-center justify-center text-teal-700 dark:text-teal-400 group-hover:scale-105 transition-transform shrink-0">
+                  <div className="w-10 h-10 rounded-xl bg-teal-500/10 border border-teal-500/30 flex items-center justify-center text-teal-800 dark:text-teal-400 group-hover:scale-105 transition-transform shrink-0">
                     {project.companyLogo ? (
                       <img
                         src={project.companyLogo}
@@ -67,14 +67,14 @@ export function ProjectsSection({ projects }: ProjectsSectionProps) {
                       <BarChart3 className="w-5 h-5" />
                     )}
                   </div>
-                  <div className="flex items-center gap-1.5 text-xs font-mono font-semibold text-teal-700 dark:text-teal-400 group-hover:translate-x-1 transition-transform">
+                  <div className="flex items-center gap-1.5 text-xs font-mono font-bold text-teal-800 dark:text-teal-400 group-hover:translate-x-1 transition-transform">
                     <span>Inspect Deep-Dive</span>
                     <ArrowUpRight className="w-4 h-4" />
                   </div>
                 </div>
 
                 {/* Title */}
-                <h3 className="text-xl font-display font-bold text-[var(--text-primary)] group-hover:text-teal-700 dark:group-hover:text-teal-400 transition-colors leading-snug">
+                <h3 className="text-xl font-display font-extrabold text-[var(--text-primary)] group-hover:text-teal-800 dark:group-hover:text-teal-300 transition-colors leading-snug">
                   {project.title}
                 </h3>
 
@@ -91,9 +91,9 @@ export function ProjectsSection({ projects }: ProjectsSectionProps) {
                   {project.techStack.map((tech) => (
                     <span
                       key={tech}
-                      className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-[var(--bg-surface-elevated)] border border-[var(--border-subtle)] text-xs font-mono font-medium text-[var(--text-primary)] hover:border-teal-500/40 transition-colors shadow-2xs"
+                      className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-[var(--bg-surface-elevated)] border border-[var(--border-subtle)] text-xs font-mono font-semibold text-[var(--text-primary)] hover:border-teal-500/40 transition-colors shadow-2xs"
                     >
-                      <span className="text-teal-700 dark:text-teal-400 shrink-0">
+                      <span className="text-teal-800 dark:text-teal-400 shrink-0">
                         {getTechIcon(tech, "w-3.5 h-3.5")}
                       </span>
                       <span>{tech}</span>
@@ -101,10 +101,10 @@ export function ProjectsSection({ projects }: ProjectsSectionProps) {
                   ))}
                 </div>
 
-                {/* Key Metric highlight preview if present */}
+                {/* Key Metric highlight preview with high contrast */}
                 {project.metrics && project.metrics.length > 0 && (
-                  <div className="flex items-center gap-2 text-xs font-mono text-teal-800 dark:text-teal-300 font-bold pt-1">
-                    <Sparkles className="w-3.5 h-3.5 text-teal-600 dark:text-teal-400" />
+                  <div className="inline-flex items-center gap-2 px-2.5 py-1 rounded-md bg-teal-100/70 dark:bg-teal-500/10 border border-teal-300 dark:border-teal-500/30 text-xs font-mono text-teal-950 dark:text-teal-200 font-bold mt-1">
+                    <Sparkles className="w-3.5 h-3.5 text-teal-800 dark:text-teal-400" />
                     <span>Impact: {project.metrics[0]}</span>
                   </div>
                 )}

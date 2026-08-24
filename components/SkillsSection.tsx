@@ -28,28 +28,28 @@ function getProficiencyBadge(level?: string) {
   const normalized = level || "Expert";
   if (normalized === "Expert") {
     return {
-      dot: "bg-emerald-500",
-      pill: "border-emerald-600/30 bg-emerald-500/10 text-emerald-800 dark:text-emerald-300",
+      dot: "bg-emerald-600 dark:bg-emerald-400",
+      pill: "border-emerald-300 dark:border-emerald-500/30 bg-emerald-100 dark:bg-emerald-500/15 text-emerald-950 dark:text-emerald-200",
       label: "Expert",
     };
   }
   if (normalized === "Advanced") {
     return {
-      dot: "bg-sky-500",
-      pill: "border-sky-600/30 bg-sky-500/10 text-sky-800 dark:text-sky-300",
+      dot: "bg-sky-600 dark:bg-sky-400",
+      pill: "border-sky-300 dark:border-sky-500/30 bg-sky-100 dark:bg-sky-500/15 text-sky-950 dark:text-sky-200",
       label: "Advanced",
     };
   }
   if (normalized === "Proficient" || normalized === "Intermediate") {
     return {
-      dot: "bg-amber-500",
-      pill: "border-amber-600/30 bg-amber-500/10 text-amber-800 dark:text-amber-300",
+      dot: "bg-amber-600 dark:bg-amber-400",
+      pill: "border-amber-300 dark:border-amber-500/30 bg-amber-100 dark:bg-amber-500/15 text-amber-950 dark:text-amber-200",
       label: "Proficient",
     };
   }
   return {
-    dot: "bg-slate-400",
-    pill: "border-slate-500/30 bg-slate-500/10 text-slate-700 dark:text-slate-300",
+    dot: "bg-slate-600 dark:bg-slate-400",
+    pill: "border-slate-300 dark:border-slate-500/30 bg-slate-100 dark:bg-slate-500/15 text-slate-900 dark:text-slate-200",
     label: "Beginner",
   };
 }
@@ -81,8 +81,8 @@ export function SkillsSection({ skills }: SkillsSectionProps) {
   return (
     <section id="skills" className="py-20 px-4 sm:px-6 lg:px-8 relative scroll-mt-20">
       <div className="max-w-6xl mx-auto">
-        {/* Section Header (without 'heatmap' in title or legend) */}
-        <div className="flex items-center gap-2 text-xs font-mono font-bold uppercase tracking-wider text-teal-700 dark:text-teal-400 mb-2">
+        {/* Section Header */}
+        <div className="flex items-center gap-2 text-xs font-mono font-bold uppercase tracking-wider text-teal-800 dark:text-teal-400 mb-2">
           <Cpu className="w-4 h-4" />
           <span>03 // Skills & Toolkit</span>
         </div>
@@ -101,7 +101,6 @@ export function SkillsSection({ skills }: SkillsSectionProps) {
         <div className="mt-12 grid grid-cols-1 md:grid-cols-2 gap-6">
           {categories.map((cat, idx) => {
             const Icon = cat.icon;
-            // Filter and sort skills from highest level (Expert -> Advanced -> Proficient -> Beginner)
             const categorySkills = skills
               .filter((s) => s.category === cat.name)
               .sort(
@@ -117,12 +116,12 @@ export function SkillsSection({ skills }: SkillsSectionProps) {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.5, delay: idx * 0.1 }}
-                className="glass-card rounded-2xl p-6 sm:p-7 border border-[var(--border-subtle)] flex flex-col justify-between"
+                className="glass-card rounded-2xl p-6 sm:p-7 border border-[var(--border-subtle)] flex flex-col justify-between shadow-xs"
               >
                 <div>
                   {/* Category Header */}
                   <div className="flex items-center gap-3 mb-2">
-                    <div className="w-9 h-9 rounded-xl bg-teal-500/10 border border-teal-500/30 flex items-center justify-center text-teal-700 dark:text-teal-400">
+                    <div className="w-9 h-9 rounded-xl bg-teal-500/10 border border-teal-500/30 flex items-center justify-center text-teal-800 dark:text-teal-400">
                       <Icon className="w-4 h-4" />
                     </div>
                     <div>
@@ -135,7 +134,7 @@ export function SkillsSection({ skills }: SkillsSectionProps) {
                     </div>
                   </div>
 
-                  {/* Skills Pills */}
+                  {/* Skills Pills with High Contrast Badges */}
                   <div className="mt-6 flex flex-wrap gap-2">
                     {categorySkills.length > 0 ? (
                       categorySkills.map((skill) => {
@@ -143,14 +142,14 @@ export function SkillsSection({ skills }: SkillsSectionProps) {
                         return (
                           <div
                             key={skill.id || skill.name}
-                            className="group relative inline-flex items-center gap-2 px-3 py-1.5 rounded-lg bg-[var(--bg-surface-elevated)] border border-[var(--border-subtle)] transition-all text-xs font-medium text-[var(--text-primary)] shadow-2xs hover:border-teal-500/40"
+                            className="group relative inline-flex items-center gap-2 px-3 py-1.5 rounded-lg bg-[var(--bg-surface-elevated)] border border-[var(--border-subtle)] transition-all text-xs font-semibold text-[var(--text-primary)] shadow-2xs hover:border-teal-500/40"
                           >
-                            <span className="text-teal-700 dark:text-teal-400">
+                            <span className="text-teal-800 dark:text-teal-400">
                               {getTechIcon(skill.name, "w-3.5 h-3.5")}
                             </span>
                             <span>{skill.name}</span>
                             <span
-                              className={`inline-flex items-center gap-1 px-1.5 py-0.5 rounded text-[10px] font-mono font-bold border ${badge.pill}`}
+                              className={`inline-flex items-center gap-1 px-2 py-0.5 rounded text-[10px] font-mono font-bold border shadow-3xs ${badge.pill}`}
                             >
                               <span className={`w-1.5 h-1.5 rounded-full ${badge.dot}`} />
                               <span>{badge.label}</span>
@@ -169,7 +168,7 @@ export function SkillsSection({ skills }: SkillsSectionProps) {
                 {/* Sub-indicator */}
                 <div className="mt-6 pt-4 border-t border-[var(--border-subtle)] flex items-center justify-between text-[11px] font-mono text-[var(--text-muted)]">
                   <span>{categorySkills.length} Core Tools</span>
-                  <span className="text-teal-700 dark:text-teal-400 font-bold">
+                  <span className="text-teal-800 dark:text-teal-400 font-bold">
                     Ranked by Proficiency
                   </span>
                 </div>

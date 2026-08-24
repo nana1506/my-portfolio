@@ -49,16 +49,16 @@ export function HeroAboutSection({ content }: HeroAboutSectionProps) {
             className="lg:col-span-6 flex flex-col justify-between"
           >
             <div>
-              {/* Status Pill */}
-              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-teal-600/30 bg-teal-500/10 text-teal-800 dark:text-teal-300 text-xs font-mono font-medium mb-5">
-                <span className="w-2 h-2 rounded-full bg-teal-500 animate-ping inline-block" />
+              {/* High Contrast Status Pill */}
+              <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full border border-teal-300 dark:border-teal-500/30 bg-teal-100 dark:bg-teal-500/10 text-teal-950 dark:text-teal-200 text-xs font-mono font-bold mb-5 shadow-3xs">
+                <span className="w-2 h-2 rounded-full bg-teal-600 dark:bg-teal-400 animate-ping inline-block" />
                 <span>Open for Analytics Initiatives & Roles</span>
               </div>
 
               {/* Headline */}
               <h1 className="text-3xl sm:text-4xl lg:text-5xl font-display font-extrabold tracking-tight text-[var(--text-primary)] leading-[1.15]">
                 {content.heroHeadline}
-                <span className="block text-transparent bg-clip-text bg-gradient-to-r from-teal-700 via-teal-600 to-cyan-600 dark:from-teal-400 dark:via-teal-300 dark:to-cyan-400 mt-1.5">
+                <span className="block text-transparent bg-clip-text bg-gradient-to-r from-teal-800 via-teal-700 to-cyan-700 dark:from-teal-400 dark:via-teal-300 dark:to-cyan-400 mt-1.5">
                   {content.heroSubheadline}
                 </span>
               </h1>
@@ -73,7 +73,7 @@ export function HeroAboutSection({ content }: HeroAboutSectionProps) {
             <div className="mt-8 pt-4 flex flex-wrap items-center gap-3">
               <a
                 href="#contact"
-                className="inline-flex items-center gap-2 px-5 py-3 rounded-xl bg-teal-600 hover:bg-teal-700 dark:bg-teal-500 dark:hover:bg-teal-400 text-white dark:text-zinc-950 font-semibold text-xs sm:text-sm transition-all shadow-md shadow-teal-600/20 active:scale-95 cursor-pointer"
+                className="inline-flex items-center gap-2 px-5 py-3 rounded-xl bg-teal-700 hover:bg-teal-800 dark:bg-teal-500 dark:hover:bg-teal-400 text-white dark:text-zinc-950 font-bold text-xs sm:text-sm transition-all shadow-md shadow-teal-700/20 active:scale-95 cursor-pointer"
               >
                 <span>Let&apos;s Collaborate</span>
                 <ArrowUpRight className="w-4 h-4" />
@@ -82,9 +82,9 @@ export function HeroAboutSection({ content }: HeroAboutSectionProps) {
               <a
                 href="/Isnan_Rizqi_Kurniawan_CV.pdf"
                 download="Isnan_Rizqi_Kurniawan_CV.pdf"
-                className="inline-flex items-center gap-2 px-4.5 py-3 rounded-xl border border-[var(--border-subtle)] bg-[var(--bg-surface)] hover:bg-[var(--bg-surface-elevated)] text-[var(--text-primary)] font-medium text-xs sm:text-sm transition-all hover:border-teal-500/50 active:scale-95 shadow-xs cursor-pointer"
+                className="inline-flex items-center gap-2 px-4.5 py-3 rounded-xl border border-[var(--border-subtle)] bg-[var(--bg-surface)] hover:bg-[var(--bg-surface-elevated)] text-[var(--text-primary)] font-bold text-xs sm:text-sm transition-all hover:border-teal-600/50 active:scale-95 shadow-xs cursor-pointer"
               >
-                <Download className="w-4 h-4 text-teal-600 dark:text-teal-400" />
+                <Download className="w-4 h-4 text-teal-700 dark:text-teal-400" />
                 <span>Download CV</span>
               </a>
             </div>
@@ -97,13 +97,13 @@ export function HeroAboutSection({ content }: HeroAboutSectionProps) {
             transition={{ duration: 0.5, delay: 0.1 }}
             className="lg:col-span-6"
           >
-            <div className="glass-card rounded-2xl p-6 sm:p-7 border border-[var(--border-subtle)] h-full flex flex-col justify-between relative overflow-hidden">
+            <div className="glass-card rounded-2xl p-6 sm:p-7 border border-[var(--border-subtle)] h-full flex flex-col justify-between relative overflow-hidden shadow-xs">
               <div>
                 {/* Header with Photo Avatar & Title */}
                 <div className="flex items-center justify-between gap-4 pb-4 border-b border-[var(--border-subtle)]">
                   <div className="flex items-center gap-3.5">
                     {/* Profile Photo / Avatar Frame */}
-                    <div className="relative w-14 h-14 rounded-2xl overflow-hidden bg-gradient-to-tr from-teal-500/20 via-cyan-500/20 to-teal-500/30 border-2 border-teal-500/40 flex items-center justify-center shrink-0 shadow-sm group">
+                    <div className="relative w-14 h-14 rounded-2xl overflow-hidden bg-gradient-to-tr from-teal-500/20 via-cyan-500/20 to-teal-500/30 border-2 border-teal-600/40 flex items-center justify-center shrink-0 shadow-sm group">
                       {!imgError ? (
                         <img
                           src={profileImg}
@@ -112,23 +112,23 @@ export function HeroAboutSection({ content }: HeroAboutSectionProps) {
                           className="w-full h-full object-cover"
                         />
                       ) : (
-                        <div className="w-full h-full flex items-center justify-center text-teal-700 dark:text-teal-300">
+                        <div className="w-full h-full flex items-center justify-center text-teal-800 dark:text-teal-300">
                           <LineChart className="w-7 h-7" />
                         </div>
                       )}
                     </div>
 
                     <div>
-                      <h2 className="font-display text-lg font-bold text-[var(--text-primary)]">
+                      <h2 className="font-display text-lg font-extrabold text-[var(--text-primary)]">
                         Isnan Rizqi Kurniawan
                       </h2>
-                      <p className="text-xs text-[var(--text-muted)] font-mono">
+                      <p className="text-xs text-[var(--text-muted)] font-mono font-medium">
                         Senior Data Analyst • @rizisnan
                       </p>
                     </div>
                   </div>
 
-                  <span className="px-2.5 py-1 rounded-full bg-teal-500/10 text-teal-700 dark:text-teal-300 border border-teal-500/30 text-[10px] font-mono font-bold">
+                  <span className="px-3 py-1 rounded-full bg-teal-100 dark:bg-teal-500/15 text-teal-950 dark:text-teal-200 border border-teal-300 dark:border-teal-500/30 text-[11px] font-mono font-bold shadow-3xs">
                     6+ YOE
                   </span>
                 </div>
@@ -139,19 +139,19 @@ export function HeroAboutSection({ content }: HeroAboutSectionProps) {
                 </div>
               </div>
 
-              {/* 5 Core Analytical Capabilities Capsules (without 'dbt' in title) */}
+              {/* 5 Core Analytical Capabilities Capsules */}
               <div className="mt-6 pt-5 border-t border-[var(--border-subtle)]">
-                <div className="text-[11px] font-mono uppercase tracking-wider text-teal-700 dark:text-teal-400 font-bold mb-2.5 flex items-center gap-1.5">
-                  <Sparkles className="w-3.5 h-3.5" />
+                <div className="text-[11px] font-mono uppercase tracking-wider text-teal-900 dark:text-teal-300 font-extrabold mb-2.5 flex items-center gap-1.5">
+                  <Sparkles className="w-3.5 h-3.5 text-teal-700 dark:text-teal-400" />
                   <span>Core Analytical Capabilities</span>
                 </div>
                 <div className="flex flex-wrap gap-2">
                   {coreSkillPills.map((skill, idx) => (
                     <span
                       key={idx}
-                      className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[var(--bg-surface-elevated)] border border-[var(--border-subtle)] text-xs font-medium text-[var(--text-primary)] hover:border-teal-500/40 transition-colors shadow-2xs"
+                      className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[var(--bg-surface-elevated)] border border-[var(--border-subtle)] text-xs font-semibold text-[var(--text-primary)] hover:border-teal-500/40 transition-colors shadow-2xs"
                     >
-                      <span className="w-1.5 h-1.5 rounded-full bg-teal-600 dark:bg-teal-400 inline-block" />
+                      <span className="w-1.5 h-1.5 rounded-full bg-teal-700 dark:bg-teal-400 inline-block" />
                       <span>{skill}</span>
                     </span>
                   ))}
@@ -174,14 +174,14 @@ export function HeroAboutSection({ content }: HeroAboutSectionProps) {
               key={i}
               className="p-4 rounded-xl bg-[var(--bg-surface)] border border-[var(--border-subtle)] shadow-xs hover:border-teal-500/40 transition-colors"
             >
-              <div className="font-display text-2xl sm:text-3xl font-extrabold text-teal-700 dark:text-teal-400">
+              <div className="font-display text-2xl sm:text-3xl font-extrabold text-teal-800 dark:text-teal-400">
                 {stat.value}
               </div>
-              <div className="text-xs sm:text-sm font-semibold text-[var(--text-primary)] mt-0.5">
+              <div className="text-xs sm:text-sm font-bold text-[var(--text-primary)] mt-0.5">
                 {stat.label}
               </div>
               {stat.helper && (
-                <div className="text-[11px] text-[var(--text-muted)] mt-0.5 font-mono">
+                <div className="text-[11px] text-[var(--text-muted)] mt-0.5 font-mono font-medium">
                   {stat.helper}
                 </div>
               )}
