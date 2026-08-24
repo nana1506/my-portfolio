@@ -40,16 +40,16 @@ export function SocialProofSection({
               className="glass-card rounded-2xl p-6 sm:p-7 border border-[var(--border-subtle)] flex flex-col justify-between relative group shadow-xs hover:border-blue-500/40"
             >
               <div>
-                {/* Header with Quote Icon & Relationship Badge (Youthful Orange Badge) */}
+                {/* Header with Quote Icon & Relationship Badge (Ultra High-Contrast Orange Badge) */}
                 <div className="flex items-start justify-between gap-3 mb-4">
                   <div className="w-9 h-9 rounded-xl bg-blue-500/10 border border-blue-500/30 flex items-center justify-center text-blue-600 dark:text-blue-400 shrink-0">
                     <Quote className="w-4 h-4" />
                   </div>
 
                   {/* High Contrast Relationship Pill Badge */}
-                  <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-orange-100 dark:bg-orange-500/15 text-orange-950 dark:text-orange-200 border border-orange-300 dark:border-orange-500/30 text-[11px] font-mono font-extrabold shadow-2xs">
+                  <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-orange-100 dark:bg-orange-950/70 text-zinc-950 dark:text-orange-100 border border-orange-400/80 dark:border-orange-500/50 text-[11px] font-mono font-extrabold shadow-xs">
                     <UserCheck className="w-3.5 h-3.5 text-orange-600 dark:text-orange-400" />
-                    <span>{rec.relationship || "Direct Collaborator"}</span>
+                    <span className="text-zinc-950 dark:text-zinc-100 font-bold">{rec.relationship || "Direct Collaborator"}</span>
                   </span>
                 </div>
 

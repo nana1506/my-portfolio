@@ -29,27 +29,27 @@ function getProficiencyBadge(level?: string) {
   if (normalized === "Expert") {
     return {
       dot: "bg-blue-600 dark:bg-blue-400",
-      pill: "border-blue-300 dark:border-blue-500/30 bg-blue-100/80 dark:bg-blue-500/15 text-blue-950 dark:text-blue-200",
+      pill: "border-blue-400/80 dark:border-blue-500/50 bg-blue-100 dark:bg-blue-950/70 text-zinc-950 dark:text-blue-100",
       label: "Expert",
     };
   }
   if (normalized === "Advanced") {
     return {
       dot: "bg-orange-600 dark:bg-orange-400",
-      pill: "border-orange-300 dark:border-orange-500/30 bg-orange-100/80 dark:bg-orange-500/15 text-orange-950 dark:text-orange-200",
+      pill: "border-orange-400/80 dark:border-orange-500/50 bg-orange-100 dark:bg-orange-950/70 text-zinc-950 dark:text-orange-100",
       label: "Advanced",
     };
   }
   if (normalized === "Proficient" || normalized === "Intermediate") {
     return {
       dot: "bg-amber-600 dark:bg-amber-400",
-      pill: "border-amber-300 dark:border-amber-500/30 bg-amber-100/80 dark:bg-amber-500/15 text-amber-950 dark:text-amber-200",
+      pill: "border-amber-400/80 dark:border-amber-500/50 bg-amber-100 dark:bg-amber-950/70 text-zinc-950 dark:text-amber-100",
       label: "Proficient",
     };
   }
   return {
     dot: "bg-slate-600 dark:bg-slate-400",
-    pill: "border-slate-300 dark:border-slate-500/30 bg-slate-100 dark:bg-slate-500/15 text-slate-900 dark:text-slate-200",
+    pill: "border-slate-400/80 dark:border-slate-500/50 bg-slate-100 dark:bg-slate-900 text-zinc-950 dark:text-slate-100",
     label: "Beginner",
   };
 }
@@ -134,7 +134,7 @@ export function SkillsSection({ skills }: SkillsSectionProps) {
                     </div>
                   </div>
 
-                  {/* Skills Pills with High Contrast Badges */}
+                  {/* Skills Pills with High Contrast Text and Badges */}
                   <div className="mt-6 flex flex-wrap gap-2">
                     {categorySkills.length > 0 ? (
                       categorySkills.map((skill) => {
@@ -147,9 +147,9 @@ export function SkillsSection({ skills }: SkillsSectionProps) {
                             <span className="text-blue-600 dark:text-blue-400">
                               {getTechIcon(skill.name, "w-3.5 h-3.5")}
                             </span>
-                            <span>{skill.name}</span>
+                            <span className="text-zinc-950 dark:text-zinc-100 font-bold">{skill.name}</span>
                             <span
-                              className={`inline-flex items-center gap-1 px-2 py-0.5 rounded text-[10px] font-mono font-bold border shadow-3xs ${badge.pill}`}
+                              className={`inline-flex items-center gap-1.5 px-2 py-0.5 rounded text-[10px] font-mono font-extrabold border shadow-3xs ${badge.pill}`}
                             >
                               <span className={`w-1.5 h-1.5 rounded-full ${badge.dot}`} />
                               <span>{badge.label}</span>

@@ -43,11 +43,11 @@ export function HeroAboutSection({ content }: HeroAboutSectionProps) {
             className="lg:col-span-6 flex flex-col justify-between"
           >
             <div>
-              {/* Vibrant Youthful Status Pill */}
-              <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full border border-orange-300 dark:border-orange-500/30 bg-orange-100/80 dark:bg-orange-500/15 text-orange-950 dark:text-orange-200 text-xs font-mono font-bold mb-5 shadow-3xs">
-                <span className="w-2 h-2 rounded-full bg-orange-500 animate-ping inline-block" />
-                <Zap className="w-3.5 h-3.5 text-orange-600 dark:text-orange-400" />
-                <span>Open for Analytics Initiatives & Roles</span>
+              {/* Ultra High-Contrast Status Pill */}
+              <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full border border-orange-400/80 dark:border-orange-500/50 bg-orange-100 dark:bg-orange-950/70 text-zinc-950 dark:text-orange-100 text-xs font-mono font-extrabold mb-5 shadow-xs">
+                <span className="w-2 h-2 rounded-full bg-orange-600 dark:bg-orange-400 animate-ping inline-block" />
+                <Zap className="w-3.5 h-3.5 text-orange-700 dark:text-orange-300" />
+                <span className="text-zinc-950 dark:text-orange-100 font-extrabold">Open for Analytics Initiatives & Roles</span>
               </div>
 
               {/* Headline with Electric Blue & Sunset Orange Gradient */}
@@ -71,7 +71,7 @@ export function HeroAboutSection({ content }: HeroAboutSectionProps) {
                 className="inline-flex items-center gap-2 px-5 py-3 rounded-xl bg-blue-600 hover:bg-blue-700 dark:bg-blue-600 dark:hover:bg-blue-500 text-white font-bold text-xs sm:text-sm transition-all shadow-md shadow-blue-600/25 hover:shadow-orange-500/25 active:scale-95 cursor-pointer"
               >
                 <span>Let&apos;s Collaborate</span>
-                <ArrowUpRight className="w-4 h-4 text-orange-300" />
+                <ArrowUpRight className="w-4 h-4 text-orange-200" />
               </a>
 
               <a
@@ -97,7 +97,7 @@ export function HeroAboutSection({ content }: HeroAboutSectionProps) {
                 {/* Header with Photo Avatar & Title */}
                 <div className="flex items-center justify-between gap-4 pb-4 border-b border-[var(--border-subtle)]">
                   <div className="flex items-center gap-3.5">
-                    {/* Profile Photo / Avatar Frame with Blue/Orange Ring */}
+                    {/* Profile Photo Frame */}
                     <div className="relative w-14 h-14 rounded-2xl overflow-hidden bg-gradient-to-tr from-blue-500/20 via-orange-500/20 to-blue-500/30 border-2 border-blue-600 dark:border-blue-400 flex items-center justify-center shrink-0 shadow-sm group">
                       {!imgError ? (
                         <img
@@ -123,8 +123,8 @@ export function HeroAboutSection({ content }: HeroAboutSectionProps) {
                     </div>
                   </div>
 
-                  {/* 6+ YOE Vibrant Badge */}
-                  <span className="px-3 py-1 rounded-full bg-orange-100 dark:bg-orange-500/15 text-orange-950 dark:text-orange-200 border border-orange-300 dark:border-orange-500/30 text-[11px] font-mono font-extrabold shadow-3xs">
+                  {/* Ultra High Contrast 6+ YOE Badge */}
+                  <span className="px-3 py-1 rounded-full bg-orange-100 dark:bg-orange-950/70 text-zinc-950 dark:text-orange-100 border border-orange-400/80 dark:border-orange-500/50 text-[11px] font-mono font-black shadow-xs">
                     6+ YOE
                   </span>
                 </div>
@@ -147,8 +147,8 @@ export function HeroAboutSection({ content }: HeroAboutSectionProps) {
                       key={idx}
                       className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[var(--bg-surface-elevated)] border border-[var(--border-subtle)] text-xs font-bold text-[var(--text-primary)] hover:border-blue-500/50 hover:text-blue-600 transition-colors shadow-2xs"
                     >
-                      <span className="w-1.5 h-1.5 rounded-full bg-orange-500 inline-block" />
-                      <span>{skill}</span>
+                      <span className="w-2 h-2 rounded-full bg-orange-500 inline-block shrink-0" />
+                      <span className="text-zinc-950 dark:text-zinc-100 font-bold">{skill}</span>
                     </span>
                   ))}
                 </div>

@@ -104,9 +104,9 @@ export function ContactSection({ content }: ContactSectionProps) {
 
           {/* Section Indicator */}
           <div className="text-center mb-8">
-            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full border border-orange-300 dark:border-orange-500/30 bg-orange-100/80 dark:bg-orange-500/15 text-orange-950 dark:text-orange-200 text-xs font-mono font-bold mb-3 shadow-3xs">
+            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full border border-orange-400/80 dark:border-orange-500/50 bg-orange-100 dark:bg-orange-950/70 text-zinc-950 dark:text-orange-100 text-xs font-mono font-extrabold mb-3 shadow-xs">
               <MessageSquare className="w-3.5 h-3.5 text-orange-600 dark:text-orange-400" />
-              <span>06 // Let&apos;s Collaborate</span>
+              <span className="text-zinc-950 dark:text-orange-100 font-extrabold">06 // Let&apos;s Collaborate</span>
             </div>
 
             <h2 className="text-3xl sm:text-4xl md:text-5xl font-display font-extrabold text-[var(--text-primary)] tracking-tight max-w-2xl mx-auto leading-tight">
