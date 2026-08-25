@@ -18,6 +18,7 @@ export interface ProjectItem {
   title: string;
   shortDescription: string;
   companyLogo?: string;
+  dashboardImage?: string;
   techStack: string[];
   problem?: string;
   role?: string;

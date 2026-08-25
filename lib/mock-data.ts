@@ -46,6 +46,7 @@ export const initialProjects: ProjectItem[] = [
     title: "Executive Revenue & Churn Intelligence Engine",
     shortDescription:
       "Unified multi-channel billing and product telemetry into a single real-time executive dashboard predicting customer churn risk.",
+    dashboardImage: "/dashboards/revenue-churn.jpg",
     techStack: ["SQL", "dbt", "Tableau", "Snowflake", "Python"],
     problem:
       "Enterprise churn signals were scattered across Stripe, Salesforce, and Postgres event logs, creating an average 3-week lag before CS teams detected high-risk account contractions.",
@@ -61,6 +62,7 @@ export const initialProjects: ProjectItem[] = [
     title: "Omnichannel E-Commerce Marketing Attribution & LTV Modeler",
     shortDescription:
       "Algorithmic multi-touch attribution model and predictive Customer Lifetime Value (pLTV) cohort visualization platform.",
+    dashboardImage: "/dashboards/marketing-ltv.jpg",
     techStack: ["BigQuery", "Looker", "Python", "dbt", "SQL"],
     problem:
       "Marketing spend of $400k/month across Meta, Google Ads, TikTok, and Affiliate channels suffered from last-click bias, leading to misallocated acquisition budgets and declining ROAS.",
@@ -76,6 +78,7 @@ export const initialProjects: ProjectItem[] = [
     title: "Supply Chain Warehouse Throughput & SLA Bottleneck Analysis",
     shortDescription:
       "Real-time operational monitoring dashboard mapping fulfillment station velocity, inventory aging, and dispatch bottlenecks.",
+    dashboardImage: "/dashboards/supply-chain.jpg",
     techStack: ["PostgreSQL", "Power BI", "Python", "Docker", "Airflow"],
     problem:
       "Peak season order fulfillment times were failing SLA guarantees by 18% due to undetected batching delays across sorting conveyor hubs.",
@@ -91,6 +94,7 @@ export const initialProjects: ProjectItem[] = [
     title: "Growth Funnel & A/B Experimentation Decision Platform",
     shortDescription:
       "Self-service experiment evaluation dashboard with Bayesian statistical significance calculators and automated anomaly detection.",
+    dashboardImage: "/dashboards/ab-testing.jpg",
     techStack: ["SQL", "Metabase", "Python", "PostgreSQL"],
     problem:
       "Product managers were making inconsistent launch decisions on feature flags due to mismatched statistical significance formulas and sample ratio mismatches (SRM).",

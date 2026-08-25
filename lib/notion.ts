@@ -413,11 +413,25 @@ export async function getProjects(): Promise<ProjectItem[]> {
         "company_logo",
         "Logo",
         "logo",
-        "Image",
-        "image",
         "Company Logo",
         "Company_logo",
         "Logo URL",
+      ]);
+      const dashboardImage = extractImageFromPage(page, [
+        "Dashboard_Image",
+        "dashboard_image",
+        "Dashboard",
+        "dashboard",
+        "Screenshot",
+        "screenshot",
+        "Result_Image",
+        "result_image",
+        "Project_Image",
+        "project_image",
+        "Cover",
+        "cover",
+        "Image",
+        "image",
       ]);
       const problem = getText(p.Problem || p.problem);
       const role = getText(p.Role || p.role);
@@ -431,6 +445,7 @@ export async function getProjects(): Promise<ProjectItem[]> {
         shortDescription: shortDesc || "Project case study overview.",
         techStack: techStack.length > 0 ? techStack : ["Data Analytics", "SQL"],
         companyLogo: logo,
+        dashboardImage: dashboardImage || undefined,
         problem: problem || undefined,
         role: role || undefined,
         outcome: outcome || undefined,
