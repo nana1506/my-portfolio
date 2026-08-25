@@ -137,7 +137,7 @@ export function HeroAboutSection({ content }: HeroAboutSectionProps) {
                           src={profileImg}
                           alt="Isnan Rizqi Kurniawan"
                           onError={() => setImgError(true)}
-                          className="w-auto h-full max-h-[380px] sm:max-h-[420px] scale-105 sm:scale-115 object-contain object-center sm:object-left -translate-x-2 sm:-translate-x-4 opacity-35 sm:opacity-95 dark:opacity-90 transition-all duration-700 hover:scale-120 filter drop-shadow-md origin-left"
+                          className="w-auto h-full max-h-[380px] sm:max-h-[420px] scale-105 sm:scale-115 object-contain object-center sm:object-left -translate-x-2 sm:-translate-x-4 opacity-35 sm:opacity-95 dark:opacity-90 transition-all duration-700 hover:scale-120 filter grayscale contrast-105 drop-shadow-md origin-left"
                           style={{
                             maskImage:
                               "linear-gradient(to right, rgba(0,0,0,1) 0%, rgba(0,0,0,0.98) 12%, rgba(0,0,0,0.9) 25%, rgba(0,0,0,0.76) 40%, rgba(0,0,0,0.55) 55%, rgba(0,0,0,0.32) 70%, rgba(0,0,0,0.12) 85%, rgba(0,0,0,0) 100%), linear-gradient(to bottom, rgba(0,0,0,0.85) 0%, rgba(0,0,0,1) 10%, rgba(0,0,0,1) 90%, rgba(0,0,0,0.8) 100%)",
