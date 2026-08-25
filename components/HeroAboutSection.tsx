@@ -29,7 +29,7 @@ export function HeroAboutSection({ content }: HeroAboutSectionProps) {
       "Cross-Functional Leadership",
     ];
 
-  const profileImg = normalizeImageUrl(content.profilePhoto) || "/profile.jpg";
+  const profileImg = normalizeImageUrl(content.profilePhoto) || "/profile.png";
 
   useEffect(() => {
     setImgError(false);
@@ -47,7 +47,7 @@ export function HeroAboutSection({ content }: HeroAboutSectionProps) {
       <div className="max-w-7xl mx-auto space-y-12">
         {/* Side-by-Side Unified Grid: Left Hero (5 cols) | Right About Showcase (7 cols) */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-stretch">
-          
+
           {/* Left Column: Hero & Value Proposition (5 cols on large screens) */}
           <motion.div
             initial={{ opacity: 0, y: 15 }}
@@ -98,7 +98,7 @@ export function HeroAboutSection({ content }: HeroAboutSectionProps) {
             </div>
           </motion.div>
 
-          {/* Right Column: About Card with Internal 2-Column Portrait & Bio (7 cols on large screens) */}
+          {/* Right Column: About Card with Seamless Portrait Overlay & Bio (7 cols on large screens) */}
           <motion.div
             initial={{ opacity: 0, y: 15 }}
             animate={{ opacity: 1, y: 0 }}
@@ -109,8 +109,8 @@ export function HeroAboutSection({ content }: HeroAboutSectionProps) {
               {/* Soft Radiant Backdrop Aura */}
               <div className="absolute top-0 left-0 w-80 h-80 bg-gradient-to-br from-blue-500/15 via-orange-500/10 to-transparent rounded-full blur-3xl pointer-events-none" />
 
-              <div className="relative z-10">
-                {/* Header: Name + Location + Dynamic YOE Pill */}
+              <div className="relative z-10 flex flex-col justify-between h-full">
+                {/* Header: Name + Location + Dynamic YOE Pill aligned */}
                 <div className="flex items-center justify-between gap-4 pb-4 border-b border-[var(--border-subtle)]">
                   <div>
                     <h2 className="text-xl sm:text-2xl lg:text-3xl font-display font-black text-[var(--text-primary)] tracking-tight">
@@ -122,41 +122,50 @@ export function HeroAboutSection({ content }: HeroAboutSectionProps) {
                   </div>
 
                   {/* YOE Pill Badge */}
-                  <span className="px-3.5 py-1.5 rounded-full bg-orange-100/90 dark:bg-orange-950/70 text-[var(--text-primary)] border border-orange-400/80 dark:border-orange-500/50 text-xs font-mono font-black shadow-xs shrink-0">
+                  <span className="px-3.5 py-1.5 rounded-full bg-orange-100/90 dark:bg-orange-950/70 text-[var(--text-primary)] border border-orange-400/80 dark:border-orange-500/50 text-xs font-mono font-black shadow-xs shrink-0 self-center">
                     {yoeDisplay}
                   </span>
                 </div>
 
-                {/* Internal Layout: Tall Portrait Frame + Bio Narrative */}
-                <div className="mt-5 grid grid-cols-1 sm:grid-cols-12 gap-5 sm:gap-6 items-start">
-                  {/* Portrait Column on the Left */}
-                  <div className="sm:col-span-4 flex justify-center sm:justify-start">
-                    <div className="relative w-full max-w-[190px] aspect-4/5 rounded-2xl overflow-hidden border-2 border-blue-500/40 dark:border-blue-400/50 bg-gradient-to-b from-blue-500/15 via-[var(--bg-surface-elevated)] to-[var(--bg-surface)] shadow-md group flex items-center justify-center shrink-0">
-                      {/* Decorative Dashed Ring Accent */}
-                      <div className="absolute -top-8 -left-8 w-28 h-28 rounded-full border border-dashed border-blue-400/40 pointer-events-none" />
-                      <div className="absolute -bottom-8 -right-8 w-32 h-32 rounded-full border border-dashed border-orange-400/40 pointer-events-none" />
-
-                      {!imgError ? (
+                {/* Internal Layout: Full-Height Seamless Photo on Left & Bio Narrative on Right */}
+                <div className="flex-1 my-5 relative min-h-[300px] sm:min-h-[360px] flex items-center">
+                  {/* Larger photo shifted to the left with seamless transparent gradient fading into the text */}
+                  <div className="absolute inset-y-0 -left-2 sm:-left-6 lg:-left-8 w-full sm:w-[62%] lg:w-[58%] pointer-events-none overflow-hidden select-none z-0 flex items-center justify-center sm:justify-start">
+                    {!imgError ? (
+                      <div className="relative w-full h-full flex items-center justify-center sm:justify-start">
                         <img
                           src={profileImg}
                           alt="Isnan Rizqi Kurniawan"
                           onError={() => setImgError(true)}
-                          className="w-full h-full object-cover object-top transition-transform duration-500 group-hover:scale-105"
+                          className="w-auto h-full max-h-[380px] sm:max-h-[420px] scale-105 sm:scale-115 object-contain object-center sm:object-left -translate-x-2 sm:-translate-x-4 opacity-35 sm:opacity-95 dark:opacity-90 transition-all duration-700 hover:scale-120 filter drop-shadow-md origin-left"
+                          style={{
+                            maskImage:
+                              "linear-gradient(to right, rgba(0,0,0,1) 0%, rgba(0,0,0,0.98) 12%, rgba(0,0,0,0.9) 25%, rgba(0,0,0,0.76) 40%, rgba(0,0,0,0.55) 55%, rgba(0,0,0,0.32) 70%, rgba(0,0,0,0.12) 85%, rgba(0,0,0,0) 100%), linear-gradient(to bottom, rgba(0,0,0,0.85) 0%, rgba(0,0,0,1) 10%, rgba(0,0,0,1) 90%, rgba(0,0,0,0.8) 100%)",
+                            WebkitMaskImage:
+                              "linear-gradient(to right, rgba(0,0,0,1) 0%, rgba(0,0,0,0.98) 12%, rgba(0,0,0,0.9) 25%, rgba(0,0,0,0.76) 40%, rgba(0,0,0,0.55) 55%, rgba(0,0,0,0.32) 70%, rgba(0,0,0,0.12) 85%, rgba(0,0,0,0) 100%), linear-gradient(to bottom, rgba(0,0,0,0.85) 0%, rgba(0,0,0,1) 10%, rgba(0,0,0,1) 90%, rgba(0,0,0,0.8) 100%)",
+                            maskComposite: "intersect",
+                            WebkitMaskComposite: "destination-in",
+                          }}
                         />
-                      ) : (
-                        <div className="w-full h-full flex flex-col items-center justify-center text-blue-600 dark:text-blue-400 p-4 text-center">
-                          <LineChart className="w-10 h-10 mb-1" />
-                          <span className="font-display font-bold text-xs text-[var(--text-primary)]">
-                            Isnan Rizqi
-                          </span>
-                        </div>
-                      )}
-                    </div>
+                        {/* Subtle luminous halo behind the portrait */}
+                        <div className="absolute top-1/2 -translate-y-1/2 -left-2 w-56 h-56 bg-gradient-to-tr from-blue-500/10 via-indigo-500/10 to-transparent rounded-full blur-3xl pointer-events-none -z-10" />
+                      </div>
+                    ) : (
+                      <div className="w-full h-full flex items-center justify-center opacity-15">
+                        <LineChart className="w-28 h-28 text-blue-500" />
+                      </div>
+                    )}
                   </div>
 
-                  {/* Bio Narrative on the Right */}
-                  <div className="sm:col-span-8 text-xs sm:text-sm text-[var(--text-secondary)] leading-relaxed space-y-2.5 whitespace-pre-line font-normal">
-                    {content.aboutLongBio}
+                  {/* 12-col Grid for Bio Text Alignment */}
+                  <div className="w-full grid grid-cols-1 sm:grid-cols-12 gap-5 sm:gap-6 items-center">
+                    {/* Photo clearance space on tablet/desktop */}
+                    <div className="hidden sm:block sm:col-span-5 lg:col-span-5 pointer-events-none" />
+
+                    {/* Bio Narrative on the Right */}
+                    <div className="sm:col-span-7 lg:col-span-7 text-xs sm:text-sm text-[var(--text-secondary)] leading-relaxed space-y-3 whitespace-pre-line font-normal relative z-10">
+                      {content.aboutLongBio}
+                    </div>
                   </div>
                 </div>
               </div>

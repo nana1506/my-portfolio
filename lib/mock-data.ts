@@ -33,7 +33,7 @@ export const initialSiteContent: SiteContent = {
     { label: "Dashboards Deployed", value: "45+", helper: "Used daily by C-Suite" },
     { label: "Measured Business Impact", value: "$4.2M+", helper: "Identified Cost/Rev Ops" },
   ],
-  profilePhoto: "/profile.jpg",
+  profilePhoto: "/profile.png",
   contactEmail: "isnan.rizqikurniawan@gmail.com",
   linkedinUrl: "https://www.linkedin.com/in/rizisnan",
   githubUrl: "https://github.com",
