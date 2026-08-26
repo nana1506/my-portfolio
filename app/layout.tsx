@@ -3,6 +3,7 @@ import { Inter, Space_Grotesk } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@/components/ThemeProvider";
 import { Analytics } from "@vercel/analytics/next";
+import { GoogleAnalytics } from "@/components/GoogleAnalytics";
 
 const inter = Inter({
   variable: "--font-body",
@@ -63,6 +64,7 @@ export default function RootLayout({
           {children}
         </ThemeProvider>
         <Analytics />
+        <GoogleAnalytics />
       </body>
     </html>
   );

@@ -18,6 +18,7 @@ import {
   Briefcase,
   CheckCircle2,
 } from "lucide-react";
+import { trackContactFormSubmit, trackEmailCopy, trackOutboundLink } from "@/lib/analytics";
 
 interface ContactSectionProps {
   content: SiteContent;
@@ -41,6 +42,7 @@ export function ContactSection({ content }: ContactSectionProps) {
 
   const handleCopyEmail = () => {
     navigator.clipboard.writeText(email);
+    trackEmailCopy("contact_section");
     setCopied(true);
     setTimeout(() => setCopied(false), 2500);
   };
@@ -48,6 +50,7 @@ export function ContactSection({ content }: ContactSectionProps) {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
+    trackContactFormSubmit(formData.collaborationType, formData.company);
 
     try {
       await fetch("/api/contact-click", {
@@ -133,6 +136,7 @@ export function ContactSection({ content }: ContactSectionProps) {
               <div className="mt-6 flex justify-center gap-3">
                 <a
                   href={`mailto:${email}?subject=Follow-up:%20${encodeURIComponent(formData.collaborationType)}`}
+                  onClick={() => trackOutboundLink(`mailto:${email}`, "direct_email_followup")}
                   className="inline-flex items-center gap-1.5 px-5 py-2.5 rounded-xl bg-blue-600 dark:bg-blue-500 text-white text-xs font-bold hover:bg-blue-700 transition-colors shadow-sm"
                 >
                   <Mail className="w-3.5 h-3.5 text-orange-200" />
@@ -260,6 +264,7 @@ export function ContactSection({ content }: ContactSectionProps) {
                   href={linkedin}
                   target="_blank"
                   rel="noopener noreferrer"
+                  onClick={() => trackOutboundLink(linkedin, "linkedin_contact_section")}
                   className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-5 py-3 rounded-xl border border-[var(--border-subtle)] bg-[var(--bg-surface)] hover:bg-[var(--bg-surface-elevated)] text-[var(--text-primary)] font-bold text-xs transition-all hover:border-blue-500/40 active:scale-95 shadow-xs"
                 >
                   <LinkedInIcon className="w-4 h-4 text-blue-600 dark:text-blue-400" />

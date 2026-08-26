@@ -3,6 +3,7 @@
 import * as React from "react";
 import { useTheme } from "next-themes";
 import { Moon, Sun } from "lucide-react";
+import { trackThemeToggle } from "@/lib/analytics";
 
 export function ThemeToggle() {
   const { theme, setTheme, resolvedTheme } = useTheme();
@@ -25,9 +26,15 @@ export function ThemeToggle() {
 
   const isDark = resolvedTheme === "dark" || theme === "dark";
 
+  const handleToggle = () => {
+    const nextTheme = isDark ? "light" : "dark";
+    setTheme(nextTheme);
+    trackThemeToggle(nextTheme);
+  };
+
   return (
     <button
-      onClick={() => setTheme(isDark ? "light" : "dark")}
+      onClick={handleToggle}
       aria-label="Toggle theme"
       className="relative p-2 rounded-lg border border-[var(--border-subtle)] bg-[var(--bg-surface)] hover:bg-[var(--bg-surface-elevated)] hover:border-teal-500/40 text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-all duration-200 cursor-pointer group"
       title={isDark ? "Switch to Light Mode" : "Switch to Dark Mode"}

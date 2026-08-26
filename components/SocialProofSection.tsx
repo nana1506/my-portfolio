@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import { RecommendationItem } from "@/lib/types";
 import { LinkedInIcon } from "./Icons";
 import { Quote, MessageSquareQuote, UserCheck, ArrowUpRight, Building2 } from "lucide-react";
+import { trackOutboundLink } from "@/lib/analytics";
 
 interface SocialProofSectionProps {
   recommendations: RecommendationItem[];
@@ -74,6 +75,7 @@ export function SocialProofSection({
             href={LINKEDIN_RECOMMENDATIONS_URL}
             target="_blank"
             rel="noopener noreferrer"
+            onClick={() => trackOutboundLink(LINKEDIN_RECOMMENDATIONS_URL, "linkedin_recommendations_header")}
             className="inline-flex items-center gap-2 px-4.5 py-2.5 rounded-xl border border-[var(--border-subtle)] bg-[var(--bg-surface)] hover:bg-[var(--bg-surface-elevated)] text-[var(--text-primary)] font-bold text-xs transition-all hover:border-blue-500/50 shadow-2xs self-start md:self-auto cursor-pointer group"
           >
             <LinkedInIcon className="w-4 h-4 text-blue-600 dark:text-blue-400" />
@@ -90,58 +92,62 @@ export function SocialProofSection({
         <div className="absolute right-0 top-0 bottom-0 w-16 sm:w-32 bg-gradient-to-l from-[var(--bg-primary)] to-transparent z-10 pointer-events-none" />
 
         <div className="animate-marquee-flow flex gap-6">
-          {marqueeItems.map((rec, index) => (
-            <a
-              key={`${rec.id || index}-${index}`}
-              href={LINKEDIN_RECOMMENDATIONS_URL}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="glass-card w-[340px] sm:w-[420px] rounded-2xl p-6 sm:p-7 border border-[var(--border-subtle)] flex flex-col justify-between relative group shadow-xs hover:border-blue-500/50 hover:shadow-lg transition-all cursor-pointer select-none shrink-0"
-            >
-              <div>
-                {/* Header with Company Logo / Fallback Dummy Icon & Relationship Badge */}
-                <div className="flex items-start justify-between gap-3 mb-4">
-                  <RecommendationLogo
-                    src={rec.companyLogo || rec.avatarUrl}
-                    alt={rec.authorCompany || rec.authorName}
-                  />
-
-                  {/* Relationship Pill Badge */}
-                  <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-orange-100/90 dark:bg-orange-950/70 text-zinc-950 dark:text-orange-100 border border-orange-400/80 dark:border-orange-500/50 text-[11px] font-mono font-extrabold shadow-xs">
-                    <UserCheck className="w-3.5 h-3.5 text-orange-600 dark:text-orange-400" />
-                    <span>{rec.relationship || "Direct Collaborator"}</span>
-                  </span>
-                </div>
-
-                {/* Quote Text */}
-                <p className="text-sm text-[var(--text-secondary)] leading-relaxed italic font-normal line-clamp-4">
-                  &ldquo;{rec.quote}&rdquo;
-                </p>
-              </div>
-
-              {/* Author Attribution with Verified LinkedIn Indicator */}
-              <div className="mt-6 pt-4 border-t border-[var(--border-subtle)] flex items-center justify-between">
+          {marqueeItems.map((rec, index) => {
+            const targetUrl = rec.linkedinUrl || LINKEDIN_RECOMMENDATIONS_URL;
+            return (
+              <a
+                key={`${rec.id || index}-${index}`}
+                href={targetUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={() => trackOutboundLink(targetUrl, `testimonial_${rec.authorName}`)}
+                className="glass-card w-[340px] sm:w-[420px] rounded-2xl p-6 sm:p-7 border border-[var(--border-subtle)] flex flex-col justify-between relative group shadow-xs hover:border-blue-500/50 hover:shadow-lg transition-all cursor-pointer select-none shrink-0"
+              >
                 <div>
-                  <h3 className="font-display font-extrabold text-sm text-[var(--text-primary)] group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
-                    {rec.authorName}
-                  </h3>
-                  <p className="text-xs text-blue-700 dark:text-blue-400 font-bold">
-                    {rec.authorTitle}
+                  {/* Header with Company Logo / Fallback Dummy Icon & Relationship Badge */}
+                  <div className="flex items-start justify-between gap-3 mb-4">
+                    <RecommendationLogo
+                      src={rec.companyLogo || rec.avatarUrl}
+                      alt={rec.authorCompany || rec.authorName}
+                    />
+
+                    {/* Relationship Pill Badge */}
+                    <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-orange-100/90 dark:bg-orange-950/70 text-zinc-950 dark:text-orange-100 border border-orange-400/80 dark:border-orange-500/50 text-[11px] font-mono font-extrabold shadow-xs">
+                      <UserCheck className="w-3.5 h-3.5 text-orange-600 dark:text-orange-400" />
+                      <span>{rec.relationship || "Direct Collaborator"}</span>
+                    </span>
+                  </div>
+
+                  {/* Quote Text */}
+                  <p className="text-sm text-[var(--text-secondary)] leading-relaxed italic font-normal line-clamp-4">
+                    &ldquo;{rec.quote}&rdquo;
                   </p>
-                  {rec.authorCompany && (
-                    <p className="text-[11px] text-[var(--text-muted)] font-mono mt-0.5">
-                      {rec.authorCompany}
-                    </p>
-                  )}
                 </div>
 
-                <div className="flex items-center gap-1 text-xs font-mono font-bold text-blue-600 dark:text-blue-400 opacity-80 group-hover:opacity-100 group-hover:text-orange-500 transition-all">
-                  <LinkedInIcon className="w-4 h-4" />
-                  <ArrowUpRight className="w-3.5 h-3.5" />
+                {/* Author Attribution with Verified LinkedIn Indicator */}
+                <div className="mt-6 pt-4 border-t border-[var(--border-subtle)] flex items-center justify-between">
+                  <div>
+                    <h3 className="font-display font-extrabold text-sm text-[var(--text-primary)] group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
+                      {rec.authorName}
+                    </h3>
+                    <p className="text-xs text-blue-700 dark:text-blue-400 font-bold">
+                      {rec.authorTitle}
+                    </p>
+                    {rec.authorCompany && (
+                      <p className="text-[11px] text-[var(--text-muted)] font-mono mt-0.5">
+                        {rec.authorCompany}
+                      </p>
+                    )}
+                  </div>
+
+                  <div className="flex items-center gap-1 text-xs font-mono font-bold text-blue-600 dark:text-blue-400 opacity-80 group-hover:opacity-100 group-hover:text-orange-500 transition-all">
+                    <LinkedInIcon className="w-4 h-4" />
+                    <ArrowUpRight className="w-3.5 h-3.5" />
+                  </div>
                 </div>
-              </div>
-            </a>
-          ))}
+              </a>
+            );
+          })}
         </div>
       </div>
 

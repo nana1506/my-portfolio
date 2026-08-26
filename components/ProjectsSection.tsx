@@ -11,6 +11,7 @@ import {
   ArrowUpRight,
   Sparkles,
 } from "lucide-react";
+import { trackProjectView } from "@/lib/analytics";
 
 interface ProjectsSectionProps {
   projects: ProjectItem[];
@@ -42,6 +43,11 @@ function ProjectLogo({
 export function ProjectsSection({ projects }: ProjectsSectionProps) {
   const [selectedProject, setSelectedProject] = useState<ProjectItem | null>(null);
 
+  const handleSelectProject = (project: ProjectItem) => {
+    trackProjectView(project.title, project.id);
+    setSelectedProject(project);
+  };
+
   return (
     <section id="work" className="py-20 px-4 sm:px-6 lg:px-8 relative scroll-mt-20">
       <div className="max-w-6xl mx-auto">
@@ -70,7 +76,7 @@ export function ProjectsSection({ projects }: ProjectsSectionProps) {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: index * 0.1 }}
-              onClick={() => setSelectedProject(project)}
+              onClick={() => handleSelectProject(project)}
               className="glass-card group rounded-2xl p-6 sm:p-7 border border-[var(--border-subtle)] cursor-pointer flex flex-col justify-between relative overflow-hidden shadow-xs hover:border-blue-500/50"
             >
               {/* Subtle top corner gradient accent (Blue & Orange) */}

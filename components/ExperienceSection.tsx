@@ -11,6 +11,7 @@ import {
   Sparkles,
   ChevronRight,
 } from "lucide-react";
+import { trackCvDownload, trackMilestoneView } from "@/lib/analytics";
 
 interface ExperienceSectionProps {
   experience: ExperienceItem[];
@@ -73,6 +74,11 @@ export function ExperienceSection({ experience }: ExperienceSectionProps) {
     experience[0]?.id || "exp-1"
   );
 
+  const handleSelectMilestone = (item: ExperienceItem) => {
+    trackMilestoneView(item.company, item.title);
+    setActiveId(item.id);
+  };
+
   const activeExp =
     experience.find((e) => e.id === activeId) || experience[0];
 
@@ -97,6 +103,7 @@ export function ExperienceSection({ experience }: ExperienceSectionProps) {
           <a
             href="/Isnan_Rizqi_Kurniawan_CV.pdf"
             download="Isnan_Rizqi_Kurniawan_CV.pdf"
+            onClick={() => trackCvDownload("experience_section")}
             className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl border border-[var(--border-subtle)] bg-[var(--bg-surface)] hover:bg-[var(--bg-surface-elevated)] text-[var(--text-primary)] font-bold text-xs transition-all hover:border-blue-500/50 shadow-2xs self-start md:self-auto cursor-pointer"
           >
             <Download className="w-4 h-4 text-blue-600 dark:text-blue-400" />
@@ -118,7 +125,7 @@ export function ExperienceSection({ experience }: ExperienceSectionProps) {
                   {/* Top Node Indicator Resting on Dashed Line */}
                   <div className="hidden md:flex items-center mb-5 pl-5">
                     <button
-                      onClick={() => setActiveId(item.id)}
+                      onClick={() => handleSelectMilestone(item)}
                       aria-label={`Select ${item.title}`}
                       className={`w-6 h-6 rounded-full transition-all cursor-pointer flex items-center justify-center ${
                         isActive
@@ -132,7 +139,7 @@ export function ExperienceSection({ experience }: ExperienceSectionProps) {
 
                   {/* Milestone Card */}
                   <button
-                    onClick={() => setActiveId(item.id)}
+                    onClick={() => handleSelectMilestone(item)}
                     className={`text-left p-5 sm:p-6 rounded-2xl border transition-all cursor-pointer flex flex-col justify-between h-full relative overflow-hidden ${
                       isActive
                         ? "bg-[var(--bg-surface)] border-2 border-blue-600 dark:border-blue-500 shadow-lg ring-2 ring-blue-500/20 scale-[1.02]"

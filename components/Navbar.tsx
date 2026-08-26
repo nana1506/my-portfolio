@@ -4,6 +4,7 @@ import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { ThemeToggle } from "./ThemeToggle";
 import { Menu, X, ArrowUpRight, BarChart3 } from "lucide-react";
+import { trackSectionNav } from "@/lib/analytics";
 
 const navItems = [
   { label: "About", href: "#about" },
@@ -30,6 +31,13 @@ export function Navbar() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  const handleNavClick = (href: string, label: string, source: string) => {
+    trackSectionNav(label, source);
+    if (source === "mobile_menu") {
+      setMobileMenuOpen(false);
+    }
+  };
+
   return (
     <header
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${scrolled
@@ -41,6 +49,7 @@ export function Navbar() {
         {/* Brand / Logo (Electric Blue & Sunset Orange Branding) */}
         <Link
           href="/"
+          onClick={() => trackSectionNav("Home/Logo", "brand_logo")}
           className="group flex items-center gap-2.5 text-sm font-semibold tracking-tight text-[var(--text-primary)] hover:opacity-90 transition-opacity"
         >
           <div className="w-8 h-8 rounded-lg bg-blue-500/10 border border-blue-500/30 flex items-center justify-center text-blue-600 dark:text-blue-400 group-hover:scale-105 group-hover:border-orange-500/50 transition-all">
@@ -62,6 +71,7 @@ export function Navbar() {
             <a
               key={item.label}
               href={item.href}
+              onClick={() => handleNavClick(item.href, item.label, "navbar_desktop")}
               className="text-xs font-bold text-[var(--text-secondary)] hover:text-blue-600 dark:hover:text-blue-400 px-3 py-1 rounded-full hover:bg-[var(--bg-surface-elevated)] transition-colors"
             >
               {item.label}
@@ -74,6 +84,7 @@ export function Navbar() {
           <ThemeToggle />
           <a
             href="#contact"
+            onClick={() => trackSectionNav("Contact CTA", "navbar_cta")}
             className="inline-flex items-center gap-1.5 text-xs font-bold bg-blue-600 hover:bg-blue-700 dark:bg-blue-600 dark:hover:bg-blue-500 text-white px-4 py-2 rounded-xl transition-all shadow-md shadow-blue-600/20 hover:shadow-orange-500/20 active:scale-95 cursor-pointer"
           >
             <span>Let&apos;s Collaborate</span>
@@ -101,7 +112,7 @@ export function Navbar() {
             <a
               key={item.label}
               href={item.href}
-              onClick={() => setMobileMenuOpen(false)}
+              onClick={() => handleNavClick(item.href, item.label, "mobile_menu")}
               className="block px-3 py-2 text-sm font-bold text-[var(--text-secondary)] hover:text-blue-600 dark:hover:text-blue-400 hover:bg-[var(--bg-surface-elevated)] rounded-md transition-colors"
             >
               {item.label}
@@ -110,7 +121,7 @@ export function Navbar() {
           <div className="pt-2">
             <a
               href="#contact"
-              onClick={() => setMobileMenuOpen(false)}
+              onClick={() => handleNavClick("#contact", "Contact CTA", "mobile_menu_cta")}
               className="w-full flex items-center justify-center gap-2 text-sm font-bold bg-blue-600 dark:bg-blue-500 text-white py-2.5 rounded-xl shadow-md"
             >
               <span>Let&apos;s Collaborate</span>

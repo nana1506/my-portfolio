@@ -16,6 +16,7 @@ import {
 import { motion, AnimatePresence } from "framer-motion";
 import { getTechIcon } from "./Icons";
 import { normalizeImageUrl } from "@/lib/notion";
+import { trackProjectLinkClick } from "@/lib/analytics";
 
 interface ProjectModalProps {
   project: ProjectItem | null;
@@ -238,6 +239,7 @@ export function ProjectModal({ project, onClose }: ProjectModalProps) {
                   href={project.link}
                   target="_blank"
                   rel="noopener noreferrer"
+                  onClick={() => trackProjectLinkClick(project.title, project.link || "", "case_study_live_asset")}
                   className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-700 dark:bg-blue-600 dark:hover:bg-blue-500 text-white text-xs sm:text-sm font-bold transition-all shadow-md shadow-blue-600/25 hover:shadow-orange-500/25 active:scale-95 cursor-pointer"
                 >
                   <span>Explore Live Asset</span>

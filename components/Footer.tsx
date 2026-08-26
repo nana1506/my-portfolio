@@ -4,9 +4,11 @@ import React from "react";
 import Link from "next/link";
 import { LinkedInIcon } from "./Icons";
 import { BarChart3, ArrowUp, Mail } from "lucide-react";
+import { trackSocialClick, trackSectionNav, trackEvent } from "@/lib/analytics";
 
 export function Footer() {
   const scrollToTop = () => {
+    trackEvent("scroll_to_top", { category: "navigation", label: "footer_back_to_top" });
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
@@ -34,6 +36,7 @@ export function Footer() {
             href="https://www.linkedin.com/in/rizisnan"
             target="_blank"
             rel="noopener noreferrer"
+            onClick={() => trackSocialClick("LinkedIn", "https://www.linkedin.com/in/rizisnan")}
             className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors flex items-center gap-1.5"
           >
             <LinkedInIcon className="w-3.5 h-3.5 text-blue-600 dark:text-blue-400" />
@@ -42,6 +45,7 @@ export function Footer() {
           <span>•</span>
           <a
             href="#contact"
+            onClick={() => trackSectionNav("contact", "footer_collaborate")}
             className="hover:text-orange-600 dark:hover:text-orange-400 transition-colors flex items-center gap-1.5"
           >
             <Mail className="w-3.5 h-3.5 text-orange-600 dark:text-orange-400" />

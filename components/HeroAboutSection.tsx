@@ -11,6 +11,7 @@ import {
   Sparkles,
   Zap,
 } from "lucide-react";
+import { trackCvDownload, trackSectionNav } from "@/lib/analytics";
 
 interface HeroAboutSectionProps {
   content: SiteContent;
@@ -81,6 +82,7 @@ export function HeroAboutSection({ content }: HeroAboutSectionProps) {
             <div className="mt-8 pt-4 flex flex-wrap items-center gap-3">
               <a
                 href="#contact"
+                onClick={() => trackSectionNav("contact", "hero_cta")}
                 className="inline-flex items-center gap-2 px-5 py-3 rounded-xl bg-blue-600 hover:bg-blue-700 dark:bg-blue-600 dark:hover:bg-blue-500 text-white font-bold text-xs sm:text-sm transition-all shadow-md shadow-blue-600/25 hover:shadow-orange-500/25 active:scale-95 cursor-pointer"
               >
                 <span>Let&apos;s Collaborate</span>
@@ -90,6 +92,7 @@ export function HeroAboutSection({ content }: HeroAboutSectionProps) {
               <a
                 href="/Isnan_Rizqi_Kurniawan_CV.pdf"
                 download="Isnan_Rizqi_Kurniawan_CV.pdf"
+                onClick={() => trackCvDownload("hero_section")}
                 className="inline-flex items-center gap-2 px-4.5 py-3 rounded-xl border border-[var(--border-subtle)] bg-[var(--bg-surface)] hover:bg-[var(--bg-surface-elevated)] text-[var(--text-primary)] font-bold text-xs sm:text-sm transition-all hover:border-blue-500/50 active:scale-95 shadow-xs cursor-pointer"
               >
                 <Download className="w-4 h-4 text-blue-600 dark:text-blue-400" />
