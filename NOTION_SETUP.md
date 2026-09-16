@@ -107,3 +107,20 @@ Automated log table receiving click events when visitors click "Get in Touch" / 
 | **Timestamp** | Rich Text | Exact click timestamp |
 | **Referrer** | Rich Text | Web referrer URL |
 | **User_Agent** | Rich Text | Browser / device user-agent string |
+
+---
+
+## 📧 Email Notification Setup (Resend)
+
+Whenever a visitor submits the collaboration form, the site automatically sends an instant email notification directly to your inbox.
+
+1. Create a free account at **[resend.com](https://resend.com)** (100 free emails/day, 3,000/mo).
+2. Go to **API Keys** &rarr; click **Create API Key** (name it `portfolio-contact`).
+3. Copy the key (starts with `re_...`) and add it to your `.env.local` or Vercel Environment Variables:
+   ```env
+   RESEND_API_KEY=re_your_actual_key_here
+   NOTIFICATION_EMAIL_TO=isnan.rizqikurniawan@gmail.com
+   NOTIFICATION_EMAIL_FROM="Portfolio Notification <onboarding@resend.dev>"
+   ```
+4. *Tip:* When you receive an email from a client/visitor, you can click **"Reply"** in Gmail/Outlook and it will reply straight to their email address!
+

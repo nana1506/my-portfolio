@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { logContactClick } from "@/lib/notion";
+import { sendContactEmailNotification } from "@/lib/email";
 
 const CONTACT_EMAIL = "isnan.rizqikurniawan@gmail.com";
 const MAILTO_URL = `mailto:${CONTACT_EMAIL}?subject=Analytics%20Opportunity%20/%20Inquiry`;
@@ -61,19 +62,29 @@ export async function POST(request: NextRequest) {
     // optional body payload
   }
 
-  try {
-    await logContactClick({
-      name: bodyData.name,
-      email: bodyData.email,
-      company: bodyData.company,
-      collaborationType: bodyData.collaborationType,
-      message: bodyData.message,
-      timestamp: bodyData.timestamp || timestamp,
-      referrer: bodyData.referrer || referrer,
-      userAgent: bodyData.userAgent || userAgent,
-    });
-  } catch (error) {
-    console.error("Failed to log contact click in POST:", error);
+  const payload = {
+    name: bodyData.name,
+    email: bodyData.email,
+    company: bodyData.company,
+    collaborationType: bodyData.collaborationType,
+    message: bodyData.message,
+    timestamp: bodyData.timestamp || timestamp,
+    referrer: bodyData.referrer || referrer,
+    userAgent: bodyData.userAgent || userAgent,
+  };
+
+  // Run Notion logging and direct email notification in parallel
+  const [notionResult, emailResult] = await Promise.allSettled([
+    logContactClick(payload),
+    sendContactEmailNotification(payload),
+  ]);
+
+  if (notionResult.status === "rejected") {
+    console.error("Failed to log contact submission to Notion:", notionResult.reason);
+  }
+
+  if (emailResult.status === "rejected") {
+    console.error("Failed to send contact submission email:", emailResult.reason);
   }
 
   return NextResponse.json({
