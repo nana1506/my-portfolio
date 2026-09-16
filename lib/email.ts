@@ -160,42 +160,77 @@ User Agent: ${payload.userAgent || "Unknown"}
 `;
 
   try {
-    const res = await fetch("https://api.resend.com/emails", {
-      method: "POST",
-      headers: {
-        Authorization: `Bearer ${apiKey}`,
-        "Content-Type": "application/json",
-      },
-      signal: AbortSignal.timeout(8000),
-      body: JSON.stringify({
-        from: fromEmail,
-        to: [recipientEmail],
-        reply_to: payload.email || undefined,
-        subject,
-        html,
-        text: textContent,
-      }),
+    const postData = JSON.stringify({
+      from: fromEmail,
+      to: [recipientEmail],
+      reply_to: payload.email || undefined,
+      subject,
+      html,
+      text: textContent,
     });
 
-    const data = await res.json().catch(() => ({}));
+    const sendPromise = new Promise<SendEmailResult>((resolve) => {
+      const https = require("https");
+      const req = https.request(
+        {
+          hostname: "api.resend.com",
+          port: 443,
+          path: "/emails",
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${apiKey}`,
+            "Content-Type": "application/json",
+            "Content-Length": Buffer.byteLength(postData),
+          },
+          timeout: 10000,
+        },
+        (res: any) => {
+          let responseBody = "";
+          res.on("data", (chunk: any) => {
+            responseBody += chunk;
+          });
+          res.on("end", () => {
+            try {
+              const data = JSON.parse(responseBody);
+              if (res.statusCode >= 200 && res.statusCode < 300) {
+                resolve({ success: true, id: data.id });
+              } else {
+                console.warn("[Resend Notice] Failed to send email:", data);
+                resolve({
+                  success: false,
+                  error: data.message || `HTTP ${res.statusCode}`,
+                });
+              }
+            } catch {
+              resolve({
+                success: res.statusCode >= 200 && res.statusCode < 300,
+                error: `HTTP ${res.statusCode}`,
+              });
+            }
+          });
+        }
+      );
 
-    if (!res.ok) {
-      console.warn("[Resend Notice] Failed to send email:", data);
-      return {
-        success: false,
-        error: data.message || `HTTP ${res.status}: ${res.statusText}`,
-      };
-    }
+      req.on("error", (err: any) => {
+        console.warn("[Resend Notice] Network error dispatching email:", err?.message || err);
+        resolve({ success: false, error: err?.message || "Network error" });
+      });
 
-    return {
-      success: true,
-      id: data.id,
-    };
+      req.on("timeout", () => {
+        req.destroy();
+        resolve({ success: false, error: "Request timeout" });
+      });
+
+      req.write(postData);
+      req.end();
+    });
+
+    return await sendPromise;
   } catch (err: any) {
-    console.warn("[Resend Notice] Network error dispatching email:", err?.message || err);
+    console.warn("[Resend Notice] Unexpected error in email dispatch:", err?.message || err);
     return {
       success: false,
-      error: err?.message || "Network error",
+      error: err?.message || "Unexpected error",
     };
   }
 }
