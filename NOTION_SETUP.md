@@ -66,7 +66,7 @@ Categorized technical and professional capabilities.
 Career milestones and achievements timeline.
 | Property Name | Type | Description |
 |---|---|---|
-| **Title** | Title | Role / Job title (e.g., `Senior Data Analyst`) |
+| **Title** | Title | Role / Job title (e.g., `Data Analyst`) |
 | **Company** | Rich Text / Title | Company name |
 | **Start_Date** | Rich Text / Date | e.g., `2022` or `Jan 2022` |
 | **End_Date** | Rich Text / Date | e.g., `Present` or `Dec 2024` |

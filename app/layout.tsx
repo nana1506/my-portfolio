@@ -18,9 +18,9 @@ const spaceGrotesk = Space_Grotesk({
 });
 
 export const metadata: Metadata = {
-  title: "Isnan Rizqi Kurniawan — Senior Data Analyst",
+  title: "Isnan Rizqi Kurniawan — Data Analyst",
   description:
-    "Senior Data Analyst specializing in end-to-end data pipelines, modern BI dashboards, and predictive decision frameworks. Turning raw data into strategic decisions.",
+    "Data Analyst specializing in end-to-end data pipelines, modern BI dashboards, and predictive decision frameworks. Turning raw data into strategic decisions.",
   keywords: [
     "Data Analyst",
     "Senior Data Analyst",
@@ -35,7 +35,7 @@ export const metadata: Metadata = {
   ],
   authors: [{ name: "Isnan Rizqi Kurniawan" }],
   openGraph: {
-    title: "Isnan Rizqi Kurniawan — Senior Data Analyst",
+    title: "Isnan Rizqi Kurniawan — Data Analyst",
     description:
       "Turning Raw Data into Strategic Dashboards & Decisions. Explore featured projects, BI architecture, and analytics engineering portfolio.",
     type: "website",

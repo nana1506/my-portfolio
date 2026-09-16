@@ -8,7 +8,7 @@ import {
 } from "./types";
 
 export const initialSiteContent: SiteContent = {
-  heroHeadline: "Senior Data Analyst",
+  heroHeadline: "Data Analyst",
   heroSubheadline: "Turning Raw Data into Strategic Dashboards & Decisions",
   heroShortBio:
     "Specializing in architecting enterprise analytics pipelines, executive BI reporting, and predictive decision models. I bridge the gap between raw data and high-impact business strategy.",
@@ -66,7 +66,7 @@ export const initialProjects: ProjectItem[] = [
     techStack: ["BigQuery", "Looker", "Python", "dbt", "SQL"],
     problem:
       "Marketing spend of $400k/month across Meta, Google Ads, TikTok, and Affiliate channels suffered from last-click bias, leading to misallocated acquisition budgets and declining ROAS.",
-    role: "Senior Data Analyst: Built Shapley-value and Markov-chain attribution models in Python/BigQuery, developed automated dbt ingestion for ad networks, and surfaced interactive Looker cohort drilldowns for growth leads.",
+    role: "Data Analyst: Built Shapley-value and Markov-chain attribution models in Python/BigQuery, developed automated dbt ingestion for ad networks, and surfaced interactive Looker cohort drilldowns for growth leads.",
     outcome:
       "Optimized quarterly ad spend allocation by 28%, boosted blended ROAS from 2.1x to 3.4x, and established predictive 90-day LTV forecasts with 91% accuracy.",
     metrics: ["+62% Blended ROAS", "91% LTV Accuracy", "$400k/mo Optimized"],
@@ -144,7 +144,7 @@ export const initialExperience: ExperienceItem[] = [
   {
     id: "exp-1",
     company: "Enterprise Tech Solutions",
-    title: "Senior Data Analyst",
+    title: "Data Analyst",
     startDate: "2022",
     endDate: "Present",
     duration: "2+ yrs",

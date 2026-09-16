@@ -3,7 +3,7 @@ const path = require('path');
 
 // Minimal valid PDF generator
 function createSimplePdf() {
-  const content = `%PDF-1.4
+   const content = `%PDF-1.4
 1 0 obj
 << /Title (CV - Isnan Rizqi Kurniawan)
    /Author (Isnan Rizqi Kurniawan)
@@ -40,13 +40,13 @@ BT
 (ISNAN RIZQI KURNIAWAN) Tj
 /F1 11 Tf
 0 -22 Td
-(Senior Data Analyst | isnan.rizqikurniawan@gmail.com | linkedin.com/in/rizisnan) Tj
+(Data Analyst | isnan.rizqikurniawan@gmail.com | linkedin.com/in/rizisnan) Tj
 0 -30 Td
 /F2 14 Tf
 (PROFESSIONAL SUMMARY) Tj
 /F1 10 Tf
 0 -16 Td
-(Senior Data Analyst with 6+ years of experience transforming raw multi-source data warehouses) Tj
+(Data Analyst with 6+ years of experience transforming raw multi-source data warehouses) Tj
 0 -14 Td
 (into actionable executive dashboards, dbt dimensional models, and strategic predictive intelligence.) Tj
 0 -28 Td
@@ -66,7 +66,7 @@ BT
 (EXPERIENCE SUMMARY) Tj
 /F1 10 Tf
 0 -16 Td
-(- Senior Data Analyst | Enterprise Tech Solutions (2022 - Present)) Tj
+(- Data Analyst | Enterprise Tech Solutions (2022 - Present)) Tj
 0 -14 Td
 (- Lead BI & Analytics Analyst | E-Commerce Scaleup (2020 - 2022)) Tj
 0 -14 Td
@@ -105,14 +105,14 @@ startxref
 1372
 %%EOF`;
 
-  const publicDir = path.join(__dirname, '..', 'public');
-  if (!fs.existsSync(publicDir)) {
-    fs.mkdirSync(publicDir, { recursive: true });
-  }
+   const publicDir = path.join(__dirname, '..', 'public');
+   if (!fs.existsSync(publicDir)) {
+      fs.mkdirSync(publicDir, { recursive: true });
+   }
 
-  fs.writeFileSync(path.join(publicDir, 'Isnan_Rizqi_Kurniawan_CV.pdf'), content);
-  fs.writeFileSync(path.join(publicDir, 'cv.pdf'), content);
-  console.log('CV PDF files generated successfully in public/');
+   fs.writeFileSync(path.join(publicDir, 'Isnan_Rizqi_Kurniawan_CV.pdf'), content);
+   fs.writeFileSync(path.join(publicDir, 'cv.pdf'), content);
+   console.log('CV PDF files generated successfully in public/');
 }
 
 createSimplePdf();
