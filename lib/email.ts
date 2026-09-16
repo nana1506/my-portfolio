@@ -166,6 +166,7 @@ User Agent: ${payload.userAgent || "Unknown"}
         Authorization: `Bearer ${apiKey}`,
         "Content-Type": "application/json",
       },
+      signal: AbortSignal.timeout(8000),
       body: JSON.stringify({
         from: fromEmail,
         to: [recipientEmail],
