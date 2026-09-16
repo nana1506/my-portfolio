@@ -80,15 +80,24 @@ export async function POST(request: NextRequest) {
   ]);
 
   if (notionResult.status === "rejected") {
-    console.error("Failed to log contact submission to Notion:", notionResult.reason);
+    console.error("[Route Error] Notion logging rejected:", notionResult.reason);
+  } else {
+    console.log("[Route Info] Notion logging outcome:", notionResult.value);
   }
 
   if (emailResult.status === "rejected") {
-    console.error("Failed to send contact submission email:", emailResult.reason);
+    console.error("[Route Error] Email dispatch rejected:", emailResult.reason);
+  } else {
+    console.log("[Route Info] Email dispatch outcome:", emailResult.value);
   }
+
+  const emailSent =
+    emailResult.status === "fulfilled" && emailResult.value?.success;
 
   return NextResponse.json({
     success: true,
+    emailSent: Boolean(emailSent),
+    emailId: emailResult.status === "fulfilled" ? emailResult.value?.id : null,
     email: CONTACT_EMAIL,
     mailto: MAILTO_URL,
   });

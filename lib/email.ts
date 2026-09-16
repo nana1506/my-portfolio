@@ -1,3 +1,5 @@
+import https from "node:https";
+
 export interface ContactEmailPayload {
   name?: string;
   email?: string;
@@ -18,7 +20,7 @@ export interface SendEmailResult {
 
 /**
  * Sends an email notification to the site owner when a new collaboration inquiry is submitted.
- * Uses the Resend REST API without requiring heavy external dependencies.
+ * Uses the Resend REST API via Node HTTPS.
  */
 export async function sendContactEmailNotification(
   payload: ContactEmailPayload
@@ -29,10 +31,18 @@ export async function sendContactEmailNotification(
   const fromEmail =
     process.env.NOTIFICATION_EMAIL_FROM?.trim() || "Portfolio Notification <onboarding@resend.dev>";
 
+  console.log("[Email Notification] Starting dispatch check...", {
+    hasApiKey: Boolean(apiKey),
+    apiKeyPrefix: apiKey ? apiKey.substring(0, 6) + "..." : "none",
+    to: recipientEmail,
+    from: fromEmail,
+    senderName: payload.name,
+  });
+
   // If no API key is provided, log gracefully and skip without throwing
   if (!apiKey || apiKey.startsWith("re_your_") || apiKey === "") {
-    console.log(
-      "[Email Notification Skipped] RESEND_API_KEY is not set. Submission details:",
+    console.warn(
+      "[Email Notification Skipped] RESEND_API_KEY is not set or placeholder in environment. Submission details:",
       {
         name: payload.name,
         email: payload.email,
@@ -170,7 +180,6 @@ User Agent: ${payload.userAgent || "Unknown"}
     });
 
     const sendPromise = new Promise<SendEmailResult>((resolve) => {
-      const https = require("https");
       const req = https.request(
         {
           hostname: "api.resend.com",
@@ -184,26 +193,28 @@ User Agent: ${payload.userAgent || "Unknown"}
           },
           timeout: 10000,
         },
-        (res: any) => {
+        (res) => {
           let responseBody = "";
-          res.on("data", (chunk: any) => {
+          res.on("data", (chunk) => {
             responseBody += chunk;
           });
           res.on("end", () => {
             try {
               const data = JSON.parse(responseBody);
-              if (res.statusCode >= 200 && res.statusCode < 300) {
+              if (res.statusCode && res.statusCode >= 200 && res.statusCode < 300) {
+                console.log("[Email Notification Success] Dispatched to Resend! ID:", data.id);
                 resolve({ success: true, id: data.id });
               } else {
-                console.warn("[Resend Notice] Failed to send email:", data);
+                console.warn("[Email Notification Error] Resend API error:", data);
                 resolve({
                   success: false,
                   error: data.message || `HTTP ${res.statusCode}`,
                 });
               }
             } catch {
+              console.warn("[Email Notification Error] Non-JSON response:", responseBody);
               resolve({
-                success: res.statusCode >= 200 && res.statusCode < 300,
+                success: Boolean(res.statusCode && res.statusCode >= 200 && res.statusCode < 300),
                 error: `HTTP ${res.statusCode}`,
               });
             }
@@ -211,13 +222,14 @@ User Agent: ${payload.userAgent || "Unknown"}
         }
       );
 
-      req.on("error", (err: any) => {
-        console.warn("[Resend Notice] Network error dispatching email:", err?.message || err);
+      req.on("error", (err) => {
+        console.warn("[Email Notification Error] Network error dispatching email:", err?.message || err);
         resolve({ success: false, error: err?.message || "Network error" });
       });
 
       req.on("timeout", () => {
         req.destroy();
+        console.warn("[Email Notification Error] Request timeout");
         resolve({ success: false, error: "Request timeout" });
       });
 
